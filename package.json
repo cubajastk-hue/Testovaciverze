@@ -9,10 +9,16 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@udecode/plate-dnd": "48.0.0",
     "fs-extra": "^11.3.4",
     "next": "16.1.6",
     "react": "19.2.3",
+    "react-dnd": "16.0.1",
+    "react-dnd-html5-backend": "16.0.1",
     "react-dom": "19.2.3",
+    "slate": "0.123.0",
+    "slate-dom": "0.123.0",
+    "slate-react": "0.123.0",
     "tinacms": "^3.6.1"
   },
   "devDependencies": {
