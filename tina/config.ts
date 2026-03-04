@@ -38,6 +38,11 @@ export default defineConfig({
             required: true,
           },
           {
+            type: "string",
+            name: "forceUpdate",
+            label: "Ignorovat - vynucení aktualizace",
+          },
+          {
             type: "rich-text",
             name: "body",
             label: "Obsah",
