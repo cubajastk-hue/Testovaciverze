@@ -9,7 +9,6 @@ const branch =
 export default defineConfig({
   branch,
 
-  // Získáš na app.tina.io (pro lokální vývoj může zůstat prázdné)
   clientId: process.env.NEXT_PUBLIC_TINA_CLIENT_ID,
   token: process.env.TINA_TOKEN,
 
@@ -19,7 +18,7 @@ export default defineConfig({
   },
   media: {
     tina: {
-      mediaRoot: "uploads", // Doporučuji složku pro obrázky
+      mediaRoot: "uploads",
       publicFolder: "public",
     },
   },
@@ -30,6 +29,15 @@ export default defineConfig({
         label: "Stránky",
         path: "content/pages",
         format: "mdx",
+        // OPRAVA: Router patří přímo ke kolekci
+        ui: {
+          router: ({ document }) => {
+            if (document._sys.filename === "home") {
+              return "/";
+            }
+            return undefined;
+          },
+        },
         fields: [
           {
             type: "string",
@@ -46,14 +54,5 @@ export default defineConfig({
         ],
       },
     ],
-  },
-  // UI musí být TADY, mimo schema
-  ui: {
-    router: ({ document }: { document: any }) => {
-      if (document._sys.collection === "page") {
-        return "/"; // Home page
-      }
-      return undefined;
-    },
   },
 });
