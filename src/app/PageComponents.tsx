@@ -1,6 +1,6 @@
 "use client";
 import { useTina } from "tinacms/dist/react";
-import { tinaField } from "tinacms";
+import { tinaField } from "tinacms/dist/react";
 
 export function PageComponents(props: any) {
   const { data } = useTina({
