@@ -89,6 +89,7 @@ union DocumentNode = Page | Folder
 
 type Page implements Node & Document {
   title: String!
+  forceUpdate: String
   body: JSON
   id: ID!
   _sys: SystemInfo!
@@ -110,6 +111,7 @@ input RichTextFilter {
 
 input PageFilter {
   title: StringFilter
+  forceUpdate: StringFilter
   body: RichTextFilter
 }
 
@@ -145,6 +147,7 @@ input DocumentMutation {
 
 input PageMutation {
   title: String
+  forceUpdate: String
   body: JSON
 }
 

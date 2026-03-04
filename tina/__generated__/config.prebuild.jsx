@@ -31,6 +31,11 @@ var config_default = defineConfig({
             required: true
           },
           {
+            type: "string",
+            name: "forceUpdate",
+            label: "Ignorovat - vynucen\xED aktualizace"
+          },
+          {
             type: "rich-text",
             name: "body",
             label: "Obsah"
