@@ -1,1 +1,5 @@
-__generated__
+node_modules
+.next
+.env
+.env.local
+.tina/__generated__
