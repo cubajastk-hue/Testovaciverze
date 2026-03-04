@@ -29,15 +29,6 @@ export default defineConfig({
         label: "Stránky",
         path: "content/pages",
         format: "mdx",
-        // OPRAVA: Router patří přímo ke kolekci
-        ui: {
-          router: ({ document }) => {
-            if (document._sys.filename === "home") {
-              return "/";
-            }
-            return undefined;
-          },
-        },
         fields: [
           {
             type: "string",
