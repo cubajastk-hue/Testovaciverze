@@ -28,7 +28,7 @@ export default defineConfig({
         label: "Stránky",
         path: "content/pages",
         format: "mdx",
-        // --- Visual Editor---
+        // --- PŘIDÁNO: Vizuální editor ---
         ui: {
           router: ({ document }) => {
             if (document._sys.filename === "home") {
