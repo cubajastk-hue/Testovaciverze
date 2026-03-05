@@ -89,7 +89,7 @@ union DocumentNode = Page | Folder
 
 type Page implements Node & Document {
   title: String!
-  forceUpdate: String
+  heroImage: String
   body: JSON
   id: ID!
   _sys: SystemInfo!
@@ -97,6 +97,13 @@ type Page implements Node & Document {
 }
 
 input StringFilter {
+  startsWith: String
+  eq: String
+  exists: Boolean
+  in: [String]
+}
+
+input ImageFilter {
   startsWith: String
   eq: String
   exists: Boolean
@@ -111,7 +118,7 @@ input RichTextFilter {
 
 input PageFilter {
   title: StringFilter
-  forceUpdate: StringFilter
+  heroImage: ImageFilter
   body: RichTextFilter
 }
 
@@ -147,7 +154,7 @@ input DocumentMutation {
 
 input PageMutation {
   title: String
-  forceUpdate: String
+  heroImage: String
   body: JSON
 }
 

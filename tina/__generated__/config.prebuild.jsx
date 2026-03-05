@@ -31,9 +31,9 @@ var config_default = defineConfig({
             required: true
           },
           {
-            type: "string",
-            name: "forceUpdate",
-            label: "Ignorovat - vynucen\xED aktualizace"
+            type: "image",
+            name: "heroImage",
+            label: "Hlavn\xED obr\xE1zek"
           },
           {
             type: "rich-text",

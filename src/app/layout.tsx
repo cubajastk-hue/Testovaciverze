@@ -13,7 +13,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="cs"> {/* Změněno na češtinu */}
+    <html lang="cs">
       <body className="antialiased selection:bg-gray-200">
         {/* Tady můžeš v budoucnu přidat <Navbar /> */}
         {children}
