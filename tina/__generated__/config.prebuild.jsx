@@ -22,6 +22,16 @@ var config_default = defineConfig({
         label: "Str\xE1nky",
         path: "content/pages",
         format: "mdx",
+        // --- PŘIDÁNO: Vizuální editor ---
+        ui: {
+          router: ({ document }) => {
+            if (document._sys.filename === "home") {
+              return `/`;
+            }
+            return void 0;
+          }
+        },
+        // --------------------------------
         fields: [
           {
             type: "string",
