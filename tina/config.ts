@@ -8,7 +8,6 @@ const branch =
 
 export default defineConfig({
   branch,
-
   clientId: process.env.NEXT_PUBLIC_TINA_CLIENT_ID,
   token: process.env.TINA_TOKEN,
 
@@ -38,9 +37,9 @@ export default defineConfig({
             required: true,
           },
           {
-            type: "string",
-            name: "forceUpdate",
-            label: "Ignorovat - vynucení aktualizace",
+            type: "image",
+            name: "heroImage",
+            label: "Hlavní obrázek",
           },
           {
             type: "rich-text",

@@ -1,26 +1,36 @@
 "use client";
+
 import { useTina } from "tinacms/dist/react";
 import { tinaField } from "tinacms/dist/react";
+import { TinaMarkdown } from "tinacms/dist/rich-text";
+import { PageQuery } from "../../tina/__generated__/types";
 
-export function PageComponents(props: any) {
-  const { data } = useTina({
-    query: props.query,
-    variables: props.variables,
-    data: props.data,
-  });
+interface PageProps {
+  data: PageQuery;
+  query: string;
+  variables: {
+    relativePath: string;
+  };
+}
+
+export function PageComponents(props: PageProps) {
+  const { data } = useTina(props);
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-slate-900 text-white p-24">
-      {/* tinaField zajistí, že na to půjde v editoru kliknout */}
+    <article>
       <h1 
         data-tina-field={tinaField(data.page, "title")}
-        className="text-6xl font-black mb-4"
+        className="text-5xl font-black text-black mb-10 tracking-tight"
       >
         {data.page.title}
       </h1>
-      <div className="text-xl opacity-80">
-        Povedlo se! Tina je napojená a živě reaguje.
+
+      <div 
+        data-tina-field={tinaField(data.page, "body")}
+        className="prose prose-slate prose-lg text-gray-800"
+      >
+        <TinaMarkdown content={data.page.body} />
       </div>
-    </main>
+    </article>
   );
 }
