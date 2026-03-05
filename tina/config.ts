@@ -28,6 +28,16 @@ export default defineConfig({
         label: "Stránky",
         path: "content/pages",
         format: "mdx",
+        // --- Visual Editor---
+        ui: {
+          router: ({ document }) => {
+            if (document._sys.filename === "home") {
+              return `/`;
+            }
+            return undefined;
+          },
+        },
+        // --------------------------------
         fields: [
           {
             type: "string",
