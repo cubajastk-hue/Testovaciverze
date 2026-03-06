@@ -22,7 +22,6 @@ var config_default = defineConfig({
         label: "Str\xE1nky",
         path: "content/pages",
         format: "mdx",
-        // --- PŘIDÁNO: Vizuální editor ---
         ui: {
           router: ({ document }) => {
             if (document._sys.filename === "home") {
@@ -31,7 +30,6 @@ var config_default = defineConfig({
             return void 0;
           }
         },
-        // --------------------------------
         fields: [
           {
             type: "string",
@@ -55,19 +53,29 @@ var config_default = defineConfig({
             list: true,
             name: "blocks",
             label: "Bloky str\xE1nky",
+            ui: {
+              // Umožňuje vidět názvy bloků a přesouvat je v seznamu
+              itemProps: (item) => {
+                return { label: item?.label || item?.name };
+              }
+            },
             templates: [
               {
                 name: "heading",
                 label: "Velk\xFD Nadpis",
-                fields: [
-                  { type: "string", name: "text", label: "Text nadpisu" }
-                ]
+                fields: [{ type: "string", name: "text", label: "Text nadpisu" }]
               },
               {
                 name: "content",
                 label: "Textov\xFD obsah",
                 fields: [
-                  { type: "rich-text", name: "body", label: "Text" }
+                  {
+                    type: "rich-text",
+                    name: "body",
+                    label: "Text",
+                    // Aktivuje lištu pro tučné písmo, kurzívu, seznamy atd.
+                    toolbarOverride: ["bold", "italic", "link", "quote", "list"]
+                  }
                 ]
               },
               {
@@ -75,7 +83,17 @@ var config_default = defineConfig({
                 label: "Obr\xE1zek",
                 fields: [
                   { type: "image", name: "url", label: "Obr\xE1zek" },
-                  { type: "string", name: "caption", label: "Popisek" }
+                  { type: "string", name: "caption", label: "Popisek" },
+                  {
+                    type: "string",
+                    name: "size",
+                    label: "Velikost obr\xE1zku",
+                    options: [
+                      { label: "Mal\xFD", value: "small" },
+                      { label: "St\u0159edn\xED", value: "medium" },
+                      { label: "Velk\xFD (p\u0159es celou \u0161\xED\u0159ku)", value: "large" }
+                    ]
+                  }
                 ]
               },
               {
