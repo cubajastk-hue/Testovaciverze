@@ -3,21 +3,12 @@
 import { useTina } from "tinacms/dist/react";
 import { tinaField } from "tinacms/dist/react";
 import { TinaMarkdown } from "tinacms/dist/rich-text";
-import { PageQuery } from "../../tina/__generated__/types";
 
-interface PageProps {
-  data: PageQuery;
-  query: string;
-  variables: {
-    relativePath: string;
-  };
-}
-
-export function PageComponents(props: PageProps) {
-  const { data } = useTina(props);
+export function PageComponents(props: any) {
+  const { data } = useTina<any>(props);
 
   return (
-    <article className="max-w-2xl mx-auto py-12 px-6">
+    <article className="max-w-4xl mx-auto py-12 px-6">
       {/* 1. HLAVNÍ NADPIS */}
       <h1 
         data-tina-field={tinaField(data.page, "title")}
@@ -26,46 +17,63 @@ export function PageComponents(props: PageProps) {
         {data.page.title}
       </h1>
 
-      {/* 2. HERO OBRÁZEK (pokud existuje) */}
+      {/* 2. HERO OBRÁZEK */}
       {data.page.heroImage && (
-        <div className="mb-10 overflow-hidden rounded-xl shadow-lg border border-gray-100">
+        <div 
+          data-tina-field={tinaField(data.page, "heroImage")}
+          className="mb-10 overflow-hidden rounded-xl shadow-lg border border-gray-100"
+        >
           <img src={data.page.heroImage} alt="" className="w-full h-auto" />
         </div>
       )}
 
-      {/* 3. STARÝ OBSAH (pokud ho chceš nechat) */}
-      {data.page.body && (
-        <div className="prose mb-10">
-          <TinaMarkdown content={data.page.body} />
-        </div>
-      )}
-
-      {/* 4. DYNAMICKÉ BLOKY */}
+      {/* 3. DYNAMICKÉ BLOKY */}
       <div className="space-y-12">
-        {data.page.blocks?.map((block, i) => {
+        {data.page.blocks?.map((block: any, i: number) => {
           if (!block) return null;
 
           switch (block.__typename) {
             case "PageBlocksHeading":
               return (
-                <h2 key={i} className="text-3xl font-bold text-gray-900 mt-12">
+                <h2 
+                  key={i} 
+                  data-tina-field={tinaField(block, "text")}
+                  className="text-3xl font-bold text-gray-900 mt-12"
+                >
                   {block.text}
                 </h2>
               );
 
             case "PageBlocksContent":
               return (
-                <div key={i} className="prose prose-lg max-w-none text-gray-800">
+                <div 
+                  key={i} 
+                  data-tina-field={tinaField(block, "body")}
+                  className="prose prose-lg max-w-none text-gray-800"
+                >
                   <TinaMarkdown content={block.body} />
                 </div>
               );
 
             case "PageBlocksImage":
+              // Logika pro velikost obrázku z tvého nového configu
+              const sizeClass = 
+                block.size === "small" ? "max-w-sm" : 
+                block.size === "medium" ? "max-w-2xl" : 
+                "max-w-full";
+
               return (
-                <figure key={i} className="my-10">
-                  <img src={block.url || ""} alt="" className="rounded-lg w-full" />
+                <figure 
+                  key={i} 
+                  data-tina-field={tinaField(block, "url")}
+                  className={`my-10 mx-auto ${sizeClass}`}
+                >
+                  <img src={block.url || ""} alt="" className="rounded-lg w-full shadow-md" />
                   {block.caption && (
-                    <figcaption className="text-center text-sm text-gray-500 mt-3 italic">
+                    <figcaption 
+                      data-tina-field={tinaField(block, "caption")}
+                      className="text-center text-sm text-gray-500 mt-3 italic"
+                    >
                       {block.caption}
                     </figcaption>
                   )}
@@ -74,7 +82,11 @@ export function PageComponents(props: PageProps) {
 
             case "PageBlocksCta":
               return (
-                <div key={i} className="flex justify-center my-8">
+                <div 
+                  key={i} 
+                  data-tina-field={tinaField(block, "text")}
+                  className="flex justify-center my-8"
+                >
                   <a
                     href={block.link || "#"}
                     className="bg-black text-white px-8 py-3 rounded-full font-bold hover:bg-gray-800 transition-colors"

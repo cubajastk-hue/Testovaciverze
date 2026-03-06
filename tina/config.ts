@@ -28,7 +28,6 @@ export default defineConfig({
         label: "Stránky",
         path: "content/pages",
         format: "mdx",
-        // --- PŘIDÁNO: Vizuální editor ---
         ui: {
           router: ({ document }) => {
             if (document._sys.filename === "home") {
@@ -37,7 +36,6 @@ export default defineConfig({
             return undefined;
           },
         },
-        // --------------------------------
         fields: [
           {
             type: "string",
@@ -56,44 +54,64 @@ export default defineConfig({
             name: "body",
             label: "Obsah",
           },
-        {
+          {
             type: "object",
             list: true,
             name: "blocks",
             label: "Bloky stránky",
+            ui: {
+              // Umožňuje vidět názvy bloků a přesouvat je v seznamu
+              itemProps: (item) => {
+                return { label: item?.label || item?.name };
+              },
+            },
             templates: [
-         {
-            name: "heading",
-            label: "Velký Nadpis",
-            fields: [
-          { type: "string", name: "text", label: "Text nadpisu" },
-        ],
-         },
-          {
-            name: "content",
-            label: "Textový obsah",
-            fields: [
-          { type: "rich-text", name: "body", label: "Text" },
-        ],
-       },
-        {
-            name: "image",
-            label: "Obrázek",
-            fields: [
-          { type: "image", name: "url", label: "Obrázek" },
-          { type: "string", name: "caption", label: "Popisek" },
+              {
+                name: "heading",
+                label: "Velký Nadpis",
+                fields: [{ type: "string", name: "text", label: "Text nadpisu" }],
+              },
+              {
+                name: "content",
+                label: "Textový obsah",
+                fields: [
+                  {
+                    type: "rich-text",
+                    name: "body",
+                    label: "Text",
+                    // Aktivuje lištu pro tučné písmo, kurzívu, seznamy atd.
+                    toolbarOverride: ["bold", "italic", "link", "quote", "list"],
+                  },
+                ],
+              },
+              {
+                name: "image",
+                label: "Obrázek",
+                fields: [
+                  { type: "image", name: "url", label: "Obrázek" },
+                  { type: "string", name: "caption", label: "Popisek" },
+                  {
+                    type: "string",
+                    name: "size",
+                    label: "Velikost obrázku",
+                    options: [
+                      { label: "Malý", value: "small" },
+                      { label: "Střední", value: "medium" },
+                      { label: "Velký (přes celou šířku)", value: "large" },
+                    ],
+                  },
+                ],
+              },
+              {
+                name: "cta",
+                label: "Výzva k akci",
+                fields: [
+                  { type: "string", name: "text", label: "Text tlačítka" },
+                  { type: "string", name: "link", label: "Odkaz" },
+                ],
+              },
             ],
-           },
-          {
-              name: "cta",
-              label: "Výzva k akci",
-              fields: [
-            { type: "string", name: "text", label: "Text tlačítka" },
-            { type: "string", name: "link", label: "Odkaz" },
-              ],
           },
-          ],
-        },
         ],
       },
     ],
