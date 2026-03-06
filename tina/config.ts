@@ -80,7 +80,7 @@ export default defineConfig({
                     name: "body",
                     label: "Text",
                     // Aktivuje lištu pro tučné písmo, kurzívu, seznamy atd.
-                    toolbarOverride: ["bold", "italic", "link", "quote", "list"],
+                    toolbarOverride: ["bold", "italic", "link", "quote", "ul", "ol"],
                   },
                 ],
               },

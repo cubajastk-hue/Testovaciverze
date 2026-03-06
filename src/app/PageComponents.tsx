@@ -68,7 +68,7 @@ export function PageComponents(props: any) {
                   data-tina-field={tinaField(block, "url")}
                   className={`my-10 mx-auto ${sizeClass}`}
                 >
-                  <img src={block.url || ""} alt="" className="rounded-lg w-full shadow-md" />
+                  <img src={(block as any).url || ""} alt="" className="rounded-lg w-full" />
                   {block.caption && (
                     <figcaption 
                       data-tina-field={tinaField(block, "caption")}
