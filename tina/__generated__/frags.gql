@@ -3,4 +3,21 @@ fragment PageParts on Page {
   title
   heroImage
   body
+  blocks {
+    __typename
+    ... on PageBlocksHeading {
+      text
+    }
+    ... on PageBlocksContent {
+      body
+    }
+    ... on PageBlocksImage {
+      url
+      caption
+    }
+    ... on PageBlocksCta {
+      text
+      link
+    }
+  }
 }

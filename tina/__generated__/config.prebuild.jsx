@@ -49,6 +49,44 @@ var config_default = defineConfig({
             type: "rich-text",
             name: "body",
             label: "Obsah"
+          },
+          {
+            type: "object",
+            list: true,
+            name: "blocks",
+            label: "Bloky str\xE1nky",
+            templates: [
+              {
+                name: "heading",
+                label: "Velk\xFD Nadpis",
+                fields: [
+                  { type: "string", name: "text", label: "Text nadpisu" }
+                ]
+              },
+              {
+                name: "content",
+                label: "Textov\xFD obsah",
+                fields: [
+                  { type: "rich-text", name: "body", label: "Text" }
+                ]
+              },
+              {
+                name: "image",
+                label: "Obr\xE1zek",
+                fields: [
+                  { type: "image", name: "url", label: "Obr\xE1zek" },
+                  { type: "string", name: "caption", label: "Popisek" }
+                ]
+              },
+              {
+                name: "cta",
+                label: "V\xFDzva k akci",
+                fields: [
+                  { type: "string", name: "text", label: "Text tla\u010D\xEDtka" },
+                  { type: "string", name: "link", label: "Odkaz" }
+                ]
+              }
+            ]
           }
         ]
       }

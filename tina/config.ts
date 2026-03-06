@@ -56,6 +56,44 @@ export default defineConfig({
             name: "body",
             label: "Obsah",
           },
+        {
+            type: "object",
+            list: true,
+            name: "blocks",
+            label: "Bloky stránky",
+            templates: [
+         {
+            name: "heading",
+            label: "Velký Nadpis",
+            fields: [
+          { type: "string", name: "text", label: "Text nadpisu" },
+        ],
+         },
+          {
+            name: "content",
+            label: "Textový obsah",
+            fields: [
+          { type: "rich-text", name: "body", label: "Text" },
+        ],
+       },
+        {
+            name: "image",
+            label: "Obrázek",
+            fields: [
+          { type: "image", name: "url", label: "Obrázek" },
+          { type: "string", name: "caption", label: "Popisek" },
+            ],
+           },
+          {
+              name: "cta",
+              label: "Výzva k akci",
+              fields: [
+            { type: "string", name: "text", label: "Text tlačítka" },
+            { type: "string", name: "link", label: "Odkaz" },
+              ],
+          },
+          ],
+        },
         ],
       },
     ],

@@ -87,10 +87,31 @@ type Collection {
 
 union DocumentNode = Page | Folder
 
+type PageBlocksHeading {
+  text: String
+}
+
+type PageBlocksContent {
+  body: JSON
+}
+
+type PageBlocksImage {
+  url: String
+  caption: String
+}
+
+type PageBlocksCta {
+  text: String
+  link: String
+}
+
+union PageBlocks = PageBlocksHeading | PageBlocksContent | PageBlocksImage | PageBlocksCta
+
 type Page implements Node & Document {
   title: String!
   heroImage: String
   body: JSON
+  blocks: [PageBlocks]
   id: ID!
   _sys: SystemInfo!
   _values: JSON!
@@ -116,10 +137,36 @@ input RichTextFilter {
   exists: Boolean
 }
 
+input PageBlocksHeadingFilter {
+  text: StringFilter
+}
+
+input PageBlocksContentFilter {
+  body: RichTextFilter
+}
+
+input PageBlocksImageFilter {
+  url: ImageFilter
+  caption: StringFilter
+}
+
+input PageBlocksCtaFilter {
+  text: StringFilter
+  link: StringFilter
+}
+
+input PageBlocksFilter {
+  heading: PageBlocksHeadingFilter
+  content: PageBlocksContentFilter
+  image: PageBlocksImageFilter
+  cta: PageBlocksCtaFilter
+}
+
 input PageFilter {
   title: StringFilter
   heroImage: ImageFilter
   body: RichTextFilter
+  blocks: PageBlocksFilter
 }
 
 type PageConnectionEdges {
@@ -152,10 +199,36 @@ input DocumentMutation {
   page: PageMutation
 }
 
+input PageBlocksHeadingMutation {
+  text: String
+}
+
+input PageBlocksContentMutation {
+  body: JSON
+}
+
+input PageBlocksImageMutation {
+  url: String
+  caption: String
+}
+
+input PageBlocksCtaMutation {
+  text: String
+  link: String
+}
+
+input PageBlocksMutation {
+  heading: PageBlocksHeadingMutation
+  content: PageBlocksContentMutation
+  image: PageBlocksImageMutation
+  cta: PageBlocksCtaMutation
+}
+
 input PageMutation {
   title: String
   heroImage: String
   body: JSON
+  blocks: [PageBlocksMutation]
 }
 
 schema {

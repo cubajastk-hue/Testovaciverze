@@ -165,11 +165,36 @@ export type CollectionDocumentsArgs = {
 
 export type DocumentNode = Page | Folder;
 
+export type PageBlocksHeading = {
+  __typename?: 'PageBlocksHeading';
+  text?: Maybe<Scalars['String']['output']>;
+};
+
+export type PageBlocksContent = {
+  __typename?: 'PageBlocksContent';
+  body?: Maybe<Scalars['JSON']['output']>;
+};
+
+export type PageBlocksImage = {
+  __typename?: 'PageBlocksImage';
+  url?: Maybe<Scalars['String']['output']>;
+  caption?: Maybe<Scalars['String']['output']>;
+};
+
+export type PageBlocksCta = {
+  __typename?: 'PageBlocksCta';
+  text?: Maybe<Scalars['String']['output']>;
+  link?: Maybe<Scalars['String']['output']>;
+};
+
+export type PageBlocks = PageBlocksHeading | PageBlocksContent | PageBlocksImage | PageBlocksCta;
+
 export type Page = Node & Document & {
   __typename?: 'Page';
   title: Scalars['String']['output'];
   heroImage?: Maybe<Scalars['String']['output']>;
   body?: Maybe<Scalars['JSON']['output']>;
+  blocks?: Maybe<Array<Maybe<PageBlocks>>>;
   id: Scalars['ID']['output'];
   _sys: SystemInfo;
   _values: Scalars['JSON']['output'];
@@ -195,10 +220,36 @@ export type RichTextFilter = {
   exists?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
+export type PageBlocksHeadingFilter = {
+  text?: InputMaybe<StringFilter>;
+};
+
+export type PageBlocksContentFilter = {
+  body?: InputMaybe<RichTextFilter>;
+};
+
+export type PageBlocksImageFilter = {
+  url?: InputMaybe<ImageFilter>;
+  caption?: InputMaybe<StringFilter>;
+};
+
+export type PageBlocksCtaFilter = {
+  text?: InputMaybe<StringFilter>;
+  link?: InputMaybe<StringFilter>;
+};
+
+export type PageBlocksFilter = {
+  heading?: InputMaybe<PageBlocksHeadingFilter>;
+  content?: InputMaybe<PageBlocksContentFilter>;
+  image?: InputMaybe<PageBlocksImageFilter>;
+  cta?: InputMaybe<PageBlocksCtaFilter>;
+};
+
 export type PageFilter = {
   title?: InputMaybe<StringFilter>;
   heroImage?: InputMaybe<ImageFilter>;
   body?: InputMaybe<RichTextFilter>;
+  blocks?: InputMaybe<PageBlocksFilter>;
 };
 
 export type PageConnectionEdges = {
@@ -279,20 +330,46 @@ export type DocumentMutation = {
   page?: InputMaybe<PageMutation>;
 };
 
+export type PageBlocksHeadingMutation = {
+  text?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type PageBlocksContentMutation = {
+  body?: InputMaybe<Scalars['JSON']['input']>;
+};
+
+export type PageBlocksImageMutation = {
+  url?: InputMaybe<Scalars['String']['input']>;
+  caption?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type PageBlocksCtaMutation = {
+  text?: InputMaybe<Scalars['String']['input']>;
+  link?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type PageBlocksMutation = {
+  heading?: InputMaybe<PageBlocksHeadingMutation>;
+  content?: InputMaybe<PageBlocksContentMutation>;
+  image?: InputMaybe<PageBlocksImageMutation>;
+  cta?: InputMaybe<PageBlocksCtaMutation>;
+};
+
 export type PageMutation = {
   title?: InputMaybe<Scalars['String']['input']>;
   heroImage?: InputMaybe<Scalars['String']['input']>;
   body?: InputMaybe<Scalars['JSON']['input']>;
+  blocks?: InputMaybe<Array<InputMaybe<PageBlocksMutation>>>;
 };
 
-export type PagePartsFragment = { __typename: 'Page', title: string, heroImage?: string | null, body?: any | null };
+export type PagePartsFragment = { __typename: 'Page', title: string, heroImage?: string | null, body?: any | null, blocks?: Array<{ __typename: 'PageBlocksHeading', text?: string | null } | { __typename: 'PageBlocksContent', body?: any | null } | { __typename: 'PageBlocksImage', url?: string | null, caption?: string | null } | { __typename: 'PageBlocksCta', text?: string | null, link?: string | null } | null> | null };
 
 export type PageQueryVariables = Exact<{
   relativePath: Scalars['String']['input'];
 }>;
 
 
-export type PageQuery = { __typename?: 'Query', page: { __typename: 'Page', id: string, title: string, heroImage?: string | null, body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } };
+export type PageQuery = { __typename?: 'Query', page: { __typename: 'Page', id: string, title: string, heroImage?: string | null, body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, blocks?: Array<{ __typename: 'PageBlocksHeading', text?: string | null } | { __typename: 'PageBlocksContent', body?: any | null } | { __typename: 'PageBlocksImage', url?: string | null, caption?: string | null } | { __typename: 'PageBlocksCta', text?: string | null, link?: string | null } | null> | null } };
 
 export type PageConnectionQueryVariables = Exact<{
   before?: InputMaybe<Scalars['String']['input']>;
@@ -304,7 +381,7 @@ export type PageConnectionQueryVariables = Exact<{
 }>;
 
 
-export type PageConnectionQuery = { __typename?: 'Query', pageConnection: { __typename?: 'PageConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'PageConnectionEdges', cursor: string, node?: { __typename: 'Page', id: string, title: string, heroImage?: string | null, body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null> | null } };
+export type PageConnectionQuery = { __typename?: 'Query', pageConnection: { __typename?: 'PageConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'PageConnectionEdges', cursor: string, node?: { __typename: 'Page', id: string, title: string, heroImage?: string | null, body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, blocks?: Array<{ __typename: 'PageBlocksHeading', text?: string | null } | { __typename: 'PageBlocksContent', body?: any | null } | { __typename: 'PageBlocksImage', url?: string | null, caption?: string | null } | { __typename: 'PageBlocksCta', text?: string | null, link?: string | null } | null> | null } | null } | null> | null } };
 
 export const PagePartsFragmentDoc = gql`
     fragment PageParts on Page {
@@ -312,6 +389,23 @@ export const PagePartsFragmentDoc = gql`
   title
   heroImage
   body
+  blocks {
+    __typename
+    ... on PageBlocksHeading {
+      text
+    }
+    ... on PageBlocksContent {
+      body
+    }
+    ... on PageBlocksImage {
+      url
+      caption
+    }
+    ... on PageBlocksCta {
+      text
+      link
+    }
+  }
 }
     `;
 export const PageDocument = gql`
@@ -427,7 +521,7 @@ export const ExperimentalGetTinaClient = () =>
   getSdk(
     generateRequester(
       createClient({
-        url: "http://localhost:4001/graphql",
+        url: "https://content.tinajs.io/2.2/content/08090429-401f-4b27-a169-64165757f8e9/github/main",
         queries,
       })
     )
