@@ -102,7 +102,7 @@ type PageBlocksImage {
 }
 
 type PageBlocksCta {
-  text: String
+  title: String
   link: String
 }
 
@@ -111,7 +111,6 @@ union PageBlocks = PageBlocksHeading | PageBlocksContent | PageBlocksImage | Pag
 type Page implements Node & Document {
   title: String!
   heroImage: String
-  body: JSON
   blocks: [PageBlocks]
   id: ID!
   _sys: SystemInfo!
@@ -132,14 +131,14 @@ input ImageFilter {
   in: [String]
 }
 
+input PageBlocksHeadingFilter {
+  text: StringFilter
+}
+
 input RichTextFilter {
   startsWith: String
   eq: String
   exists: Boolean
-}
-
-input PageBlocksHeadingFilter {
-  text: StringFilter
 }
 
 input PageBlocksContentFilter {
@@ -153,7 +152,7 @@ input PageBlocksImageFilter {
 }
 
 input PageBlocksCtaFilter {
-  text: StringFilter
+  title: StringFilter
   link: StringFilter
 }
 
@@ -167,7 +166,6 @@ input PageBlocksFilter {
 input PageFilter {
   title: StringFilter
   heroImage: ImageFilter
-  body: RichTextFilter
   blocks: PageBlocksFilter
 }
 
@@ -216,7 +214,7 @@ input PageBlocksImageMutation {
 }
 
 input PageBlocksCtaMutation {
-  text: String
+  title: String
   link: String
 }
 
@@ -230,7 +228,6 @@ input PageBlocksMutation {
 input PageMutation {
   title: String
   heroImage: String
-  body: JSON
   blocks: [PageBlocksMutation]
 }
 

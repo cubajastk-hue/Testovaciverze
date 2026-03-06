@@ -30,8 +30,7 @@ export default defineConfig({
             name: "blocks",
             label: "Bloky stránky",
             ui: {
-              // Opraveno: label pro přehlednost v sidebaru
-              itemProps: (item) => ({ label: item?.text || item?.caption || item?.name || "Blok" }),
+              itemProps: (item) => ({ label: item?.text || item?.title || item?.name || "Blok" }),
             },
             templates: [
               {
@@ -47,7 +46,6 @@ export default defineConfig({
                     type: "rich-text",
                     name: "body",
                     label: "Text",
-                    // Použity zkratky 'ul' a 'ol', které Tina neodmítne
                     toolbarOverride: ["bold", "italic", "link", "quote", "ul", "ol"],
                   },
                 ],
@@ -68,6 +66,15 @@ export default defineConfig({
                       { label: "Velký", value: "large" },
                     ],
                   },
+                ],
+              },
+              // TADY JE TO ZPÁTKY!
+              {
+                name: "cta",
+                label: "CTA Tlačítko",
+                fields: [
+                  { type: "string", name: "title", label: "Titulek" },
+                  { type: "string", name: "link", label: "Odkaz" },
                 ],
               },
             ],
