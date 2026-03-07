@@ -1,7 +1,6 @@
 fragment PageParts on Page {
   __typename
   title
-  heroImage
   blocks {
     __typename
     ... on PageBlocksHeading {
@@ -13,7 +12,6 @@ fragment PageParts on Page {
     ... on PageBlocksImage {
       url
       caption
-      size
     }
     ... on PageBlocksCta {
       title

@@ -1,13 +1,19 @@
 // tina/config.ts
 import { defineConfig } from "tinacms";
-var branch = process.env.NEXT_PUBLIC_TINA_BRANCH || process.env.VERCEL_GIT_COMMIT_REF || "main";
+var branch = process.env.NEXT_PUBLIC_TINA_BRANCH || process.env.VERCEL_GIT_COMMIT_REF || process.env.HEAD || "main";
 var config_default = defineConfig({
   branch,
   clientId: process.env.NEXT_PUBLIC_TINA_CLIENT_ID,
   token: process.env.TINA_TOKEN,
-  build: { outputFolder: "admin", publicFolder: "public" },
+  build: {
+    outputFolder: "admin",
+    publicFolder: "public"
+  },
   media: {
-    tina: { mediaRoot: "uploads", publicFolder: "public" }
+    tina: {
+      mediaRoot: "uploads",
+      publicFolder: "public"
+    }
   },
   schema: {
     collections: [
@@ -17,25 +23,43 @@ var config_default = defineConfig({
         path: "content/pages",
         format: "mdx",
         ui: {
-          router: ({ document }) => document._sys.filename === "home" ? `/` : void 0
+          // Nastavení cesty pro Live Editing (home.mdx bude na "/")
+          router: ({ document }) => {
+            if (document._sys.filename === "home") {
+              return "/";
+            }
+            return void 0;
+          }
         },
         fields: [
-          { type: "string", name: "title", label: "Nadpis", isTitle: true, required: true },
-          { type: "image", name: "heroImage", label: "Hlavn\xED obr\xE1zek" },
+          {
+            type: "string",
+            name: "title",
+            label: "Nadpis str\xE1nky (SEO)",
+            isTitle: true,
+            required: true
+          },
           {
             type: "object",
             list: true,
             name: "blocks",
-            label: "Bloky str\xE1nky",
+            label: "Obsah str\xE1nky (Bloky)",
             ui: {
-              itemProps: (item) => ({ label: item?.text || item?.title || item?.name || "Blok" })
+              // Toto zobrazí v seznamu bloků konkrétní text, aby se v tom dalo vyznat
+              itemProps: (item) => ({
+                label: item?.title || item?.text || item?.caption || "Nov\xFD blok"
+              })
             },
             templates: [
+              // 1. BLOK: NADPIS
               {
                 name: "heading",
-                label: "Velk\xFD Nadpis",
-                fields: [{ type: "string", name: "text", label: "Text nadpisu" }]
+                label: "Nadpis",
+                fields: [
+                  { type: "string", name: "text", label: "Text nadpisu" }
+                ]
               },
+              // 2. BLOK: TEXTOVÝ OBSAH
               {
                 name: "content",
                 label: "Textov\xFD obsah",
@@ -48,31 +72,22 @@ var config_default = defineConfig({
                   }
                 ]
               },
+              // 3. BLOK: OBRÁZEK
               {
                 name: "image",
                 label: "Obr\xE1zek",
                 fields: [
-                  { type: "image", name: "url", label: "Obr\xE1zek" },
-                  { type: "string", name: "caption", label: "Popisek" },
-                  {
-                    type: "string",
-                    name: "size",
-                    label: "Velikost",
-                    options: [
-                      { label: "Mal\xFD", value: "small" },
-                      { label: "St\u0159edn\xED", value: "medium" },
-                      { label: "Velk\xFD", value: "large" }
-                    ]
-                  }
+                  { type: "image", name: "url", label: "Vybrat obr\xE1zek" },
+                  { type: "string", name: "caption", label: "Popisek pod obr\xE1zkem" }
                 ]
               },
-              // TADY JE TO ZPÁTKY!
+              // 4. BLOK: TLAČÍTKO
               {
                 name: "cta",
-                label: "CTA Tla\u010D\xEDtko",
+                label: "Tla\u010D\xEDtko",
                 fields: [
-                  { type: "string", name: "title", label: "Titulek" },
-                  { type: "string", name: "link", label: "Odkaz" }
+                  { type: "string", name: "title", label: "Text na tla\u010D\xEDtku" },
+                  { type: "string", name: "link", label: "Odkaz (URL)" }
                 ]
               }
             ]
