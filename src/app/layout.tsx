@@ -4,7 +4,6 @@ import "./globals.css";
 // Metadata pro tvůj web - přepiš si podle sebe
 export const metadata: Metadata = {
   title: "Můj minimalistický web",
-  description: "Web spravovaný přes TinaCMS",
 };
 
 export default function RootLayout({

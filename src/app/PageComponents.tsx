@@ -20,12 +20,6 @@ export function PageComponents(props: any) {
       >
         {data.page.title}
       </h1>
-      <p
-        data-tina-field={tinaField(data.page, "description")}
-        className="text-xl text-slate-300 max-w-prose text-center"
-      >
-        {data.page.description}
-      </p>
 
       {/* Kontejner pro dynamické bloky */}
       <div className="w-full max-w-3xl space-y-12">
