@@ -46,14 +46,14 @@ export default defineConfig({
             isTitle: true,
             required: true,
           },
-      //   {
-      //      type: "string",
-      //      name: "description",
-      //      label: "Popis stránky (pro Google)",
-      //      ui: {
-      //      component: "textarea",
-      //      },
-      //    },
+         {
+            type: "string",
+            name: "description",
+            label: "Popis stránky (pro Google)",
+            ui: {
+            component: "textarea",
+            },
+           },
           {
             type: "object",
             list: true,
