@@ -42,10 +42,10 @@ var config_default = defineConfig({
           {
             type: "string",
             name: "description",
-            label: "Popis str\xE1nky (pro Google)",
+            label: "Popis str\xE1nky (SEO)",
             ui: {
               component: "textarea"
-              // Bude to větší textové pole
+              // Tohle udělá v adminu větší okno pro text
             }
           },
           {
