@@ -47,6 +47,14 @@ export default defineConfig({
             required: true,
           },
          // Description
+         {
+            type: "string",
+            name: "description",
+            label: "Popis stránky (pro Google)",
+            ui: {
+            component: "textarea",
+            },
+           },
           {
             type: "object",
             list: true,
