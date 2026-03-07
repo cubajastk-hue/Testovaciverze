@@ -51,12 +51,6 @@ export default defineConfig({
             list: true,
             name: "blocks",
             label: "Obsah stránky (Bloky)",
-            ui: {
-              // Toto zobrazí v seznamu bloků konkrétní text, aby se v tom dalo vyznat
-              itemProps: (item) => ({
-                label: item?.title || item?.text || item?.caption || "Nový blok",
-              }),
-            },
             templates: [
               // 1. BLOK: NADPIS
               {

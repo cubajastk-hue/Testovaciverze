@@ -1,5 +1,4 @@
 "use client";
-// @ts-nocheck
 import Image from "next/image";
 import { useTina } from "tinacms/dist/react";
 import { tinaField } from "tinacms/dist/react";
