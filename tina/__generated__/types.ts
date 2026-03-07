@@ -192,6 +192,7 @@ export type PageBlocks = PageBlocksHeading | PageBlocksContent | PageBlocksImage
 export type Page = Node & Document & {
   __typename?: 'Page';
   title: Scalars['String']['output'];
+  description?: Maybe<Scalars['String']['output']>;
   blocks?: Maybe<Array<Maybe<PageBlocks>>>;
   id: Scalars['ID']['output'];
   _sys: SystemInfo;
@@ -245,6 +246,7 @@ export type PageBlocksFilter = {
 
 export type PageFilter = {
   title?: InputMaybe<StringFilter>;
+  description?: InputMaybe<StringFilter>;
   blocks?: InputMaybe<PageBlocksFilter>;
 };
 
@@ -353,17 +355,18 @@ export type PageBlocksMutation = {
 
 export type PageMutation = {
   title?: InputMaybe<Scalars['String']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
   blocks?: InputMaybe<Array<InputMaybe<PageBlocksMutation>>>;
 };
 
-export type PagePartsFragment = { __typename: 'Page', title: string, blocks?: Array<{ __typename: 'PageBlocksHeading', text?: string | null } | { __typename: 'PageBlocksContent', body?: any | null } | { __typename: 'PageBlocksImage', url?: string | null, caption?: string | null } | { __typename: 'PageBlocksCta', title?: string | null, link?: string | null } | null> | null };
+export type PagePartsFragment = { __typename: 'Page', title: string, description?: string | null, blocks?: Array<{ __typename: 'PageBlocksHeading', text?: string | null } | { __typename: 'PageBlocksContent', body?: any | null } | { __typename: 'PageBlocksImage', url?: string | null, caption?: string | null } | { __typename: 'PageBlocksCta', title?: string | null, link?: string | null } | null> | null };
 
 export type PageQueryVariables = Exact<{
   relativePath: Scalars['String']['input'];
 }>;
 
 
-export type PageQuery = { __typename?: 'Query', page: { __typename: 'Page', id: string, title: string, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, blocks?: Array<{ __typename: 'PageBlocksHeading', text?: string | null } | { __typename: 'PageBlocksContent', body?: any | null } | { __typename: 'PageBlocksImage', url?: string | null, caption?: string | null } | { __typename: 'PageBlocksCta', title?: string | null, link?: string | null } | null> | null } };
+export type PageQuery = { __typename?: 'Query', page: { __typename: 'Page', id: string, title: string, description?: string | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, blocks?: Array<{ __typename: 'PageBlocksHeading', text?: string | null } | { __typename: 'PageBlocksContent', body?: any | null } | { __typename: 'PageBlocksImage', url?: string | null, caption?: string | null } | { __typename: 'PageBlocksCta', title?: string | null, link?: string | null } | null> | null } };
 
 export type PageConnectionQueryVariables = Exact<{
   before?: InputMaybe<Scalars['String']['input']>;
@@ -375,12 +378,13 @@ export type PageConnectionQueryVariables = Exact<{
 }>;
 
 
-export type PageConnectionQuery = { __typename?: 'Query', pageConnection: { __typename?: 'PageConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'PageConnectionEdges', cursor: string, node?: { __typename: 'Page', id: string, title: string, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, blocks?: Array<{ __typename: 'PageBlocksHeading', text?: string | null } | { __typename: 'PageBlocksContent', body?: any | null } | { __typename: 'PageBlocksImage', url?: string | null, caption?: string | null } | { __typename: 'PageBlocksCta', title?: string | null, link?: string | null } | null> | null } | null } | null> | null } };
+export type PageConnectionQuery = { __typename?: 'Query', pageConnection: { __typename?: 'PageConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'PageConnectionEdges', cursor: string, node?: { __typename: 'Page', id: string, title: string, description?: string | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, blocks?: Array<{ __typename: 'PageBlocksHeading', text?: string | null } | { __typename: 'PageBlocksContent', body?: any | null } | { __typename: 'PageBlocksImage', url?: string | null, caption?: string | null } | { __typename: 'PageBlocksCta', title?: string | null, link?: string | null } | null> | null } | null } | null> | null } };
 
 export const PagePartsFragmentDoc = gql`
     fragment PageParts on Page {
   __typename
   title
+  description
   blocks {
     __typename
     ... on PageBlocksHeading {

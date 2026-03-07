@@ -1,6 +1,7 @@
 fragment PageParts on Page {
   __typename
   title
+  description
   blocks {
     __typename
     ... on PageBlocksHeading {

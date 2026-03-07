@@ -40,6 +40,15 @@ var config_default = defineConfig({
             required: true
           },
           {
+            type: "string",
+            name: "description",
+            label: "Popis str\xE1nky (pro Google)",
+            ui: {
+              component: "textarea"
+              // Bude to větší textové pole
+            }
+          },
+          {
             type: "object",
             list: true,
             name: "blocks",
