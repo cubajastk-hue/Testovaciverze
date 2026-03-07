@@ -47,6 +47,14 @@ export default defineConfig({
             required: true,
           },
           {
+            type: "string",
+            name: "description",
+            label: "Popis stránky (pro Google)",
+            ui: {
+              component: "textarea", // Bude to větší textové pole
+            },
+          },
+          {
             type: "object",
             list: true,
             name: "blocks",
