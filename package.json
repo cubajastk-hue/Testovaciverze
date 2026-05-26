@@ -2,6 +2,7 @@
   "name": "testovaciverze",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "pnpm@9.15.4",
   "scripts": {
     "dev": "tinacms dev -c \"next dev\"",
     "build": "tinacms build && next build",
@@ -32,10 +33,6 @@
     "eslint-config-next": "16.1.6",
     "tailwindcss": "^4",
     "typescript": "^5"
-  },
-  "overrides": {
-    "react": "$react",
-    "react-dom": "$react-dom"
   },
   "pnpm": {
     "overrides": {
