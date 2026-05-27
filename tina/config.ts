@@ -53,7 +53,8 @@ export default defineConfig({
     ui: {
       component: "textarea", // Tohle udělá v adminu větší okno pro text
     },
-    {
+  },
+      {
   type: "string",
   name: "outerBgColor",
   label: "Barva pozadí celého webu",
@@ -63,8 +64,8 @@ export default defineConfig({
     { label: "Jemná krémová", value: "#fefcbf" },
     { label: "Temně modrá (bude potřeba pak otočit barvu textu)", value: "#0f172a" },
   ],
-    },
   },
+  
           {
             type: "object",
             list: true,
