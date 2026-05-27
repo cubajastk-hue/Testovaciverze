@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import "./globals.css";
+import "./globals.css"; 
 
 // Metadata pro tvůj web - přepiš si podle sebe
 export const metadata: Metadata = {
