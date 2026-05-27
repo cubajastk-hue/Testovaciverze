@@ -49,6 +49,17 @@ var config_default = defineConfig({
             }
           },
           {
+            type: "string",
+            name: "outerBgColor",
+            label: "Barva pozad\xED cel\xE9ho webu",
+            options: [
+              { label: "\u010Cist\u011B b\xEDl\xE1", value: "#ffffff" },
+              { label: "Sv\u011Btle \u0161ed\xE1", value: "#f8fafc" },
+              { label: "Jemn\xE1 kr\xE9mov\xE1", value: "#fefcbf" },
+              { label: "Temn\u011B modr\xE1 (bude pot\u0159eba pak oto\u010Dit barvu textu)", value: "#0f172a" }
+            ]
+          },
+          {
             type: "object",
             list: true,
             name: "blocks",

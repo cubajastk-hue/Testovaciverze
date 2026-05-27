@@ -2,6 +2,7 @@ fragment PageParts on Page {
   __typename
   title
   description
+  outerBgColor
   blocks {
     __typename
     ... on PageBlocksHeading {

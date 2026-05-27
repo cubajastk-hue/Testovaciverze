@@ -110,6 +110,7 @@ union PageBlocks = PageBlocksHeading | PageBlocksContent | PageBlocksImage | Pag
 type Page implements Node & Document {
   title: String!
   description: String
+  outerBgColor: String
   blocks: [PageBlocks]
   id: ID!
   _sys: SystemInfo!
@@ -164,6 +165,7 @@ input PageBlocksFilter {
 input PageFilter {
   title: StringFilter
   description: StringFilter
+  outerBgColor: StringFilter
   blocks: PageBlocksFilter
 }
 
@@ -225,6 +227,7 @@ input PageBlocksMutation {
 input PageMutation {
   title: String
   description: String
+  outerBgColor: String
   blocks: [PageBlocksMutation]
 }
 
