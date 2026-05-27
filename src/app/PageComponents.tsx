@@ -1,10 +1,12 @@
 "use client";
 
+// Základní import Tina usage //
 import Image from "next/image";
 import { useTina } from "tinacms/dist/react";
 import { tinaField } from "tinacms/dist/react";
 import { TinaMarkdown } from "tinacms/dist/rich-text";
 
+// Vezme všechna data z Tiny, aby se to pak mohlo aplikovat //
 export function PageComponents(props: any) {
   const { data } = useTina({
     query: props.query,
@@ -16,12 +18,12 @@ export function PageComponents(props: any) {
   const currentBgColor = data.page?.outerBgColor || "#ffffff";
 
   return (
-    /* ZMĚNA: Barvu aplikujeme přímo na styl pozadí. Obejdem tím všechny CSS registry a konflikty */
+    // Barva pozadí //
     <div 
       style={{ backgroundColor: currentBgColor }}
       className="min-h-screen w-full transition-colors duration-500"
     >
-      {/* Hlavní obal obsahu – texty jsou tmavé, centrované a mají pěkné rozestupy */}
+      {/* Hezké nastavení textu */}
       <main className="flex min-h-screen flex-col items-center p-24 mx-auto max-w-4xl text-slate-900">
         
         {/* Hlavní nadpis stránky */}
@@ -40,13 +42,13 @@ export function PageComponents(props: any) {
           {data.page?.description}
         </p>
 
-        {/* Kontejner pro dynamické bloky */}
+        {/* Kontejner pro bloky, které můžeme kdykoli přidat */}
         <div className="w-full max-w-3xl space-y-12">
           {data.page?.blocks?.map((block: any, i: number) => {
             if (!block) return null;
 
             switch (block.__typename) {
-              // 1. BLOK: NADPIS
+              // 1. Nadpis //
               case "PageBlocksHeading":
                 return (
                   <h2 
@@ -58,7 +60,7 @@ export function PageComponents(props: any) {
                   </h2>
                 );
 
-              // 2. BLOK: TEXTOVÝ OBSAH (Rich Text)
+              // 2. Textový obsah //
               case "PageBlocksContent":
                 return (
                   <div 
@@ -70,7 +72,7 @@ export function PageComponents(props: any) {
                   </div>
                 );
 
-              // 3. BLOK: OBRÁZEK
+              // 3. Obrázek, musíme vylepšit *nefunkční* //
               case "PageBlocksImage":
                 return (
                   <figure key={i} className="w-full">
@@ -93,7 +95,7 @@ export function PageComponents(props: any) {
                   </figure>
                 );
 
-              // 4. BLOK: TLAČÍTKO (CTA)
+              // 4. Tlačítko //
               case "PageBlocksCta":
                 return (
                   <div key={i} className="flex justify-center py-4">
@@ -106,7 +108,7 @@ export function PageComponents(props: any) {
                     </a>
                   </div>
                 );
-
+// Myslím si, že když nic nebude vybrané, tak se to tam vrátí, a nic se jiného nezobrazí //
               default:
                 return null;
             }

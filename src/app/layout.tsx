@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import "./globals.css"; 
 
-// Metadata pro tvůj web - přepiš si podle sebe
+// To co je úplně tahoře v tabu //
 export const metadata: Metadata = {
   title: "Můj minimalistický web",
 };
 
+// Doplnit //
 export default function RootLayout({
   children,
 }: Readonly<{
