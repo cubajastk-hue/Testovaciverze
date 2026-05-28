@@ -3,10 +3,10 @@ import "./globals.css";
 
 // To co je úplně tahoře v tabu //
 export const metadata: Metadata = {
-  title: "Můj minimalistický web",
+  title: "Portfolio",
 };
 
-// Doplnit //
+// Hlavní šablona //
 export default function RootLayout({
   children,
 }: Readonly<{
