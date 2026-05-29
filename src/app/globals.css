@@ -8,11 +8,3 @@
 @theme inline {
   --color-foreground: var(--foreground);
 }
-
-body {
-  background: #ffffff; /* Jednoduchý, čistý fallback */
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
