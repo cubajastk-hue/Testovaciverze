@@ -100,24 +100,29 @@ type PageBlocksNavbar {
 type PageBlocksHero {
   heading: String
   subheading: String
+  align: String
 }
 
 type PageBlocksHeading {
   text: String
+  align: String
 }
 
 type PageBlocksContent {
   body: JSON
+  align: String
 }
 
 type PageBlocksImage {
   url: String
   caption: String
+  align: String
 }
 
 type PageBlocksCta {
   title: String
   link: String
+  align: String
 }
 
 union PageBlocks = PageBlocksNavbar | PageBlocksHero | PageBlocksHeading | PageBlocksContent | PageBlocksImage | PageBlocksCta
@@ -125,6 +130,7 @@ union PageBlocks = PageBlocksNavbar | PageBlocksHero | PageBlocksHeading | PageB
 type Page implements Node & Document {
   title: String!
   description: String
+  titleAlignment: String
   outerBgColor: String
   blocks: [PageBlocks]
   id: ID!
@@ -152,10 +158,12 @@ input PageBlocksNavbarFilter {
 input PageBlocksHeroFilter {
   heading: StringFilter
   subheading: StringFilter
+  align: StringFilter
 }
 
 input PageBlocksHeadingFilter {
   text: StringFilter
+  align: StringFilter
 }
 
 input RichTextFilter {
@@ -166,6 +174,7 @@ input RichTextFilter {
 
 input PageBlocksContentFilter {
   body: RichTextFilter
+  align: StringFilter
 }
 
 input ImageFilter {
@@ -178,11 +187,13 @@ input ImageFilter {
 input PageBlocksImageFilter {
   url: ImageFilter
   caption: StringFilter
+  align: StringFilter
 }
 
 input PageBlocksCtaFilter {
   title: StringFilter
   link: StringFilter
+  align: StringFilter
 }
 
 input PageBlocksFilter {
@@ -197,6 +208,7 @@ input PageBlocksFilter {
 input PageFilter {
   title: StringFilter
   description: StringFilter
+  titleAlignment: StringFilter
   outerBgColor: StringFilter
   blocks: PageBlocksFilter
 }
@@ -244,24 +256,29 @@ input PageBlocksNavbarMutation {
 input PageBlocksHeroMutation {
   heading: String
   subheading: String
+  align: String
 }
 
 input PageBlocksHeadingMutation {
   text: String
+  align: String
 }
 
 input PageBlocksContentMutation {
   body: JSON
+  align: String
 }
 
 input PageBlocksImageMutation {
   url: String
   caption: String
+  align: String
 }
 
 input PageBlocksCtaMutation {
   title: String
   link: String
+  align: String
 }
 
 input PageBlocksMutation {
@@ -276,6 +293,7 @@ input PageBlocksMutation {
 input PageMutation {
   title: String
   description: String
+  titleAlignment: String
   outerBgColor: String
   blocks: [PageBlocksMutation]
 }

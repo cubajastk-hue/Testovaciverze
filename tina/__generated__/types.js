@@ -10,6 +10,7 @@ export const PagePartsFragmentDoc = gql`
   __typename
   title
   description
+  titleAlignment
   outerBgColor
   blocks {
     __typename
@@ -24,20 +25,25 @@ export const PagePartsFragmentDoc = gql`
     ... on PageBlocksHero {
       heading
       subheading
+      align
     }
     ... on PageBlocksHeading {
       text
+      align
     }
     ... on PageBlocksContent {
       body
+      align
     }
     ... on PageBlocksImage {
       url
       caption
+      align
     }
     ... on PageBlocksCta {
       title
       link
+      align
     }
   }
 }

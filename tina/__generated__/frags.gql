@@ -2,6 +2,7 @@ fragment PageParts on Page {
   __typename
   title
   description
+  titleAlignment
   outerBgColor
   blocks {
     __typename
@@ -16,20 +17,25 @@ fragment PageParts on Page {
     ... on PageBlocksHero {
       heading
       subheading
+      align
     }
     ... on PageBlocksHeading {
       text
+      align
     }
     ... on PageBlocksContent {
       body
+      align
     }
     ... on PageBlocksImage {
       url
       caption
+      align
     }
     ... on PageBlocksCta {
       title
       link
+      align
     }
   }
 }
