@@ -2,6 +2,7 @@
 
 // Základní import Tina usage //
 import Image from "next/image";
+import Link from "next/link"; // Přidán import pro odkazy
 import { useTina } from "tinacms/dist/react";
 import { tinaField } from "tinacms/dist/react";
 import { TinaMarkdown } from "tinacms/dist/rich-text";
@@ -17,14 +18,44 @@ export function PageComponents(props: any) {
   // 1. Získáme vybranou barvu z Tiny, nebo dáme výchozí bílou
   const currentBgColor = data.page?.outerBgColor || "#ffffff";
 
+  // Najdeme Navbar v blocích, abychom ho vykreslili úplně nahoře nad celým obsahem
+  const navbarBlock = data.page?.blocks?.find((b: any) => b?.__typename === "PageBlocksNavbar");
+
   return (
     // Barva pozadí //
     <div 
       style={{ backgroundColor: currentBgColor }}
-      className="min-h-screen w-full transition-colors duration-500"
+      className="min-h-screen w-full transition-colors duration-500 flex flex-col"
     >
+      {/* POHYBLIVÝ NAVBAR: Vykreslí se nahoře, pokud ho v adminu přidáš */}
+      {navbarBlock && (
+        <nav 
+          data-tina-field={tinaField(navbarBlock)}
+          className="w-full p-6 flex justify-between items-center bg-white/10 backdrop-blur-md border-b border-black/5"
+        >
+          <div 
+            data-tina-field={tinaField(navbarBlock, "logoText")}
+            className="text-2xl font-bold text-slate-950"
+          >
+            {navbarBlock.logoText || "Logo"}
+          </div>
+          <ul className="flex gap-6">
+            {navbarBlock.links?.map((link: any, j: number) => (
+              <li key={j} data-tina-field={tinaField(link)}>
+                <Link 
+                  href={link.url || "#"} 
+                  className="font-medium text-slate-800 hover:text-slate-950 transition-colors"
+                >
+                  {link.label || "Odkaz"}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      )}
+
       {/* Hezké nastavení textu */}
-      <main className="flex min-h-screen flex-col items-center p-24 mx-auto max-w-4xl text-slate-900">
+      <main className="flex-1 flex flex-col items-center p-24 mx-auto max-w-4xl text-slate-900 w-full">
         
         {/* Hlavní nadpis stránky */}
         <h1 
@@ -48,6 +79,10 @@ export function PageComponents(props: any) {
             if (!block) return null;
 
             switch (block.__typename) {
+              // Ignorujeme Navbar uvnitř main, protože už ho vykreslujeme nahoře
+              case "PageBlocksNavbar":
+                return null;
+
               // 1. Nadpis //
               case "PageBlocksHeading":
                 return (
@@ -72,7 +107,7 @@ export function PageComponents(props: any) {
                   </div>
                 );
 
-              // 3. Obrázek, musíme vylepšit *nefunkční* //
+              // 3. Obrázek //
               case "PageBlocksImage":
                 return (
                   <figure key={i} className="w-full">
@@ -108,7 +143,7 @@ export function PageComponents(props: any) {
                     </a>
                   </div>
                 );
-// Myslím si, že když nic nebude vybrané, tak se to tam vrátí, a nic se jiného nezobrazí //
+
               default:
                 return null;
             }

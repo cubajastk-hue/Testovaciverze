@@ -39,81 +39,65 @@ export default defineConfig({
           },
         },
         fields: [
-          {
-            type: "string",
-            name: "title",
-            label: "Nadpis stránky (SEO)",
-            isTitle: true,
-            required: true,
-          },
-        {
+  {
     type: "string",
-    name: "description",
-    label: "Popis stránky (SEO)",
+    name: "title",
+    label: "Název stránky",
+    isTitle: true,
+    required: true,
+  },
+  {
+    type: "string",
+    name: "outerBgColor",
+    label: "Barva pozadí stránky (Vyber si jakoukoli)",
     ui: {
-      component: "textarea", // Tohle udělá v adminu větší okno pro text
+      // Tohle políčko aktivuje kompletní RGB / Hex kapátko v administraci
+      component: "color",
     },
   },
+  {
+    type: "object",
+    list: true,
+    name: "blocks",
+    label: "Pohyblivé bloky stránky",
+    ui: {
+      // Tohle aktivuje drag-and-drop (přesouvání) v levém panelu Tiny
+      visualSelector: true,
+    },
+    templates: [
       {
-  type: "string",
-  name: "outerBgColor",
-  label: "Barva pozadí celého webu",
-  options: [
-    { label: "Čistě bílá", value: "#ffffff" },
-    { label: "Světle šedá", value: "#f8fafc" },
-    { label: "Jemná krémová", value: "#fefcbf" },
-    { label: "Temně modrá (bude potřeba pak otočit barvu textu)", value: "#0f172a" },
-  ],
-  },
-  
+        name: "navbar",
+        label: "Navigační lišta (Navbar)",
+        fields: [
+          {
+            type: "string",
+            name: "logoText",
+            label: "Text loga",
+          },
           {
             type: "object",
             list: true,
-            name: "blocks",
-            label: "Obsah stránky (Bloky)",
-            templates: [
-              // 1. BLOK: NADPIS
-              {
-                name: "heading",
-                label: "Nadpis",
-                fields: [
-                  { type: "string", name: "text", label: "Text nadpisu" },
-                ],
-              },
-              // 2. BLOK: TEXTOVÝ OBSAH
-              {
-                name: "content",
-                label: "Textový obsah",
-                fields: [
-                  {
-                    type: "rich-text",
-                    name: "body",
-                    label: "Text",
-                    toolbarOverride: ["bold", "italic", "link", "quote", "ul", "ol"],
-                  },
-                ],
-              },
-              // 3. BLOK: OBRÁZEK
-              {
-                name: "image",
-                label: "Obrázek",
-                fields: [
-                  { type: "image", name: "url", label: "Vybrat obrázek" },
-                  { type: "string", name: "caption", label: "Popisek pod obrázkem" },
-                ],
-              },
-              // 4. BLOK: TLAČÍTKO
-              {
-                name: "cta",
-                label: "Tlačítko",
-                fields: [
-                  { type: "string", name: "title", label: "Text na tlačítku" },
-                  { type: "string", name: "link", label: "Odkaz (URL)" },
-                ],
-              },
+            name: "links",
+            label: "Odkazy v menu",
+            fields: [
+              { type: "string", name: "label", label: "Název odkazu" },
+              { type: "string", name: "url", label: "Kam vede (URL)" },
             ],
           },
         ],
+      },
+      {
+        name: "hero",
+        label: "Hlavní velký blok (Hero)",
+        fields: [
+          { type: "string", name: "heading", label: "Hlavní nadpis" },
+          { type: "string", name: "subheading", label: "Podnadpis" },
+        ],
+      },
+      // Sem budeme moct v budoucnu přidávat další bloky (galerie, kontakty atd.)
+    ],
+  },
+],
       },
     ],
   },
