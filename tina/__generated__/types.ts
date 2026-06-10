@@ -165,34 +165,29 @@ export type CollectionDocumentsArgs = {
 
 export type DocumentNode = Page | Folder;
 
-export type PageBlocksHeading = {
-  __typename?: 'PageBlocksHeading';
-  text?: Maybe<Scalars['String']['output']>;
-};
-
-export type PageBlocksContent = {
-  __typename?: 'PageBlocksContent';
-  body?: Maybe<Scalars['JSON']['output']>;
-};
-
-export type PageBlocksImage = {
-  __typename?: 'PageBlocksImage';
+export type PageBlocksNavbarLinks = {
+  __typename?: 'PageBlocksNavbarLinks';
+  label?: Maybe<Scalars['String']['output']>;
   url?: Maybe<Scalars['String']['output']>;
-  caption?: Maybe<Scalars['String']['output']>;
 };
 
-export type PageBlocksCta = {
-  __typename?: 'PageBlocksCta';
-  title?: Maybe<Scalars['String']['output']>;
-  link?: Maybe<Scalars['String']['output']>;
+export type PageBlocksNavbar = {
+  __typename?: 'PageBlocksNavbar';
+  logoText?: Maybe<Scalars['String']['output']>;
+  links?: Maybe<Array<Maybe<PageBlocksNavbarLinks>>>;
 };
 
-export type PageBlocks = PageBlocksHeading | PageBlocksContent | PageBlocksImage | PageBlocksCta;
+export type PageBlocksHero = {
+  __typename?: 'PageBlocksHero';
+  heading?: Maybe<Scalars['String']['output']>;
+  subheading?: Maybe<Scalars['String']['output']>;
+};
+
+export type PageBlocks = PageBlocksNavbar | PageBlocksHero;
 
 export type Page = Node & Document & {
   __typename?: 'Page';
   title: Scalars['String']['output'];
-  description?: Maybe<Scalars['String']['output']>;
   outerBgColor?: Maybe<Scalars['String']['output']>;
   blocks?: Maybe<Array<Maybe<PageBlocks>>>;
   id: Scalars['ID']['output'];
@@ -207,47 +202,28 @@ export type StringFilter = {
   in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
-export type PageBlocksHeadingFilter = {
-  text?: InputMaybe<StringFilter>;
+export type PageBlocksNavbarLinksFilter = {
+  label?: InputMaybe<StringFilter>;
+  url?: InputMaybe<StringFilter>;
 };
 
-export type RichTextFilter = {
-  startsWith?: InputMaybe<Scalars['String']['input']>;
-  eq?: InputMaybe<Scalars['String']['input']>;
-  exists?: InputMaybe<Scalars['Boolean']['input']>;
+export type PageBlocksNavbarFilter = {
+  logoText?: InputMaybe<StringFilter>;
+  links?: InputMaybe<PageBlocksNavbarLinksFilter>;
 };
 
-export type PageBlocksContentFilter = {
-  body?: InputMaybe<RichTextFilter>;
-};
-
-export type ImageFilter = {
-  startsWith?: InputMaybe<Scalars['String']['input']>;
-  eq?: InputMaybe<Scalars['String']['input']>;
-  exists?: InputMaybe<Scalars['Boolean']['input']>;
-  in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-};
-
-export type PageBlocksImageFilter = {
-  url?: InputMaybe<ImageFilter>;
-  caption?: InputMaybe<StringFilter>;
-};
-
-export type PageBlocksCtaFilter = {
-  title?: InputMaybe<StringFilter>;
-  link?: InputMaybe<StringFilter>;
+export type PageBlocksHeroFilter = {
+  heading?: InputMaybe<StringFilter>;
+  subheading?: InputMaybe<StringFilter>;
 };
 
 export type PageBlocksFilter = {
-  heading?: InputMaybe<PageBlocksHeadingFilter>;
-  content?: InputMaybe<PageBlocksContentFilter>;
-  image?: InputMaybe<PageBlocksImageFilter>;
-  cta?: InputMaybe<PageBlocksCtaFilter>;
+  navbar?: InputMaybe<PageBlocksNavbarFilter>;
+  hero?: InputMaybe<PageBlocksHeroFilter>;
 };
 
 export type PageFilter = {
   title?: InputMaybe<StringFilter>;
-  description?: InputMaybe<StringFilter>;
   outerBgColor?: InputMaybe<StringFilter>;
   blocks?: InputMaybe<PageBlocksFilter>;
 };
@@ -330,46 +306,40 @@ export type DocumentMutation = {
   page?: InputMaybe<PageMutation>;
 };
 
-export type PageBlocksHeadingMutation = {
-  text?: InputMaybe<Scalars['String']['input']>;
-};
-
-export type PageBlocksContentMutation = {
-  body?: InputMaybe<Scalars['JSON']['input']>;
-};
-
-export type PageBlocksImageMutation = {
+export type PageBlocksNavbarLinksMutation = {
+  label?: InputMaybe<Scalars['String']['input']>;
   url?: InputMaybe<Scalars['String']['input']>;
-  caption?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type PageBlocksCtaMutation = {
-  title?: InputMaybe<Scalars['String']['input']>;
-  link?: InputMaybe<Scalars['String']['input']>;
+export type PageBlocksNavbarMutation = {
+  logoText?: InputMaybe<Scalars['String']['input']>;
+  links?: InputMaybe<Array<InputMaybe<PageBlocksNavbarLinksMutation>>>;
+};
+
+export type PageBlocksHeroMutation = {
+  heading?: InputMaybe<Scalars['String']['input']>;
+  subheading?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type PageBlocksMutation = {
-  heading?: InputMaybe<PageBlocksHeadingMutation>;
-  content?: InputMaybe<PageBlocksContentMutation>;
-  image?: InputMaybe<PageBlocksImageMutation>;
-  cta?: InputMaybe<PageBlocksCtaMutation>;
+  navbar?: InputMaybe<PageBlocksNavbarMutation>;
+  hero?: InputMaybe<PageBlocksHeroMutation>;
 };
 
 export type PageMutation = {
   title?: InputMaybe<Scalars['String']['input']>;
-  description?: InputMaybe<Scalars['String']['input']>;
   outerBgColor?: InputMaybe<Scalars['String']['input']>;
   blocks?: InputMaybe<Array<InputMaybe<PageBlocksMutation>>>;
 };
 
-export type PagePartsFragment = { __typename: 'Page', title: string, description?: string | null, outerBgColor?: string | null, blocks?: Array<{ __typename: 'PageBlocksHeading', text?: string | null } | { __typename: 'PageBlocksContent', body?: any | null } | { __typename: 'PageBlocksImage', url?: string | null, caption?: string | null } | { __typename: 'PageBlocksCta', title?: string | null, link?: string | null } | null> | null };
+export type PagePartsFragment = { __typename: 'Page', title: string, outerBgColor?: string | null, blocks?: Array<{ __typename: 'PageBlocksNavbar', logoText?: string | null, links?: Array<{ __typename: 'PageBlocksNavbarLinks', label?: string | null, url?: string | null } | null> | null } | { __typename: 'PageBlocksHero', heading?: string | null, subheading?: string | null } | null> | null };
 
 export type PageQueryVariables = Exact<{
   relativePath: Scalars['String']['input'];
 }>;
 
 
-export type PageQuery = { __typename?: 'Query', page: { __typename: 'Page', id: string, title: string, description?: string | null, outerBgColor?: string | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, blocks?: Array<{ __typename: 'PageBlocksHeading', text?: string | null } | { __typename: 'PageBlocksContent', body?: any | null } | { __typename: 'PageBlocksImage', url?: string | null, caption?: string | null } | { __typename: 'PageBlocksCta', title?: string | null, link?: string | null } | null> | null } };
+export type PageQuery = { __typename?: 'Query', page: { __typename: 'Page', id: string, title: string, outerBgColor?: string | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, blocks?: Array<{ __typename: 'PageBlocksNavbar', logoText?: string | null, links?: Array<{ __typename: 'PageBlocksNavbarLinks', label?: string | null, url?: string | null } | null> | null } | { __typename: 'PageBlocksHero', heading?: string | null, subheading?: string | null } | null> | null } };
 
 export type PageConnectionQueryVariables = Exact<{
   before?: InputMaybe<Scalars['String']['input']>;
@@ -381,29 +351,26 @@ export type PageConnectionQueryVariables = Exact<{
 }>;
 
 
-export type PageConnectionQuery = { __typename?: 'Query', pageConnection: { __typename?: 'PageConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'PageConnectionEdges', cursor: string, node?: { __typename: 'Page', id: string, title: string, description?: string | null, outerBgColor?: string | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, blocks?: Array<{ __typename: 'PageBlocksHeading', text?: string | null } | { __typename: 'PageBlocksContent', body?: any | null } | { __typename: 'PageBlocksImage', url?: string | null, caption?: string | null } | { __typename: 'PageBlocksCta', title?: string | null, link?: string | null } | null> | null } | null } | null> | null } };
+export type PageConnectionQuery = { __typename?: 'Query', pageConnection: { __typename?: 'PageConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'PageConnectionEdges', cursor: string, node?: { __typename: 'Page', id: string, title: string, outerBgColor?: string | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, blocks?: Array<{ __typename: 'PageBlocksNavbar', logoText?: string | null, links?: Array<{ __typename: 'PageBlocksNavbarLinks', label?: string | null, url?: string | null } | null> | null } | { __typename: 'PageBlocksHero', heading?: string | null, subheading?: string | null } | null> | null } | null } | null> | null } };
 
 export const PagePartsFragmentDoc = gql`
     fragment PageParts on Page {
   __typename
   title
-  description
   outerBgColor
   blocks {
     __typename
-    ... on PageBlocksHeading {
-      text
+    ... on PageBlocksNavbar {
+      logoText
+      links {
+        __typename
+        label
+        url
+      }
     }
-    ... on PageBlocksContent {
-      body
-    }
-    ... on PageBlocksImage {
-      url
-      caption
-    }
-    ... on PageBlocksCta {
-      title
-      link
+    ... on PageBlocksHero {
+      heading
+      subheading
     }
   }
 }

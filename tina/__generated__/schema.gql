@@ -87,29 +87,25 @@ type Collection {
 
 union DocumentNode = Page | Folder
 
-type PageBlocksHeading {
-  text: String
-}
-
-type PageBlocksContent {
-  body: JSON
-}
-
-type PageBlocksImage {
+type PageBlocksNavbarLinks {
+  label: String
   url: String
-  caption: String
 }
 
-type PageBlocksCta {
-  title: String
-  link: String
+type PageBlocksNavbar {
+  logoText: String
+  links: [PageBlocksNavbarLinks]
 }
 
-union PageBlocks = PageBlocksHeading | PageBlocksContent | PageBlocksImage | PageBlocksCta
+type PageBlocksHero {
+  heading: String
+  subheading: String
+}
+
+union PageBlocks = PageBlocksNavbar | PageBlocksHero
 
 type Page implements Node & Document {
   title: String!
-  description: String
   outerBgColor: String
   blocks: [PageBlocks]
   id: ID!
@@ -124,47 +120,28 @@ input StringFilter {
   in: [String]
 }
 
-input PageBlocksHeadingFilter {
-  text: StringFilter
+input PageBlocksNavbarLinksFilter {
+  label: StringFilter
+  url: StringFilter
 }
 
-input RichTextFilter {
-  startsWith: String
-  eq: String
-  exists: Boolean
+input PageBlocksNavbarFilter {
+  logoText: StringFilter
+  links: PageBlocksNavbarLinksFilter
 }
 
-input PageBlocksContentFilter {
-  body: RichTextFilter
-}
-
-input ImageFilter {
-  startsWith: String
-  eq: String
-  exists: Boolean
-  in: [String]
-}
-
-input PageBlocksImageFilter {
-  url: ImageFilter
-  caption: StringFilter
-}
-
-input PageBlocksCtaFilter {
-  title: StringFilter
-  link: StringFilter
+input PageBlocksHeroFilter {
+  heading: StringFilter
+  subheading: StringFilter
 }
 
 input PageBlocksFilter {
-  heading: PageBlocksHeadingFilter
-  content: PageBlocksContentFilter
-  image: PageBlocksImageFilter
-  cta: PageBlocksCtaFilter
+  navbar: PageBlocksNavbarFilter
+  hero: PageBlocksHeroFilter
 }
 
 input PageFilter {
   title: StringFilter
-  description: StringFilter
   outerBgColor: StringFilter
   blocks: PageBlocksFilter
 }
@@ -199,34 +176,28 @@ input DocumentMutation {
   page: PageMutation
 }
 
-input PageBlocksHeadingMutation {
-  text: String
-}
-
-input PageBlocksContentMutation {
-  body: JSON
-}
-
-input PageBlocksImageMutation {
+input PageBlocksNavbarLinksMutation {
+  label: String
   url: String
-  caption: String
 }
 
-input PageBlocksCtaMutation {
-  title: String
-  link: String
+input PageBlocksNavbarMutation {
+  logoText: String
+  links: [PageBlocksNavbarLinksMutation]
+}
+
+input PageBlocksHeroMutation {
+  heading: String
+  subheading: String
 }
 
 input PageBlocksMutation {
-  heading: PageBlocksHeadingMutation
-  content: PageBlocksContentMutation
-  image: PageBlocksImageMutation
-  cta: PageBlocksCtaMutation
+  navbar: PageBlocksNavbarMutation
+  hero: PageBlocksHeroMutation
 }
 
 input PageMutation {
   title: String
-  description: String
   outerBgColor: String
   blocks: [PageBlocksMutation]
 }
