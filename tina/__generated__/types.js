@@ -9,6 +9,7 @@ export const PagePartsFragmentDoc = gql`
     fragment PageParts on Page {
   __typename
   title
+  description
   outerBgColor
   blocks {
     __typename
@@ -23,6 +24,20 @@ export const PagePartsFragmentDoc = gql`
     ... on PageBlocksHero {
       heading
       subheading
+    }
+    ... on PageBlocksHeading {
+      text
+    }
+    ... on PageBlocksContent {
+      body
+    }
+    ... on PageBlocksImage {
+      url
+      caption
+    }
+    ... on PageBlocksCta {
+      title
+      link
     }
   }
 }

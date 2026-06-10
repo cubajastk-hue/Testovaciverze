@@ -102,10 +102,29 @@ type PageBlocksHero {
   subheading: String
 }
 
-union PageBlocks = PageBlocksNavbar | PageBlocksHero
+type PageBlocksHeading {
+  text: String
+}
+
+type PageBlocksContent {
+  body: JSON
+}
+
+type PageBlocksImage {
+  url: String
+  caption: String
+}
+
+type PageBlocksCta {
+  title: String
+  link: String
+}
+
+union PageBlocks = PageBlocksNavbar | PageBlocksHero | PageBlocksHeading | PageBlocksContent | PageBlocksImage | PageBlocksCta
 
 type Page implements Node & Document {
   title: String!
+  description: String
   outerBgColor: String
   blocks: [PageBlocks]
   id: ID!
@@ -135,13 +154,49 @@ input PageBlocksHeroFilter {
   subheading: StringFilter
 }
 
+input PageBlocksHeadingFilter {
+  text: StringFilter
+}
+
+input RichTextFilter {
+  startsWith: String
+  eq: String
+  exists: Boolean
+}
+
+input PageBlocksContentFilter {
+  body: RichTextFilter
+}
+
+input ImageFilter {
+  startsWith: String
+  eq: String
+  exists: Boolean
+  in: [String]
+}
+
+input PageBlocksImageFilter {
+  url: ImageFilter
+  caption: StringFilter
+}
+
+input PageBlocksCtaFilter {
+  title: StringFilter
+  link: StringFilter
+}
+
 input PageBlocksFilter {
   navbar: PageBlocksNavbarFilter
   hero: PageBlocksHeroFilter
+  heading: PageBlocksHeadingFilter
+  content: PageBlocksContentFilter
+  image: PageBlocksImageFilter
+  cta: PageBlocksCtaFilter
 }
 
 input PageFilter {
   title: StringFilter
+  description: StringFilter
   outerBgColor: StringFilter
   blocks: PageBlocksFilter
 }
@@ -191,13 +246,36 @@ input PageBlocksHeroMutation {
   subheading: String
 }
 
+input PageBlocksHeadingMutation {
+  text: String
+}
+
+input PageBlocksContentMutation {
+  body: JSON
+}
+
+input PageBlocksImageMutation {
+  url: String
+  caption: String
+}
+
+input PageBlocksCtaMutation {
+  title: String
+  link: String
+}
+
 input PageBlocksMutation {
   navbar: PageBlocksNavbarMutation
   hero: PageBlocksHeroMutation
+  heading: PageBlocksHeadingMutation
+  content: PageBlocksContentMutation
+  image: PageBlocksImageMutation
+  cta: PageBlocksCtaMutation
 }
 
 input PageMutation {
   title: String
+  description: String
   outerBgColor: String
   blocks: [PageBlocksMutation]
 }
