@@ -1,13 +1,11 @@
 "use client";
 
-// Základní import Tina usage //
 import Image from "next/image";
-import Link from "next/link"; // Přidán import pro odkazy
+import Link from "next/link";
 import { useTina } from "tinacms/dist/react";
 import { tinaField } from "tinacms/dist/react";
 import { TinaMarkdown } from "tinacms/dist/rich-text";
 
-// Vezme všechna data z Tiny, aby se to pak mohlo aplikovat //
 export function PageComponents(props: any) {
   const { data } = useTina({
     query: props.query,
@@ -15,102 +13,101 @@ export function PageComponents(props: any) {
     data: props.data,
   });
 
-  // 1. Získáme vybranou barvu z Tiny, nebo dáme výchozí bílou
   const currentBgColor = data.page?.outerBgColor || "#ffffff";
 
-  // Najdeme Navbar v blocích, abychom ho vykreslili úplně nahoře nad celým obsahem
-  const navbarBlock = data.page?.blocks?.find((b: any) => b?.__typename === "PageBlocksNavbar");
-
   return (
-    // Barva pozadí //
     <div 
       style={{ backgroundColor: currentBgColor }}
       className="min-h-screen w-full transition-colors duration-500 flex flex-col"
     >
-      {/* POHYBLIVÝ NAVBAR: Vykreslí se nahoře, pokud ho v adminu přidáš */}
-      {navbarBlock && (
-        <nav 
-          data-tina-field={tinaField(navbarBlock)}
-          className="w-full p-6 flex justify-between items-center bg-white/10 backdrop-blur-md border-b border-black/5"
-        >
-          <div 
-            data-tina-field={tinaField(navbarBlock, "logoText")}
-            className="text-2xl font-bold text-slate-950"
-          >
-            {navbarBlock.logoText || "Logo"}
-          </div>
-          <ul className="flex gap-6">
-            {navbarBlock.links?.map((link: any, j: number) => (
-              <li key={j} data-tina-field={tinaField(link)}>
-                <Link 
-                  href={link.url || "#"} 
-                  className="font-medium text-slate-800 hover:text-slate-950 transition-colors"
-                >
-                  {link.label || "Odkaz"}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      )}
-
-      {/* Hezké nastavení textu */}
-      <main className="flex-1 flex flex-col items-center p-24 mx-auto max-w-4xl text-slate-900 w-full">
-        
-        {/* Hlavní nadpis stránky */}
+      {/* Hlavní nadpis a popisek stránky */}
+      <div className="flex flex-col items-center pt-12 px-4 mx-auto max-w-4xl text-slate-900 w-full">
         <h1 
           data-tina-field={tinaField(data.page, "title")}
-          className="text-6xl font-black mb-12 text-center"
+          className="text-6xl font-black mb-6 text-center"
         >
           {data.page?.title}
         </h1>
         
-        {/* Popisek pod nadpisem */}
         <p
           data-tina-field={tinaField(data.page, "description")}
           className="text-xl text-slate-600 max-w-prose text-center mb-12"
         >
           {data.page?.description}
         </p>
+      </div>
 
-        {/* Kontejner pro bloky, které můžeme kdykoli přidat */}
-        <div className="w-full max-w-3xl space-y-12">
-          {data.page?.blocks?.map((block: any, i: number) => {
-            if (!block) return null;
+      {/* TADY JE KONTEJNER PRO VŠECHNY BLOKY – Teď už budou plně pohyblivé */}
+      <div className="w-full flex flex-col space-y-6">
+        {data.page?.blocks?.map((block: any, i: number) => {
+          if (!block) return null;
 
-            switch (block.__typename) {
-              // Ignorujeme Navbar uvnitř main, protože už ho vykreslujeme nahoře
-              case "PageBlocksNavbar":
-                return null;
+          switch (block.__typename) {
+            // 1. POHYBLIVÝ NAVBAR
+            case "PageBlocksNavbar":
+              return (
+                <div key={i} data-tina-field={tinaField(block)} className="w-full">
+                  <nav className="mx-auto max-w-5xl m-4 p-6 flex justify-between items-center bg-white/20 backdrop-blur-md border border-black/5 rounded-2xl shadow-sm">
+                    <div 
+                      data-tina-field={tinaField(block, "logoText")}
+                      className="text-2xl font-bold text-slate-950"
+                    >
+                      {block.logoText || "Logo"}
+                    </div>
+                    <ul className="flex gap-6">
+                      {block.links?.map((link: any, j: number) => (
+                        <li key={j} data-tina-field={tinaField(link)}>
+                          <Link 
+                            href={link.url || "#"} 
+                            className="font-medium text-slate-800 hover:text-slate-950 transition-colors"
+                          >
+                            {link.label || "Odkaz"}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </nav>
+                </div>
+              );
 
-              // 1. Nadpis //
-              case "PageBlocksHeading":
-                return (
-                  <h2 
-                    key={i} 
-                    data-tina-field={tinaField(block, "text")} 
-                    className="text-4xl font-bold text-slate-900"
-                  >
+            // 2. HERO BLOK
+            case "PageBlocksHero":
+              return (
+                <section key={i} data-tina-field={tinaField(block)} className="flex flex-col items-center justify-center py-16 text-center px-4">
+                  <h2 data-tina-field={tinaField(block, "heading")} className="text-5xl font-black mb-4 text-slate-900">
+                    {block.heading}
+                  </h2>
+                  <p data-tina-field={tinaField(block, "subheading")} className="text-xl opacity-80 text-slate-700">
+                    {block.subheading}
+                  </p>
+                </section>
+              );
+
+            // 3. NADPIS
+            case "PageBlocksHeading":
+              return (
+                <div key={i} data-tina-field={tinaField(block)} className="mx-auto w-full max-w-3xl px-6">
+                  <h2 data-tina-field={tinaField(block, "text")} className="text-4xl font-bold text-slate-900">
                     {block.text}
                   </h2>
-                );
+                </div>
+              );
 
-              // 2. Textový obsah //
-              case "PageBlocksContent":
-                return (
-                  <div 
-                    key={i} 
-                    data-tina-field={tinaField(block, "body")} 
-                    className="prose prose-slate prose-lg max-w-none text-slate-800 opacity-90"
-                  >
+            // 4. OBSAH
+            case "PageBlocksContent":
+              return (
+                <div key={i} data-tina-field={tinaField(block)} className="mx-auto w-full max-w-3xl px-6">
+                  <div data-tina-field={tinaField(block, "body")} className="prose prose-slate prose-lg max-w-none text-slate-800 opacity-90">
                     <TinaMarkdown content={block.body} />
                   </div>
-                );
+                </div>
+              );
 
-              // 3. Obrázek //
-              case "PageBlocksImage":
-                return (
-                  <figure key={i} className="w-full">
+            // 5. OBRÁZEK
+            case "PageBlocksImage":
+              return (
+                <div key={i} data-tina-field={tinaField(block)} className="mx-auto w-full max-w-3xl px-6">
+                  <figure className="w-full">
                     <Image 
                       data-tina-field={tinaField(block, "url")}
                       src={block.url} 
@@ -128,28 +125,28 @@ export function PageComponents(props: any) {
                       </figcaption>
                     )}
                   </figure>
-                );
+                </div>
+              );
 
-              // 4. Tlačítko //
-              case "PageBlocksCta":
-                return (
-                  <div key={i} className="flex justify-center py-4">
-                    <a 
-                      data-tina-field={tinaField(block, "title")}
-                      href={block.link || "#"} 
-                      className="bg-blue-600 hover:bg-blue-500 text-white px-10 py-4 rounded-xl font-bold transition-all transform hover:scale-105 shadow-lg"
-                    >
-                      {block.title || "Tlačítko"}
-                    </a>
-                  </div>
-                );
+            // 6. TLAČÍTKO
+            case "PageBlocksCta":
+              return (
+                <div key={i} data-tina-field={tinaField(block)} className="w-full flex justify-center py-4">
+                  <a 
+                    data-tina-field={tinaField(block, "title")}
+                    href={block.link || "#"} 
+                    className="bg-blue-600 hover:bg-blue-500 text-white px-10 py-4 rounded-xl font-bold transition-all transform hover:scale-105 shadow-lg"
+                  >
+                    {block.title || "Tlačítko"}
+                  </a>
+                </div>
+              );
 
-              default:
-                return null;
-            }
-          })}
-        </div>
-      </main>
+            default:
+              return null;
+          }
+        })}
+      </div>
     </div>
   );
 }
