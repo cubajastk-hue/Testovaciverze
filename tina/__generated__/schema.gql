@@ -101,28 +101,65 @@ type PageBlocksHero {
   heading: String
   subheading: String
   align: String
+  textColor: String
+  fontSize: Float
+  fontWeight: String
+  italic: Boolean
+  marginTop: Float
+  marginBottom: Float
+  paddingLeft: Float
+  paddingRight: Float
 }
 
 type PageBlocksHeading {
   text: String
   align: String
+  textColor: String
+  fontSize: Float
+  fontWeight: String
+  italic: Boolean
+  marginTop: Float
+  marginBottom: Float
+  paddingLeft: Float
+  paddingRight: Float
 }
 
 type PageBlocksContent {
   body: JSON
   align: String
+  textColor: String
+  fontSize: Float
+  fontWeight: String
+  italic: Boolean
+  marginTop: Float
+  marginBottom: Float
+  paddingLeft: Float
+  paddingRight: Float
 }
 
 type PageBlocksImage {
   url: String
   caption: String
-  align: String
+  borderRadius: Float
+  marginTop: Float
+  marginBottom: Float
 }
 
 type PageBlocksCta {
   title: String
   link: String
+  btnBgColor: String
+  btnTextColor: String
+  borderRadius: Float
   align: String
+  textColor: String
+  fontSize: Float
+  fontWeight: String
+  italic: Boolean
+  marginTop: Float
+  marginBottom: Float
+  paddingLeft: Float
+  paddingRight: Float
 }
 
 union PageBlocks = PageBlocksNavbar | PageBlocksHero | PageBlocksHeading | PageBlocksContent | PageBlocksImage | PageBlocksCta
@@ -155,15 +192,46 @@ input PageBlocksNavbarFilter {
   links: PageBlocksNavbarLinksFilter
 }
 
+input NumberFilter {
+  lt: Float
+  lte: Float
+  gte: Float
+  gt: Float
+  eq: Float
+  exists: Boolean
+  in: [Float]
+}
+
+input BooleanFilter {
+  eq: Boolean
+  exists: Boolean
+}
+
 input PageBlocksHeroFilter {
   heading: StringFilter
   subheading: StringFilter
   align: StringFilter
+  textColor: StringFilter
+  fontSize: NumberFilter
+  fontWeight: StringFilter
+  italic: BooleanFilter
+  marginTop: NumberFilter
+  marginBottom: NumberFilter
+  paddingLeft: NumberFilter
+  paddingRight: NumberFilter
 }
 
 input PageBlocksHeadingFilter {
   text: StringFilter
   align: StringFilter
+  textColor: StringFilter
+  fontSize: NumberFilter
+  fontWeight: StringFilter
+  italic: BooleanFilter
+  marginTop: NumberFilter
+  marginBottom: NumberFilter
+  paddingLeft: NumberFilter
+  paddingRight: NumberFilter
 }
 
 input RichTextFilter {
@@ -175,6 +243,14 @@ input RichTextFilter {
 input PageBlocksContentFilter {
   body: RichTextFilter
   align: StringFilter
+  textColor: StringFilter
+  fontSize: NumberFilter
+  fontWeight: StringFilter
+  italic: BooleanFilter
+  marginTop: NumberFilter
+  marginBottom: NumberFilter
+  paddingLeft: NumberFilter
+  paddingRight: NumberFilter
 }
 
 input ImageFilter {
@@ -187,13 +263,26 @@ input ImageFilter {
 input PageBlocksImageFilter {
   url: ImageFilter
   caption: StringFilter
-  align: StringFilter
+  borderRadius: NumberFilter
+  marginTop: NumberFilter
+  marginBottom: NumberFilter
 }
 
 input PageBlocksCtaFilter {
   title: StringFilter
   link: StringFilter
+  btnBgColor: StringFilter
+  btnTextColor: StringFilter
+  borderRadius: NumberFilter
   align: StringFilter
+  textColor: StringFilter
+  fontSize: NumberFilter
+  fontWeight: StringFilter
+  italic: BooleanFilter
+  marginTop: NumberFilter
+  marginBottom: NumberFilter
+  paddingLeft: NumberFilter
+  paddingRight: NumberFilter
 }
 
 input PageBlocksFilter {
@@ -257,28 +346,65 @@ input PageBlocksHeroMutation {
   heading: String
   subheading: String
   align: String
+  textColor: String
+  fontSize: Float
+  fontWeight: String
+  italic: Boolean
+  marginTop: Float
+  marginBottom: Float
+  paddingLeft: Float
+  paddingRight: Float
 }
 
 input PageBlocksHeadingMutation {
   text: String
   align: String
+  textColor: String
+  fontSize: Float
+  fontWeight: String
+  italic: Boolean
+  marginTop: Float
+  marginBottom: Float
+  paddingLeft: Float
+  paddingRight: Float
 }
 
 input PageBlocksContentMutation {
   body: JSON
   align: String
+  textColor: String
+  fontSize: Float
+  fontWeight: String
+  italic: Boolean
+  marginTop: Float
+  marginBottom: Float
+  paddingLeft: Float
+  paddingRight: Float
 }
 
 input PageBlocksImageMutation {
   url: String
   caption: String
-  align: String
+  borderRadius: Float
+  marginTop: Float
+  marginBottom: Float
 }
 
 input PageBlocksCtaMutation {
   title: String
   link: String
+  btnBgColor: String
+  btnTextColor: String
+  borderRadius: Float
   align: String
+  textColor: String
+  fontSize: Float
+  fontWeight: String
+  italic: Boolean
+  marginTop: Float
+  marginBottom: Float
+  paddingLeft: Float
+  paddingRight: Float
 }
 
 input PageBlocksMutation {

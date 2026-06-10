@@ -6,22 +6,43 @@ const branch =
   process.env.HEAD ||
   "main";
 
+// Pomocná funkce, abychom nemuseli psát stejná designová políčka pro každý blok dokola
+const designFields = [
+  {
+    type: "string",
+    name: "align",
+    label: "Zarovnání textu",
+    options: [
+      { value: "left", label: "Vlevo" },
+      { value: "center", label: "Na střed" },
+      { value: "right", label: "Vpravo" },
+    ],
+  },
+  { type: "string", name: "textColor", label: "Barva textu (Hex např. #ff0000 nebo název red)" },
+  { type: "number", name: "fontSize", label: "Velikost písma v px (např. 16, 24, 48)" },
+  {
+    type: "string",
+    name: "fontWeight",
+    label: "Tloušťka písma",
+    options: [
+      { value: "normal", label: "Normální" },
+      { value: "bold", label: "Tučné" },
+      { value: "900", label: "Extrémně tlusté" },
+    ],
+  },
+  { type: "boolean", name: "italic", label: "Kurzíva" },
+  { type: "number", name: "marginTop", label: "Odsazení shora v pixelech (Margin Top)" },
+  { type: "number", name: "marginBottom", label: "Odsazení zespoda v pixelech (Margin Bottom)" },
+  { type: "number", name: "paddingLeft", label: "Odsazení zleva v pixelech (Padding Left)" },
+  { type: "number", name: "paddingRight", label: "Odsazení zprava v pixelech (Padding Right)" },
+];
+
 export default defineConfig({
   branch,
-
   clientId: process.env.NEXT_PUBLIC_TINA_CLIENT_ID,
   token: process.env.TINA_TOKEN,
-
-  build: {
-    outputFolder: "admin",
-    publicFolder: "public",
-  },
-  media: {
-    tina: {
-      mediaRoot: "uploads",
-      publicFolder: "public",
-    },
-  },
+  build: { outputFolder: "admin", publicFolder: "public" },
+  media: { tina: { mediaRoot: "uploads", publicFolder: "public" } },
   schema: {
     collections: [
       {
@@ -30,56 +51,33 @@ export default defineConfig({
         path: "content/pages",
         format: "mdx",
         ui: {
-          // Nastavení cesty pro Live Editing (home.mdx bude na "/")
           router: ({ document }) => {
-            if (document._sys.filename === "home") {
-              return "/";
-            }
+            if (document._sys.filename === "home") return "/";
             return undefined;
           },
         },
         fields: [
-          {
-            type: "string",
-            name: "title",
-            label: "Název stránky",
-            isTitle: true,
-            required: true,
-          },
-          {
-            type: "string",
-            name: "description",
-            label: "Popisek pod nadpisem",
-          },
+          { type: "string", name: "title", label: "Název stránky", isTitle: true, required: true },
+          { type: "string", name: "description", label: "Popisek pod nadpisem" },
           {
             type: "string",
             name: "titleAlignment",
-            label: "Zarovnání hlavního nadpisu a popisku",
+            label: "Zarovnání hlavního nadpisu",
             options: [
-              { value: "items-center text-center", label: "Na střed" },
-              { value: "items-start text-left", label: "Vlevo" },
-              { value: "items-end text-right", label: "Vpravo" },
+              { value: "center", label: "Na střed" },
+              { value: "left", label: "Vlevo" },
+              { value: "right", label: "Vpravo" },
             ],
           },
-          {
-            type: "string",
-            name: "outerBgColor",
-            label: "Barva pozadí stránky",
-            ui: {
-              component: "color",
-            },
-          },
+          { type: "string", name: "outerBgColor", label: "Barva pozadí stránky", ui: { component: "color" } },
           {
             type: "object",
             list: true,
             name: "blocks",
             label: "Pohyblivé bloky stránky",
-            ui: {
-              // Aktivuje vizuální drag-and-drop řazení položek v levém panelu
-              visualSelector: true,
-            },
+            ui: { visualSelector: true },
             templates: [
-              // 1. NAVBAR (Ten zarovnání nepotřebuje, natahuje se sám)
+              // 1. NAVBAR
               {
                 name: "navbar",
                 label: "Navigační lišta (Navbar)",
@@ -104,16 +102,7 @@ export default defineConfig({
                 fields: [
                   { type: "string", name: "heading", label: "Hlavní nadpis" },
                   { type: "string", name: "subheading", label: "Podnadpis" },
-                  {
-                    type: "string",
-                    name: "align",
-                    label: "Zarovnání bloku",
-                    options: [
-                      { value: "items-center text-center", label: "Na střed" },
-                      { value: "items-start text-left", label: "Vlevo" },
-                      { value: "items-end text-right", label: "Vpravo" },
-                    ],
-                  },
+                  ...designFields,
                 ],
               },
               // 3. HEADING
@@ -122,16 +111,7 @@ export default defineConfig({
                 label: "Nadpis (Heading)",
                 fields: [
                   { type: "string", name: "text", label: "Text nadpisu" },
-                  {
-                    type: "string",
-                    name: "align",
-                    label: "Zarovnání nadpisu",
-                    options: [
-                      { value: "text-center", label: "Na střed" },
-                      { value: "text-left", label: "Vlevo" },
-                      { value: "text-right", label: "Vpravo" },
-                    ],
-                  },
+                  ...designFields,
                 ],
               },
               // 4. CONTENT
@@ -140,16 +120,7 @@ export default defineConfig({
                 label: "Textový obsah (Content)",
                 fields: [
                   { type: "rich-text", name: "body", label: "Obsah" },
-                  {
-                    type: "string",
-                    name: "align",
-                    label: "Zarovnání textu",
-                    options: [
-                      { value: "text-center", label: "Na střed" },
-                      { value: "text-left", label: "Vlevo" },
-                      { value: "text-justify", label: "Do bloku" },
-                    ],
-                  },
+                  ...designFields,
                 ],
               },
               // 5. IMAGE
@@ -159,16 +130,9 @@ export default defineConfig({
                 fields: [
                   { type: "image", name: "url", label: "Obrázek" },
                   { type: "string", name: "caption", label: "Popisek obrázku" },
-                  {
-                    type: "string",
-                    name: "align",
-                    label: "Zarovnání obrázku",
-                    options: [
-                      { value: "justify-center text-center", label: "Na střed" },
-                      { value: "justify-start text-left", label: "Vlevo" },
-                      { value: "justify-end text-right", label: "Vpravo" },
-                    ],
-                  },
+                  { type: "number", name: "borderRadius", label: "Zaoblení rohů obrázku v px" },
+                  { type: "number", name: "marginTop", label: "Odsazení shora v px" },
+                  { type: "number", name: "marginBottom", label: "Odsazení zespoda v px" },
                 ],
               },
               // 6. CTA (Tlačítko)
@@ -178,16 +142,10 @@ export default defineConfig({
                 fields: [
                   { type: "string", name: "title", label: "Text tlačítka" },
                   { type: "string", name: "link", label: "Odkaz (URL)" },
-                  {
-                    type: "string",
-                    name: "align",
-                    label: "Zarovnání tlačítka",
-                    options: [
-                      { value: "justify-center", label: "Na střed" },
-                      { value: "justify-start", label: "Vlevo" },
-                      { value: "justify-end", label: "Vpravo" },
-                    ],
-                  },
+                  { type: "string", name: "btnBgColor", label: "Barva tlačítka (Hex)", ui: { component: "color" } },
+                  { type: "string", name: "btnTextColor", label: "Barva textu tlačítka (Hex)" },
+                  { type: "number", name: "borderRadius", label: "Zaoblení rohů tlačítka v px" },
+                  ...designFields,
                 ],
               },
             ],

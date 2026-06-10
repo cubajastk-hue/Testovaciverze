@@ -14,34 +14,47 @@ export function PageComponents(props: any) {
   });
 
   const currentBgColor = data.page?.outerBgColor || "#ffffff";
-  const mainAlign = data.page?.titleAlignment || "items-center text-center";
+  const mainAlign = data.page?.titleAlignment || "center";
+
+  // Pomocná funkce pro vygenerování inline stylů na základě dat z Tiny
+  const getCustomStyles = (block: any) => {
+    return {
+      textAlign: block?.align || undefined,
+      color: block?.textColor || undefined,
+      fontSize: block?.fontSize ? `${block.fontSize}px` : undefined,
+      fontWeight: block?.fontWeight || undefined,
+      fontStyle: block?.italic ? "italic" : undefined,
+      marginTop: block?.marginTop ? `${block.marginTop}px` : undefined,
+      marginBottom: block?.marginBottom ? `${block.marginBottom}px` : undefined,
+      paddingLeft: block?.paddingLeft ? `${block.paddingLeft}px` : undefined,
+      paddingRight: block?.paddingRight ? `${block.paddingRight}px` : undefined,
+    };
+  };
 
   return (
     <div 
       style={{ backgroundColor: currentBgColor }}
       className="min-h-screen w-full transition-colors duration-500 flex flex-col"
     >
-      {/* Hlavní nadpis a popisek stránky s volitelným zarovnáním */}
-      <div className={`flex flex-col pt-12 px-4 mx-auto max-w-4xl text-slate-900 w-full ${mainAlign}`}>
-        <h1 
-          data-tina-field={tinaField(data.page, "title")}
-          className="text-6xl font-black mb-6"
-        >
+      {/* Hlavička stránky */}
+      <div 
+        style={{ textAlign: mainAlign as any }} 
+        className="flex flex-col pt-12 px-4 mx-auto max-w-4xl text-slate-900 w-full"
+      >
+        <h1 data-tina-field={tinaField(data.page, "title")} className="text-6xl font-black mb-6">
           {data.page?.title}
         </h1>
-        
-        <p
-          data-tina-field={tinaField(data.page, "description")}
-          className="text-xl text-slate-600 max-w-prose mb-12"
-        >
+        <p data-tina-field={tinaField(data.page, "description")} className="text-xl text-slate-600 max-w-prose mb-12 mx-auto">
           {data.page?.description}
         </p>
       </div>
 
-      {/* KONTEJNER PRO POHYBLIVÉ BLOKY */}
-      <div className="w-full flex flex-col space-y-6 mb-20">
+      {/* RENDER BLOKŮ S EDITOVATELNÝMI PIXELY A STYLY */}
+      <div className="w-full flex flex-col mb-20">
         {data.page?.blocks?.map((block: any, i: number) => {
           if (!block) return null;
+
+          const customStyle = getCustomStyles(block);
 
           switch (block.__typename) {
             case "PageBlocksNavbar":
@@ -65,50 +78,52 @@ export function PageComponents(props: any) {
               );
 
             case "PageBlocksHero":
-              const heroAlign = block.align || "items-center text-center";
               return (
-                <section key={i} data-tina-field={tinaField(block)} className={`flex flex-col justify-center py-16 px-4 mx-auto w-full max-w-5xl ${heroAlign}`}>
-                  <h2 data-tina-field={tinaField(block, "heading")} className="text-5xl font-black mb-4 text-slate-900">
+                <section key={i} data-tina-field={tinaField(block)} style={customStyle as any} className="w-full max-w-5xl mx-auto px-4">
+                  <h2 data-tina-field={tinaField(block, "heading")} className="text-5xl font-black mb-4 text-slate-900" style={{ color: 'inherit', fontStyle: 'inherit' }}>
                     {block.heading}
                   </h2>
-                  <p data-tina-field={tinaField(block, "subheading")} className="text-xl opacity-80 text-slate-700">
+                  <p data-tina-field={tinaField(block, "subheading")} className="text-xl opacity-80 text-slate-700" style={{ color: 'inherit' }}>
                     {block.subheading}
                   </p>
                 </section>
               );
 
             case "PageBlocksHeading":
-              const headingAlign = block.align || "text-left";
               return (
-                <div key={i} data-tina-field={tinaField(block)} className="mx-auto w-full max-w-3xl px-6">
-                  <h2 data-tina-field={tinaField(block, "text")} className={`text-4xl font-bold text-slate-900 ${headingAlign}`}>
+                <div key={i} data-tina-field={tinaField(block)} style={customStyle as any} className="mx-auto w-full max-w-3xl">
+                  <h2 data-tina-field={tinaField(block, "text")} className="text-4xl font-bold text-slate-900" style={{ color: 'inherit', fontStyle: 'inherit', fontSize: 'inherit', fontWeight: 'inherit' }}>
                     {block.text}
                   </h2>
                 </div>
               );
 
             case "PageBlocksContent":
-              const contentAlign = block.align || "text-left";
               return (
-                <div key={i} data-tina-field={tinaField(block)} className="mx-auto w-full max-w-3xl px-6">
-                  <div data-tina-field={tinaField(block, "body")} className={`prose prose-slate prose-lg max-w-none text-slate-800 opacity-90 ${contentAlign}`}>
+                <div key={i} data-tina-field={tinaField(block)} style={customStyle as any} className="mx-auto w-full max-w-3xl prose prose-slate prose-lg">
+                  <div data-tina-field={tinaField(block, "body")} style={{ color: 'inherit', fontStyle: 'inherit', textAlign: 'inherit' }}>
                     <TinaMarkdown content={block.body} />
                   </div>
                 </div>
               );
 
             case "PageBlocksImage":
-              const imageAlign = block.align || "justify-center text-center";
               return (
-                <div key={i} data-tina-field={tinaField(block)} className="mx-auto w-full max-w-3xl px-6">
-                  <figure className={`w-full flex flex-col ${imageAlign}`}>
+                <div 
+                  key={i} 
+                  data-tina-field={tinaField(block)} 
+                  style={{ marginTop: `${block.marginTop || 0}px`, marginBottom: `${block.marginBottom || 0}px` }} 
+                  className="mx-auto w-full max-w-3xl px-6 flex justify-center"
+                >
+                  <figure className="w-full flex flex-col items-center">
                     <Image 
                       data-tina-field={tinaField(block, "url")}
                       src={block.url || ""} 
                       alt={block.caption || ""}
                       width={800}
                       height={600}
-                      className="rounded-2xl shadow-2xl border border-slate-200" 
+                      style={{ borderRadius: block.borderRadius ? `${block.borderRadius}px` : "16px" }}
+                      className="shadow-2xl border border-slate-200" 
                     />
                     {block.caption && (
                       <figcaption data-tina-field={tinaField(block, "caption")} className="italic mt-4 text-slate-500 opacity-80">
@@ -120,13 +135,17 @@ export function PageComponents(props: any) {
               );
 
             case "PageBlocksCta":
-              const ctaAlign = block.align || "justify-center";
               return (
-                <div key={i} data-tina-field={tinaField(block)} className={`w-full flex py-4 mx-auto max-w-3xl px-6 ${ctaAlign}`}>
+                <div key={i} data-tina-field={tinaField(block)} style={customStyle as any} className="w-full flex mx-auto max-w-3xl">
                   <a 
                     data-tina-field={tinaField(block, "title")}
                     href={block.link || "#"} 
-                    className="bg-blue-600 hover:bg-blue-500 text-white px-10 py-4 rounded-xl font-bold transition-all transform hover:scale-105 shadow-lg"
+                    style={{
+                      backgroundColor: block.btnBgColor || "#2563eb",
+                      color: block.btnTextColor || "#ffffff",
+                      borderRadius: block.borderRadius ? `${block.borderRadius}px` : "12px"
+                    }}
+                    className="px-10 py-4 font-bold transition-all transform hover:scale-105 shadow-lg block mx-auto inline-block"
                   >
                     {block.title || "Tlačítko"}
                   </a>

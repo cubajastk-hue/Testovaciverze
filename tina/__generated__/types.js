@@ -26,24 +26,61 @@ export const PagePartsFragmentDoc = gql`
       heading
       subheading
       align
+      textColor
+      fontSize
+      fontWeight
+      italic
+      marginTop
+      marginBottom
+      paddingLeft
+      paddingRight
     }
     ... on PageBlocksHeading {
       text
       align
+      textColor
+      fontSize
+      fontWeight
+      italic
+      marginTop
+      marginBottom
+      paddingLeft
+      paddingRight
     }
     ... on PageBlocksContent {
       body
       align
+      textColor
+      fontSize
+      fontWeight
+      italic
+      marginTop
+      marginBottom
+      paddingLeft
+      paddingRight
     }
     ... on PageBlocksImage {
       url
       caption
-      align
+      borderRadius
+      marginTop
+      marginBottom
     }
     ... on PageBlocksCta {
       title
       link
+      btnBgColor
+      btnTextColor
+      borderRadius
       align
+      textColor
+      fontSize
+      fontWeight
+      italic
+      marginTop
+      marginBottom
+      paddingLeft
+      paddingRight
     }
   }
 }
