@@ -2,11 +2,10 @@ import { client } from "../../tina/__generated__/client";
 import { PageComponents } from "./PageComponents";
 
 export default async function Home() {
-  // Načtení dat ze souboru content/pages/home.mdx //
+  // Načtení dat ČISTĚ ze souboru content/pages/home.mdx
   const res = await client.queries.page({ relativePath: "home.mdx" });
 
-
-  // Vezme všechna data z Tiny a společně s css z Page components je naskládá na stránku //
+  // Vezme data z Tiny a pošle je do komponenty
   return (
     <PageComponents
       data={JSON.parse(JSON.stringify(res.data))}

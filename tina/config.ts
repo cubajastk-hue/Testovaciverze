@@ -20,11 +20,15 @@ export default defineConfig({
         path: "content/pages",
         format: "mdx",
         ui: {
-          router: ({ document }) => {
-            if (document._sys.filename === "home") return "/";
-            return undefined;
-          },
-        },
+  // Dynamické nastavení cesty pro Live Editing pro jakoukoliv stránku
+  router: ({ document }) => {
+    if (document._sys.filename === "home") {
+      return "/";
+    }
+    // Pro o-nas to vrátí "/o-nas", pro kontakt "/kontakt" atd.
+    return `/${document._sys.filename}`;
+  },
+},
         fields: [
           { type: "string", name: "title", label: "Název stránky", isTitle: true, required: true },
           { type: "string", name: "description", label: "Popisek pod nadpisem" },
