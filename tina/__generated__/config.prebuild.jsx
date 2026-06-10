@@ -1,35 +1,6 @@
 // tina/config.ts
 import { defineConfig } from "tinacms";
 var branch = process.env.NEXT_PUBLIC_TINA_BRANCH || process.env.VERCEL_GIT_COMMIT_REF || process.env.HEAD || "main";
-var designFields = [
-  {
-    type: "string",
-    name: "align",
-    label: "Zarovn\xE1n\xED textu",
-    options: [
-      { value: "left", label: "Vlevo" },
-      { value: "center", label: "Na st\u0159ed" },
-      { value: "right", label: "Vpravo" }
-    ]
-  },
-  { type: "string", name: "textColor", label: "Barva textu (Hex nap\u0159. #ff0000 nebo n\xE1zev red)" },
-  { type: "number", name: "fontSize", label: "Velikost p\xEDsma v px (nap\u0159. 16, 24, 48)" },
-  {
-    type: "string",
-    name: "fontWeight",
-    label: "Tlou\u0161\u0165ka p\xEDsma",
-    options: [
-      { value: "normal", label: "Norm\xE1ln\xED" },
-      { value: "bold", label: "Tu\u010Dn\xE9" },
-      { value: "900", label: "Extr\xE9mn\u011B tlust\xE9" }
-    ]
-  },
-  { type: "boolean", name: "italic", label: "Kurz\xEDva" },
-  { type: "number", name: "marginTop", label: "Odsazen\xED shora v pixelech (Margin Top)" },
-  { type: "number", name: "marginBottom", label: "Odsazen\xED zespoda v pixelech (Margin Bottom)" },
-  { type: "number", name: "paddingLeft", label: "Odsazen\xED zleva v pixelech (Padding Left)" },
-  { type: "number", name: "paddingRight", label: "Odsazen\xED zprava v pixelech (Padding Right)" }
-];
 var config_default = defineConfig({
   branch,
   clientId: process.env.NEXT_PUBLIC_TINA_CLIENT_ID,
@@ -95,7 +66,15 @@ var config_default = defineConfig({
                 fields: [
                   { type: "string", name: "heading", label: "Hlavn\xED nadpis" },
                   { type: "string", name: "subheading", label: "Podnadpis" },
-                  ...designFields
+                  { type: "string", name: "align", label: "Zarovn\xE1n\xED textu", options: [{ value: "left", label: "Vlevo" }, { value: "center", label: "Na st\u0159ed" }, { value: "right", label: "Vpravo" }] },
+                  { type: "string", name: "textColor", label: "Barva textu (Hex)" },
+                  { type: "number", name: "fontSize", label: "Velikost p\xEDsma v px" },
+                  { type: "string", name: "fontWeight", label: "Tlou\u0161\u0165ka p\xEDsma", options: [{ value: "normal", label: "Norm\xE1ln\xED" }, { value: "bold", label: "Tu\u010Dn\xE9" }, { value: "900", label: "Extr\xE9mn\u011B tlust\xE9" }] },
+                  { type: "boolean", name: "italic", label: "Kurz\xEDva" },
+                  { type: "number", name: "marginTop", label: "Odsazen\xED shora v px" },
+                  { type: "number", name: "marginBottom", label: "Odsazen\xED zespoda v px" },
+                  { type: "number", name: "paddingLeft", label: "Odsazen\xED zleva v px" },
+                  { type: "number", name: "paddingRight", label: "Odsazen\xED zprava v px" }
                 ]
               },
               // 3. HEADING
@@ -104,7 +83,15 @@ var config_default = defineConfig({
                 label: "Nadpis (Heading)",
                 fields: [
                   { type: "string", name: "text", label: "Text nadpisu" },
-                  ...designFields
+                  { type: "string", name: "align", label: "Zarovn\xE1n\xED textu", options: [{ value: "left", label: "Vlevo" }, { value: "center", label: "Na st\u0159ed" }, { value: "right", label: "Vpravo" }] },
+                  { type: "string", name: "textColor", label: "Barva textu (Hex)" },
+                  { type: "number", name: "fontSize", label: "Velikost p\xEDsma v px" },
+                  { type: "string", name: "fontWeight", label: "Tlou\u0161\u0165ka p\xEDsma", options: [{ value: "normal", label: "Norm\xE1ln\xED" }, { value: "bold", label: "Tu\u010Dn\xE9" }, { value: "900", label: "Extr\xE9mn\u011B tlust\xE9" }] },
+                  { type: "boolean", name: "italic", label: "Kurz\xEDva" },
+                  { type: "number", name: "marginTop", label: "Odsazen\xED shora v px" },
+                  { type: "number", name: "marginBottom", label: "Odsazen\xED zespoda v px" },
+                  { type: "number", name: "paddingLeft", label: "Odsazen\xED zleva v px" },
+                  { type: "number", name: "paddingRight", label: "Odsazen\xED zprava v px" }
                 ]
               },
               // 4. CONTENT
@@ -113,7 +100,15 @@ var config_default = defineConfig({
                 label: "Textov\xFD obsah (Content)",
                 fields: [
                   { type: "rich-text", name: "body", label: "Obsah" },
-                  ...designFields
+                  { type: "string", name: "align", label: "Zarovn\xE1n\xED textu", options: [{ value: "left", label: "Vlevo" }, { value: "center", label: "Na st\u0159ed" }, { value: "right", label: "Vpravo" }] },
+                  { type: "string", name: "textColor", label: "Barva textu (Hex)" },
+                  { type: "number", name: "fontSize", label: "Velikost p\xEDsma v px" },
+                  { type: "string", name: "fontWeight", label: "Tlou\u0161\u0165ka p\xEDsma", options: [{ value: "normal", label: "Norm\xE1ln\xED" }, { value: "bold", label: "Tu\u010Dn\xE9" }, { value: "900", label: "Extr\xE9mn\u011B tlust\xE9" }] },
+                  { type: "boolean", name: "italic", label: "Kurz\xEDva" },
+                  { type: "number", name: "marginTop", label: "Odsazen\xED shora v px" },
+                  { type: "number", name: "marginBottom", label: "Odsazen\xED zespoda v px" },
+                  { type: "number", name: "paddingLeft", label: "Odsazen\xED zleva v px" },
+                  { type: "number", name: "paddingRight", label: "Odsazen\xED zprava v px" }
                 ]
               },
               // 5. IMAGE
@@ -138,7 +133,11 @@ var config_default = defineConfig({
                   { type: "string", name: "btnBgColor", label: "Barva tla\u010D\xEDtka (Hex)", ui: { component: "color" } },
                   { type: "string", name: "btnTextColor", label: "Barva textu tla\u010D\xEDtka (Hex)" },
                   { type: "number", name: "borderRadius", label: "Zaoblen\xED roh\u016F tla\u010D\xEDtka v px" },
-                  ...designFields
+                  { type: "string", name: "align", label: "Zarovn\xE1n\xED tla\u010D\xEDtka", options: [{ value: "left", label: "Vlevo" }, { value: "center", label: "Na st\u0159ed" }, { value: "right", label: "Vpravo" }] },
+                  { type: "number", name: "marginTop", label: "Odsazen\xED shora v px" },
+                  { type: "number", name: "marginBottom", label: "Odsazen\xED zespoda v px" },
+                  { type: "number", name: "paddingLeft", label: "Odsazen\xED zleva v px" },
+                  { type: "number", name: "paddingRight", label: "Odsazen\xED zprava v px" }
                 ]
               }
             ]
