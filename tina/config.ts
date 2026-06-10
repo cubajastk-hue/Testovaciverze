@@ -65,35 +65,35 @@ export default defineConfig({
       visualSelector: true,
     },
     templates: [
+  {
+    name: "navbar",
+    label: "Navigační lišta (Navbar)",
+    fields: [
       {
-        name: "navbar",
-        label: "Navigační lišta (Navbar)",
-        fields: [
-          {
-            type: "string",
-            name: "logoText",
-            label: "Text loga",
-          },
-          {
-            type: "object",
-            list: true,
-            name: "links",
-            label: "Odkazy v menu",
-            fields: [
-              { type: "string", name: "label", label: "Název odkazu" },
-              { type: "string", name: "url", label: "Kam vede (URL)" },
-            ],
-          },
-        ],
+        type: "string",
+        name: "logoText",
+        label: "Text loga",
       },
       {
-        name: "hero",
-        label: "Hlavní velký blok (Hero)",
+        type: "object",
+        list: true,
+        name: "links",
+        label: "Odkazy v menu",
         fields: [
-          { type: "string", name: "heading", label: "Hlavní nadpis" },
-          { type: "string", name: "subheading", label: "Podnadpis" },
+          { type: "string", name: "label", label: "Název odkazu" },
+          { type: "string", name: "url", label: "Kam vede (URL)" },
         ],
       },
+    ],
+  },
+  {
+    name: "hero",
+    label: "Hlavní velký blok (Hero)",
+    fields: [
+      { type: "string", name: "heading", label: "Hlavní nadpis" },
+      { type: "string", name: "subheading", label: "Podnadpis" },
+    ],
+  },
       // Sem budeme moct v budoucnu přidávat další bloky (galerie, kontakty atd.)
     ],
   },
