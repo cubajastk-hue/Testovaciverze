@@ -73,10 +73,6 @@ export const PagePartsFragmentDoc = gql`
       btnTextColor
       borderRadius
       align
-      textColor
-      fontSize
-      fontWeight
-      italic
       marginTop
       marginBottom
       paddingLeft

@@ -152,10 +152,6 @@ type PageBlocksCta {
   btnTextColor: String
   borderRadius: Float
   align: String
-  textColor: String
-  fontSize: Float
-  fontWeight: String
-  italic: Boolean
   marginTop: Float
   marginBottom: Float
   paddingLeft: Float
@@ -275,10 +271,6 @@ input PageBlocksCtaFilter {
   btnTextColor: StringFilter
   borderRadius: NumberFilter
   align: StringFilter
-  textColor: StringFilter
-  fontSize: NumberFilter
-  fontWeight: StringFilter
-  italic: BooleanFilter
   marginTop: NumberFilter
   marginBottom: NumberFilter
   paddingLeft: NumberFilter
@@ -397,10 +389,6 @@ input PageBlocksCtaMutation {
   btnTextColor: String
   borderRadius: Float
   align: String
-  textColor: String
-  fontSize: Float
-  fontWeight: String
-  italic: Boolean
   marginTop: Float
   marginBottom: Float
   paddingLeft: Float

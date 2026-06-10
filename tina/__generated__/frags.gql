@@ -65,10 +65,6 @@ fragment PageParts on Page {
       btnTextColor
       borderRadius
       align
-      textColor
-      fontSize
-      fontWeight
-      italic
       marginTop
       marginBottom
       paddingLeft
