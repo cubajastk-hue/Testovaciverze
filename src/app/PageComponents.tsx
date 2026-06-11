@@ -117,44 +117,41 @@ export function PageComponents(props: any) {
               );
 
             case "PageBlocksImage":
-              return (
-                <div 
-                  key={i} 
-                  data-tina-field={tinaField(block)} 
-                  style={{ 
-                    marginTop: `${block.marginTop || 0}px`, 
-                    marginBottom: `${block.marginBottom || 0}px`,
-                    paddingLeft: `${block.paddingLeft || 0}px`,
-                    paddingRight: `${block.paddingRight || 0}px`
-                  }} 
-                  className={`mx-auto w-full max-w-3xl flex ${getFlexJustify(block.align || "center")}`}
-                >
-                  <figure className="flex flex-col items-center max-w-full">
-                    {block.url ? (
-                      <Image 
-                        data-tina-field={tinaField(block, "url")}
-                        src={block.url} 
-                        alt={block.caption || "Obrázek z Tina CMS"}
-                        width={800}
-                        height={600}
-                        style={{ borderRadius: block.borderRadius ? `${block.borderRadius}px` : "16px" }}
-                        className="shadow-2xl border border-slate-200 h-auto max-w-full object-contain" 
-                      />
-                    ) : (
-                      // Fallback: Pokud v adminu není nahraný obrázek, ukáže se čistý box místo crashnuté ikonky
-                      <div className="w-[600px] max-w-full h-64 bg-slate-200/50 backdrop-blur border border-dashed border-slate-400/50 rounded-2xl flex flex-col items-center justify-center text-slate-400 p-6">
-                        <svg className="w-12 h-12 mb-2 opacity-60" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375 0 1 1-.75 0 .375 0 0 1 .75 0Z" /></svg>
-                        <span className="font-medium text-sm">Vyber nebo nahraj obrázek v administraci</span>
-                      </div>
-                    )}
-                    {block.caption && (
-                      <figcaption data-tina-field={tinaField(block, "caption")} className="italic mt-4 text-slate-500 opacity-80 text-sm">
-                        {block.caption}
-                      </figcaption>
-                    )}
-                  </figure>
-                </div>
-              );
+  return (
+    <div 
+      key={i} 
+      data-tina-field={tinaField(block)} 
+      style={{ 
+        marginTop: `${block.marginTop || 0}px`, 
+        marginBottom: `${block.marginBottom || 0}px`,
+        paddingLeft: `${block.paddingLeft || 0}px`,
+        paddingRight: `${block.paddingRight || 0}px`
+      }} 
+      className={`mx-auto w-full max-w-3xl flex ${getFlexJustify(block.align || "center")}`}
+    >
+      <figure className="flex flex-col items-center max-w-full">
+        {block.url ? (
+          <img 
+            data-tina-field={tinaField(block, "url")}
+            src={block.url} 
+            alt={block.caption || "Obrázek z Tina CMS"}
+            style={{ borderRadius: block.borderRadius ? `${block.borderRadius}px` : "16px" }}
+            className="shadow-2xl border border-slate-200 h-auto max-w-full object-contain" 
+          />
+        ) : (
+          <div className="w-[600px] max-w-full h-64 bg-slate-200/50 backdrop-blur border border-dashed border-slate-400/50 rounded-2xl flex flex-col items-center justify-center text-slate-400 p-6">
+            <svg className="w-12 h-12 mb-2 opacity-60" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375 0 1 1-.75 0 .375 0 0 1 .75 0Z" /></svg>
+            <span className="font-medium text-sm">Vyber nebo nahraj obrázek v administraci</span>
+          </div>
+        )}
+        {block.caption && (
+          <figcaption data-tina-field={tinaField(block, "caption")} className="italic mt-4 text-slate-500 opacity-80 text-sm">
+            {block.caption}
+          </figcaption>
+        )}
+      </figure>
+    </div>
+  );
 
             case "PageBlocksCta":
               return (
