@@ -5,14 +5,15 @@ titleAlignment: center
 outerBgColor: '#f1f5f9'
 blocks:
   - _template: navbar
-  - heading: Jak to celé funguje? 
+  - heading: Jak to celé funguje?
     subheading: 'Než napíšeme první řádek kódu, musíš přesně rozumět tomu, jak tahle skládačka komunikuje. Náš web stojí na třech pilířích: Next.js (App Router), Tina CMS (Self-hosted/Lokální) a Git/.mdx soubory.'
     align: center
     textColor: ''
     _template: hero
+  - url: ''
     _template: image
   - body: |
-      **Inicializace projektu a propojení** 
+      **Inicializace projektu a propojení**
 
       1\. Založení projektu a instalace Tiny
 
@@ -20,6 +21,7 @@ blocks:
     align: center
     fontSize: 20
     _template: content
+  - url: ''
     _template: image
   - body: |
       **2. Propojení s GitHubem a první oprava Gitu**
@@ -28,6 +30,7 @@ blocks:
     align: center
     fontSize: 20
     _template: content
+  - url: ''
     _template: image
   - body: |
       **3. Nastavení projektu na Vercelu**
@@ -36,7 +39,9 @@ blocks:
     align: center
     fontSize: 20
     _template: content
+  - url: ''
     _template: image
+  - url: ''
     _template: image
   - heading: tina/config.ts
     subheading: 'Tento soubor definuje, jaká políčka uvidíš v administraci. Všimni si, že nepoužíváme externí pole (která způsobovala chybu ts(2322) - Typ string nejde přiřadit typu "string"), ale typy píšeme natvrdo do každého bloku. Máme tu taky upravený dynamický router, který generuje správné živé adresy i pro podstránky.'
