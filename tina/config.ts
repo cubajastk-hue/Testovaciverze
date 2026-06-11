@@ -11,7 +11,12 @@ export default defineConfig({
   clientId: process.env.NEXT_PUBLIC_TINA_CLIENT_ID,
   token: process.env.TINA_TOKEN,
   build: { outputFolder: "admin", publicFolder: "public" },
-  media: { tina: { mediaRoot: "uploads", publicFolder: "public" } },
+  media: {
+  tina: {
+    mediaRoot: "uploads",       // Obrázky se uloží do public/uploads
+    publicFolder: "public",
+  },
+},
   schema: {
     collections: [
       {
