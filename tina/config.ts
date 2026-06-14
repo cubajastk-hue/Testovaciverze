@@ -43,13 +43,22 @@ export default defineConfig({
               {
                 name: "hero",
                 label: "VELKÝ HERO",
+                ui: {
+                  defaultItem: {
+                    align: "center",
+                    fontSize: 60,
+                    fontWeight: "900",
+                    pt: 80,
+                    pb: 80
+                  }
+                },
                 fields: [
                   { type: "string" as const, name: "heading", label: "Hlavní nadpis", description: "Největší text na začátku sekce" },
                   { type: "string" as const, name: "subheading", label: "Podnadpis", description: "Menší doplňující text pod hlavním nadpisem" },
                   { type: "string" as const, name: "align", label: "Zarovnání obsahu a textu", description: "Vyber rychlé zarovnání, nebo zvol 'Vlastní' pro odemknutí pixelů", options: [{ value: "left", label: "Vlevo" }, { value: "center", label: "Střed" }, { value: "right", label: "Vpravo" }, { value: "custom", label: "Vlastní" }] },
                   { type: "string" as const, name: "textColor", label: "Barva textu", description: "Barva písma pro tento blok", ui: { component: "color" } },
-                  { type: "number" as const, name: "fontSize", label: "Velikost písma (px)", description: "Výchozí je 60px", defaultValue: 60 },
-                  { type: "string" as const, name: "fontWeight", label: "Tloušťka písma", options: [{value:"400",label:"Normální"},{value:"700",label:"Tučné"},{value:"900",label:"Extra tučné"}], defaultValue: "900" },
+                  { type: "number" as const, name: "fontSize", label: "Velikost písma (px)", description: "Zadej velikost v px" },
+                  { type: "string" as const, name: "fontWeight", label: "Tloušťka písma", options: [{value:"400",label:"Normální"},{value:"700",label:"Tučné"},{value:"900",label:"Extra tučné"}] },
                   { type: "number" as const, name: "pt", label: "Vnitřní horní prostor (Padding Top)" },
                   { type: "number" as const, name: "pb", label: "Vnitřní dolní prostor (Padding Bottom)" },
                   { type: "number" as const, name: "pl", label: "Vnitřní levý prostor (Padding Left)" },
@@ -64,12 +73,20 @@ export default defineConfig({
               {
                 name: "heading",
                 label: "NADPIS (H2)",
+                ui: {
+                  defaultItem: {
+                    align: "left",
+                    fontSize: 36,
+                    fontWeight: "700",
+                    mb: 20
+                  }
+                },
                 fields: [
                   { type: "string" as const, name: "text", label: "Text nadpisu", description: "Klasický nadpis druhé úrovně" },
                   { type: "string" as const, name: "align", label: "Zarovnání obsahu a textu", options: [{ value: "left", label: "Vlevo" }, { value: "center", label: "Střed" }, { value: "right", label: "Vpravo" }, { value: "custom", label: "Vlastní" }] },
                   { type: "string" as const, name: "textColor", label: "Barva textu", ui: { component: "color" } },
-                  { type: "number" as const, name: "fontSize", label: "Velikost písma (px)", description: "Výchozí je 36px", defaultValue: 36 },
-                  { type: "string" as const, name: "fontWeight", label: "Tloušťka písma", options: [{value:"400",label:"Normální"},{value:"700",label:"Tučné"},{value:"900",label:"Extra tučné"}], defaultValue: "700" },
+                  { type: "number" as const, name: "fontSize", label: "Velikost písma (px)" },
+                  { type: "string" as const, name: "fontWeight", label: "Tloušťka písma", options: [{value:"400",label:"Normální"},{value:"700",label:"Tučné"},{value:"900",label:"Extra tučné"}] },
                   { type: "number" as const, name: "pt", label: "Vnitřní horní prostor (Padding Top)" },
                   { type: "number" as const, name: "pb", label: "Vnitřní dolní prostor (Padding Bottom)" },
                   { type: "number" as const, name: "pl", label: "Vnitřní levý prostor (Padding Left)" },
@@ -84,12 +101,20 @@ export default defineConfig({
               {
                 name: "content",
                 label: "TEXTOVÝ OBSAH",
+                ui: {
+                  defaultItem: {
+                    align: "left",
+                    fontSize: 18,
+                    fontWeight: "400",
+                    mb: 16
+                  }
+                },
                 fields: [
                   { type: "rich-text" as const, name: "body", label: "Obsah", description: "Hlavní textový blok" },
                   { type: "string" as const, name: "align", label: "Zarovnání obsahu a textu", options: [{ value: "left", label: "Vlevo" }, { value: "center", label: "Střed" }, { value: "right", label: "Vpravo" }, { value: "custom", label: "Vlastní" }] },
                   { type: "string" as const, name: "textColor", label: "Barva textu", ui: { component: "color" } },
-                  { type: "number" as const, name: "fontSize", label: "Velikost písma (px)", description: "Výchozí je 18px", defaultValue: 18 },
-                  { type: "string" as const, name: "fontWeight", label: "Tloušťka písma", options: [{value:"400",label:"Normální"},{value:"700",label:"Tučné"}], defaultValue: "400" },
+                  { type: "number" as const, name: "fontSize", label: "Velikost písma (px)" },
+                  { type: "string" as const, name: "fontWeight", label: "Tloušku písma", options: [{value:"400",label:"Normální"},{value:"700",label:"Tučné"}] },
                   { type: "number" as const, name: "pt", label: "Vnitřní horní prostor (Padding Top)" },
                   { type: "number" as const, name: "pb", label: "Vnitřní dolní prostor (Padding Bottom)" },
                   { type: "number" as const, name: "pl", label: "Vnitřní levý prostor (Padding Left)" },
@@ -104,18 +129,31 @@ export default defineConfig({
               {
                 name: "cta",
                 label: "TLAČÍTKO (CTA)",
+                ui: {
+                  defaultItem: {
+                    align: "center",
+                    fontSize: 16,
+                    fontWeight: "700",
+                    pt: 14,
+                    pb: 14,
+                    pl: 28,
+                    pr: 28,
+                    btnBgColor: "#2563eb",
+                    btnTextColor: "#ffffff"
+                  }
+                },
                 fields: [
                   { type: "string" as const, name: "title", label: "Text tlačítka" },
                   { type: "string" as const, name: "link", label: "Odkaz" },
                   { type: "string" as const, name: "align", label: "Zarovnání tlačítka", options: [{ value: "left", label: "Vlevo" }, { value: "center", label: "Střed" }, { value: "right", label: "Vpravo" }, { value: "custom", label: "Vlastní" }] },
                   { type: "string" as const, name: "btnBgColor", label: "Barva pozadí tlačítka", ui: { component: "color" } },
                   { type: "string" as const, name: "btnTextColor", label: "Barva textu uvnitř tlačítka", ui: { component: "color" } },
-                  { type: "number" as const, name: "fontSize", label: "Velikost písma textu (px)", description: "Výchozí je 16px", defaultValue: 16 },
-                  { type: "string" as const, name: "fontWeight", label: "Tloušťka písma tlačítka", options: [{value:"400",label:"Normální"},{value:"700",label:"Tučné"}], defaultValue: "700" },
-                  { type: "number" as const, name: "pt", label: "Vnitřní horní prostor (Padding Top) tlačítka", defaultValue: 14 },
-                  { type: "number" as const, name: "pb", label: "Vnitřní dolní prostor (Padding Bottom) tlačítka", defaultValue: 14 },
-                  { type: "number" as const, name: "pl", label: "Vnitřní levý prostor (Padding Left) tlačítka", defaultValue: 28 },
-                  { type: "number" as const, name: "pr", label: "Vnitřní pravý prostor (Padding Right) tlačítka", defaultValue: 28 },
+                  { type: "number" as const, name: "fontSize", label: "Velikost písma textu (px)" },
+                  { type: "string" as const, name: "fontWeight", label: "Tloušťka písma tlačítka", options: [{value:"400",label:"Normální"},{value:"700",label:"Tučné"}] },
+                  { type: "number" as const, name: "pt", label: "Vnitřní horní prostor (Padding Top) tlačítka" },
+                  { type: "number" as const, name: "pb", label: "Vnitřní dolní prostor (Padding Bottom) tlačítka" },
+                  { type: "number" as const, name: "pl", label: "Vnitřní levý prostor (Padding Left) tlačítka" },
+                  { type: "number" as const, name: "pr", label: "Vnitřní pravý prostor (Padding Right) tlačítka" },
                   { type: "number" as const, name: "mt", label: "Vnější horní odsazení celého bloku (Margin Top)" },
                   { type: "number" as const, name: "mb", label: "Vnější dolní odsazení celého bloku (Margin Bottom)" },
                   { type: "number" as const, name: "ml", label: "Vnější levé odsazení celého bloku (Margin Left)" },
@@ -135,6 +173,14 @@ export default defineConfig({
               {
                 name: "image",
                 label: "IMAGE (Obrázek)",
+                ui: {
+                  defaultItem: {
+                    align: "center",
+                    borderRadius: 0,
+                    mt: 20,
+                    mb: 20
+                  }
+                },
                 fields: [
                   { type: "image" as const, name: "url", label: "Soubor obrázku" },
                   { type: "string" as const, name: "caption", label: "Popisek obrázku" },
@@ -143,7 +189,7 @@ export default defineConfig({
                   { type: "number" as const, name: "mb", label: "Dolní odsazení (Margin Bottom)" },
                   { type: "number" as const, name: "pl", label: "Levé odsazení (Padding Left)" },
                   { type: "number" as const, name: "pr", label: "Pravé odsazení (Padding Right)" },
-                  { type: "number" as const, name: "borderRadius", label: "Zaoblení rohů (px)", defaultValue: 0 }
+                  { type: "number" as const, name: "borderRadius", label: "Zaoblení rohů (px)" }
                 ]
               }
             ],
