@@ -165,6 +165,78 @@ export type CollectionDocumentsArgs = {
 
 export type DocumentNode = Page | Folder;
 
+export type PageBlocksHero = {
+  __typename?: 'PageBlocksHero';
+  heading?: Maybe<Scalars['String']['output']>;
+  subheading?: Maybe<Scalars['String']['output']>;
+  align?: Maybe<Scalars['String']['output']>;
+  textColor?: Maybe<Scalars['String']['output']>;
+  fontSize?: Maybe<Scalars['Float']['output']>;
+  fontWeight?: Maybe<Scalars['String']['output']>;
+  pt?: Maybe<Scalars['Float']['output']>;
+  pb?: Maybe<Scalars['Float']['output']>;
+  pl?: Maybe<Scalars['Float']['output']>;
+  pr?: Maybe<Scalars['Float']['output']>;
+  mt?: Maybe<Scalars['Float']['output']>;
+  mb?: Maybe<Scalars['Float']['output']>;
+  ml?: Maybe<Scalars['Float']['output']>;
+  mr?: Maybe<Scalars['Float']['output']>;
+};
+
+export type PageBlocksHeading = {
+  __typename?: 'PageBlocksHeading';
+  text?: Maybe<Scalars['String']['output']>;
+  align?: Maybe<Scalars['String']['output']>;
+  textColor?: Maybe<Scalars['String']['output']>;
+  fontSize?: Maybe<Scalars['Float']['output']>;
+  fontWeight?: Maybe<Scalars['String']['output']>;
+  pt?: Maybe<Scalars['Float']['output']>;
+  pb?: Maybe<Scalars['Float']['output']>;
+  pl?: Maybe<Scalars['Float']['output']>;
+  pr?: Maybe<Scalars['Float']['output']>;
+  mt?: Maybe<Scalars['Float']['output']>;
+  mb?: Maybe<Scalars['Float']['output']>;
+  ml?: Maybe<Scalars['Float']['output']>;
+  mr?: Maybe<Scalars['Float']['output']>;
+};
+
+export type PageBlocksContent = {
+  __typename?: 'PageBlocksContent';
+  body?: Maybe<Scalars['JSON']['output']>;
+  align?: Maybe<Scalars['String']['output']>;
+  textColor?: Maybe<Scalars['String']['output']>;
+  fontSize?: Maybe<Scalars['Float']['output']>;
+  fontWeight?: Maybe<Scalars['String']['output']>;
+  pt?: Maybe<Scalars['Float']['output']>;
+  pb?: Maybe<Scalars['Float']['output']>;
+  pl?: Maybe<Scalars['Float']['output']>;
+  pr?: Maybe<Scalars['Float']['output']>;
+  mt?: Maybe<Scalars['Float']['output']>;
+  mb?: Maybe<Scalars['Float']['output']>;
+  ml?: Maybe<Scalars['Float']['output']>;
+  mr?: Maybe<Scalars['Float']['output']>;
+};
+
+export type PageBlocksCta = {
+  __typename?: 'PageBlocksCta';
+  title?: Maybe<Scalars['String']['output']>;
+  link?: Maybe<Scalars['String']['output']>;
+  align?: Maybe<Scalars['String']['output']>;
+  textColor?: Maybe<Scalars['String']['output']>;
+  fontSize?: Maybe<Scalars['Float']['output']>;
+  fontWeight?: Maybe<Scalars['String']['output']>;
+  pt?: Maybe<Scalars['Float']['output']>;
+  pb?: Maybe<Scalars['Float']['output']>;
+  pl?: Maybe<Scalars['Float']['output']>;
+  pr?: Maybe<Scalars['Float']['output']>;
+  mt?: Maybe<Scalars['Float']['output']>;
+  mb?: Maybe<Scalars['Float']['output']>;
+  ml?: Maybe<Scalars['Float']['output']>;
+  mr?: Maybe<Scalars['Float']['output']>;
+  btnBgColor?: Maybe<Scalars['String']['output']>;
+  btnTextColor?: Maybe<Scalars['String']['output']>;
+};
+
 export type PageBlocksNavbarLinks = {
   __typename?: 'PageBlocksNavbarLinks';
   label?: Maybe<Scalars['String']['output']>;
@@ -177,79 +249,23 @@ export type PageBlocksNavbar = {
   links?: Maybe<Array<Maybe<PageBlocksNavbarLinks>>>;
 };
 
-export type PageBlocksHero = {
-  __typename?: 'PageBlocksHero';
-  heading?: Maybe<Scalars['String']['output']>;
-  subheading?: Maybe<Scalars['String']['output']>;
-  align?: Maybe<Scalars['String']['output']>;
-  textColor?: Maybe<Scalars['String']['output']>;
-  fontSize?: Maybe<Scalars['Float']['output']>;
-  fontWeight?: Maybe<Scalars['String']['output']>;
-  italic?: Maybe<Scalars['Boolean']['output']>;
-  marginTop?: Maybe<Scalars['Float']['output']>;
-  marginBottom?: Maybe<Scalars['Float']['output']>;
-  paddingLeft?: Maybe<Scalars['Float']['output']>;
-  paddingRight?: Maybe<Scalars['Float']['output']>;
-};
-
-export type PageBlocksHeading = {
-  __typename?: 'PageBlocksHeading';
-  text?: Maybe<Scalars['String']['output']>;
-  align?: Maybe<Scalars['String']['output']>;
-  textColor?: Maybe<Scalars['String']['output']>;
-  fontSize?: Maybe<Scalars['Float']['output']>;
-  fontWeight?: Maybe<Scalars['String']['output']>;
-  italic?: Maybe<Scalars['Boolean']['output']>;
-  marginTop?: Maybe<Scalars['Float']['output']>;
-  marginBottom?: Maybe<Scalars['Float']['output']>;
-  paddingLeft?: Maybe<Scalars['Float']['output']>;
-  paddingRight?: Maybe<Scalars['Float']['output']>;
-};
-
-export type PageBlocksContent = {
-  __typename?: 'PageBlocksContent';
-  body?: Maybe<Scalars['JSON']['output']>;
-  align?: Maybe<Scalars['String']['output']>;
-  textColor?: Maybe<Scalars['String']['output']>;
-  fontSize?: Maybe<Scalars['Float']['output']>;
-  fontWeight?: Maybe<Scalars['String']['output']>;
-  italic?: Maybe<Scalars['Boolean']['output']>;
-  marginTop?: Maybe<Scalars['Float']['output']>;
-  marginBottom?: Maybe<Scalars['Float']['output']>;
-  paddingLeft?: Maybe<Scalars['Float']['output']>;
-  paddingRight?: Maybe<Scalars['Float']['output']>;
-};
-
 export type PageBlocksImage = {
   __typename?: 'PageBlocksImage';
   url?: Maybe<Scalars['String']['output']>;
   caption?: Maybe<Scalars['String']['output']>;
-  borderRadius?: Maybe<Scalars['Float']['output']>;
-  marginTop?: Maybe<Scalars['Float']['output']>;
-  marginBottom?: Maybe<Scalars['Float']['output']>;
-};
-
-export type PageBlocksCta = {
-  __typename?: 'PageBlocksCta';
-  title?: Maybe<Scalars['String']['output']>;
-  link?: Maybe<Scalars['String']['output']>;
-  btnBgColor?: Maybe<Scalars['String']['output']>;
-  btnTextColor?: Maybe<Scalars['String']['output']>;
-  borderRadius?: Maybe<Scalars['Float']['output']>;
   align?: Maybe<Scalars['String']['output']>;
-  marginTop?: Maybe<Scalars['Float']['output']>;
-  marginBottom?: Maybe<Scalars['Float']['output']>;
-  paddingLeft?: Maybe<Scalars['Float']['output']>;
-  paddingRight?: Maybe<Scalars['Float']['output']>;
+  mt?: Maybe<Scalars['Float']['output']>;
+  mb?: Maybe<Scalars['Float']['output']>;
+  pl?: Maybe<Scalars['Float']['output']>;
+  pr?: Maybe<Scalars['Float']['output']>;
+  borderRadius?: Maybe<Scalars['Float']['output']>;
 };
 
-export type PageBlocks = PageBlocksNavbar | PageBlocksHero | PageBlocksHeading | PageBlocksContent | PageBlocksImage | PageBlocksCta;
+export type PageBlocks = PageBlocksHero | PageBlocksHeading | PageBlocksContent | PageBlocksCta | PageBlocksNavbar | PageBlocksImage;
 
 export type Page = Node & Document & {
   __typename?: 'Page';
-  title: Scalars['String']['output'];
-  description?: Maybe<Scalars['String']['output']>;
-  titleAlignment?: Maybe<Scalars['String']['output']>;
+  adminLabel: Scalars['String']['output'];
   outerBgColor?: Maybe<Scalars['String']['output']>;
   blocks?: Maybe<Array<Maybe<PageBlocks>>>;
   id: Scalars['ID']['output'];
@@ -264,16 +280,6 @@ export type StringFilter = {
   in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
-export type PageBlocksNavbarLinksFilter = {
-  label?: InputMaybe<StringFilter>;
-  url?: InputMaybe<StringFilter>;
-};
-
-export type PageBlocksNavbarFilter = {
-  logoText?: InputMaybe<StringFilter>;
-  links?: InputMaybe<PageBlocksNavbarLinksFilter>;
-};
-
 export type NumberFilter = {
   lt?: InputMaybe<Scalars['Float']['input']>;
   lte?: InputMaybe<Scalars['Float']['input']>;
@@ -284,11 +290,6 @@ export type NumberFilter = {
   in?: InputMaybe<Array<InputMaybe<Scalars['Float']['input']>>>;
 };
 
-export type BooleanFilter = {
-  eq?: InputMaybe<Scalars['Boolean']['input']>;
-  exists?: InputMaybe<Scalars['Boolean']['input']>;
-};
-
 export type PageBlocksHeroFilter = {
   heading?: InputMaybe<StringFilter>;
   subheading?: InputMaybe<StringFilter>;
@@ -296,11 +297,14 @@ export type PageBlocksHeroFilter = {
   textColor?: InputMaybe<StringFilter>;
   fontSize?: InputMaybe<NumberFilter>;
   fontWeight?: InputMaybe<StringFilter>;
-  italic?: InputMaybe<BooleanFilter>;
-  marginTop?: InputMaybe<NumberFilter>;
-  marginBottom?: InputMaybe<NumberFilter>;
-  paddingLeft?: InputMaybe<NumberFilter>;
-  paddingRight?: InputMaybe<NumberFilter>;
+  pt?: InputMaybe<NumberFilter>;
+  pb?: InputMaybe<NumberFilter>;
+  pl?: InputMaybe<NumberFilter>;
+  pr?: InputMaybe<NumberFilter>;
+  mt?: InputMaybe<NumberFilter>;
+  mb?: InputMaybe<NumberFilter>;
+  ml?: InputMaybe<NumberFilter>;
+  mr?: InputMaybe<NumberFilter>;
 };
 
 export type PageBlocksHeadingFilter = {
@@ -309,11 +313,14 @@ export type PageBlocksHeadingFilter = {
   textColor?: InputMaybe<StringFilter>;
   fontSize?: InputMaybe<NumberFilter>;
   fontWeight?: InputMaybe<StringFilter>;
-  italic?: InputMaybe<BooleanFilter>;
-  marginTop?: InputMaybe<NumberFilter>;
-  marginBottom?: InputMaybe<NumberFilter>;
-  paddingLeft?: InputMaybe<NumberFilter>;
-  paddingRight?: InputMaybe<NumberFilter>;
+  pt?: InputMaybe<NumberFilter>;
+  pb?: InputMaybe<NumberFilter>;
+  pl?: InputMaybe<NumberFilter>;
+  pr?: InputMaybe<NumberFilter>;
+  mt?: InputMaybe<NumberFilter>;
+  mb?: InputMaybe<NumberFilter>;
+  ml?: InputMaybe<NumberFilter>;
+  mr?: InputMaybe<NumberFilter>;
 };
 
 export type RichTextFilter = {
@@ -328,11 +335,43 @@ export type PageBlocksContentFilter = {
   textColor?: InputMaybe<StringFilter>;
   fontSize?: InputMaybe<NumberFilter>;
   fontWeight?: InputMaybe<StringFilter>;
-  italic?: InputMaybe<BooleanFilter>;
-  marginTop?: InputMaybe<NumberFilter>;
-  marginBottom?: InputMaybe<NumberFilter>;
-  paddingLeft?: InputMaybe<NumberFilter>;
-  paddingRight?: InputMaybe<NumberFilter>;
+  pt?: InputMaybe<NumberFilter>;
+  pb?: InputMaybe<NumberFilter>;
+  pl?: InputMaybe<NumberFilter>;
+  pr?: InputMaybe<NumberFilter>;
+  mt?: InputMaybe<NumberFilter>;
+  mb?: InputMaybe<NumberFilter>;
+  ml?: InputMaybe<NumberFilter>;
+  mr?: InputMaybe<NumberFilter>;
+};
+
+export type PageBlocksCtaFilter = {
+  title?: InputMaybe<StringFilter>;
+  link?: InputMaybe<StringFilter>;
+  align?: InputMaybe<StringFilter>;
+  textColor?: InputMaybe<StringFilter>;
+  fontSize?: InputMaybe<NumberFilter>;
+  fontWeight?: InputMaybe<StringFilter>;
+  pt?: InputMaybe<NumberFilter>;
+  pb?: InputMaybe<NumberFilter>;
+  pl?: InputMaybe<NumberFilter>;
+  pr?: InputMaybe<NumberFilter>;
+  mt?: InputMaybe<NumberFilter>;
+  mb?: InputMaybe<NumberFilter>;
+  ml?: InputMaybe<NumberFilter>;
+  mr?: InputMaybe<NumberFilter>;
+  btnBgColor?: InputMaybe<StringFilter>;
+  btnTextColor?: InputMaybe<StringFilter>;
+};
+
+export type PageBlocksNavbarLinksFilter = {
+  label?: InputMaybe<StringFilter>;
+  url?: InputMaybe<StringFilter>;
+};
+
+export type PageBlocksNavbarFilter = {
+  logoText?: InputMaybe<StringFilter>;
+  links?: InputMaybe<PageBlocksNavbarLinksFilter>;
 };
 
 export type ImageFilter = {
@@ -345,37 +384,25 @@ export type ImageFilter = {
 export type PageBlocksImageFilter = {
   url?: InputMaybe<ImageFilter>;
   caption?: InputMaybe<StringFilter>;
-  borderRadius?: InputMaybe<NumberFilter>;
-  marginTop?: InputMaybe<NumberFilter>;
-  marginBottom?: InputMaybe<NumberFilter>;
-};
-
-export type PageBlocksCtaFilter = {
-  title?: InputMaybe<StringFilter>;
-  link?: InputMaybe<StringFilter>;
-  btnBgColor?: InputMaybe<StringFilter>;
-  btnTextColor?: InputMaybe<StringFilter>;
-  borderRadius?: InputMaybe<NumberFilter>;
   align?: InputMaybe<StringFilter>;
-  marginTop?: InputMaybe<NumberFilter>;
-  marginBottom?: InputMaybe<NumberFilter>;
-  paddingLeft?: InputMaybe<NumberFilter>;
-  paddingRight?: InputMaybe<NumberFilter>;
+  mt?: InputMaybe<NumberFilter>;
+  mb?: InputMaybe<NumberFilter>;
+  pl?: InputMaybe<NumberFilter>;
+  pr?: InputMaybe<NumberFilter>;
+  borderRadius?: InputMaybe<NumberFilter>;
 };
 
 export type PageBlocksFilter = {
-  navbar?: InputMaybe<PageBlocksNavbarFilter>;
   hero?: InputMaybe<PageBlocksHeroFilter>;
   heading?: InputMaybe<PageBlocksHeadingFilter>;
   content?: InputMaybe<PageBlocksContentFilter>;
-  image?: InputMaybe<PageBlocksImageFilter>;
   cta?: InputMaybe<PageBlocksCtaFilter>;
+  navbar?: InputMaybe<PageBlocksNavbarFilter>;
+  image?: InputMaybe<PageBlocksImageFilter>;
 };
 
 export type PageFilter = {
-  title?: InputMaybe<StringFilter>;
-  description?: InputMaybe<StringFilter>;
-  titleAlignment?: InputMaybe<StringFilter>;
+  adminLabel?: InputMaybe<StringFilter>;
   outerBgColor?: InputMaybe<StringFilter>;
   blocks?: InputMaybe<PageBlocksFilter>;
 };
@@ -458,6 +485,74 @@ export type DocumentMutation = {
   page?: InputMaybe<PageMutation>;
 };
 
+export type PageBlocksHeroMutation = {
+  heading?: InputMaybe<Scalars['String']['input']>;
+  subheading?: InputMaybe<Scalars['String']['input']>;
+  align?: InputMaybe<Scalars['String']['input']>;
+  textColor?: InputMaybe<Scalars['String']['input']>;
+  fontSize?: InputMaybe<Scalars['Float']['input']>;
+  fontWeight?: InputMaybe<Scalars['String']['input']>;
+  pt?: InputMaybe<Scalars['Float']['input']>;
+  pb?: InputMaybe<Scalars['Float']['input']>;
+  pl?: InputMaybe<Scalars['Float']['input']>;
+  pr?: InputMaybe<Scalars['Float']['input']>;
+  mt?: InputMaybe<Scalars['Float']['input']>;
+  mb?: InputMaybe<Scalars['Float']['input']>;
+  ml?: InputMaybe<Scalars['Float']['input']>;
+  mr?: InputMaybe<Scalars['Float']['input']>;
+};
+
+export type PageBlocksHeadingMutation = {
+  text?: InputMaybe<Scalars['String']['input']>;
+  align?: InputMaybe<Scalars['String']['input']>;
+  textColor?: InputMaybe<Scalars['String']['input']>;
+  fontSize?: InputMaybe<Scalars['Float']['input']>;
+  fontWeight?: InputMaybe<Scalars['String']['input']>;
+  pt?: InputMaybe<Scalars['Float']['input']>;
+  pb?: InputMaybe<Scalars['Float']['input']>;
+  pl?: InputMaybe<Scalars['Float']['input']>;
+  pr?: InputMaybe<Scalars['Float']['input']>;
+  mt?: InputMaybe<Scalars['Float']['input']>;
+  mb?: InputMaybe<Scalars['Float']['input']>;
+  ml?: InputMaybe<Scalars['Float']['input']>;
+  mr?: InputMaybe<Scalars['Float']['input']>;
+};
+
+export type PageBlocksContentMutation = {
+  body?: InputMaybe<Scalars['JSON']['input']>;
+  align?: InputMaybe<Scalars['String']['input']>;
+  textColor?: InputMaybe<Scalars['String']['input']>;
+  fontSize?: InputMaybe<Scalars['Float']['input']>;
+  fontWeight?: InputMaybe<Scalars['String']['input']>;
+  pt?: InputMaybe<Scalars['Float']['input']>;
+  pb?: InputMaybe<Scalars['Float']['input']>;
+  pl?: InputMaybe<Scalars['Float']['input']>;
+  pr?: InputMaybe<Scalars['Float']['input']>;
+  mt?: InputMaybe<Scalars['Float']['input']>;
+  mb?: InputMaybe<Scalars['Float']['input']>;
+  ml?: InputMaybe<Scalars['Float']['input']>;
+  mr?: InputMaybe<Scalars['Float']['input']>;
+};
+
+export type PageBlocksCtaMutation = {
+  title?: InputMaybe<Scalars['String']['input']>;
+  link?: InputMaybe<Scalars['String']['input']>;
+  align?: InputMaybe<Scalars['String']['input']>;
+  textColor?: InputMaybe<Scalars['String']['input']>;
+  fontSize?: InputMaybe<Scalars['Float']['input']>;
+  fontWeight?: InputMaybe<Scalars['String']['input']>;
+  pt?: InputMaybe<Scalars['Float']['input']>;
+  pb?: InputMaybe<Scalars['Float']['input']>;
+  pl?: InputMaybe<Scalars['Float']['input']>;
+  pr?: InputMaybe<Scalars['Float']['input']>;
+  mt?: InputMaybe<Scalars['Float']['input']>;
+  mb?: InputMaybe<Scalars['Float']['input']>;
+  ml?: InputMaybe<Scalars['Float']['input']>;
+  mr?: InputMaybe<Scalars['Float']['input']>;
+  btnBgColor?: InputMaybe<Scalars['String']['input']>;
+  btnTextColor?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type PageBlocksNavbarLinksMutation = {
   label?: InputMaybe<Scalars['String']['input']>;
   url?: InputMaybe<Scalars['String']['input']>;
@@ -468,92 +563,40 @@ export type PageBlocksNavbarMutation = {
   links?: InputMaybe<Array<InputMaybe<PageBlocksNavbarLinksMutation>>>;
 };
 
-export type PageBlocksHeroMutation = {
-  heading?: InputMaybe<Scalars['String']['input']>;
-  subheading?: InputMaybe<Scalars['String']['input']>;
-  align?: InputMaybe<Scalars['String']['input']>;
-  textColor?: InputMaybe<Scalars['String']['input']>;
-  fontSize?: InputMaybe<Scalars['Float']['input']>;
-  fontWeight?: InputMaybe<Scalars['String']['input']>;
-  italic?: InputMaybe<Scalars['Boolean']['input']>;
-  marginTop?: InputMaybe<Scalars['Float']['input']>;
-  marginBottom?: InputMaybe<Scalars['Float']['input']>;
-  paddingLeft?: InputMaybe<Scalars['Float']['input']>;
-  paddingRight?: InputMaybe<Scalars['Float']['input']>;
-};
-
-export type PageBlocksHeadingMutation = {
-  text?: InputMaybe<Scalars['String']['input']>;
-  align?: InputMaybe<Scalars['String']['input']>;
-  textColor?: InputMaybe<Scalars['String']['input']>;
-  fontSize?: InputMaybe<Scalars['Float']['input']>;
-  fontWeight?: InputMaybe<Scalars['String']['input']>;
-  italic?: InputMaybe<Scalars['Boolean']['input']>;
-  marginTop?: InputMaybe<Scalars['Float']['input']>;
-  marginBottom?: InputMaybe<Scalars['Float']['input']>;
-  paddingLeft?: InputMaybe<Scalars['Float']['input']>;
-  paddingRight?: InputMaybe<Scalars['Float']['input']>;
-};
-
-export type PageBlocksContentMutation = {
-  body?: InputMaybe<Scalars['JSON']['input']>;
-  align?: InputMaybe<Scalars['String']['input']>;
-  textColor?: InputMaybe<Scalars['String']['input']>;
-  fontSize?: InputMaybe<Scalars['Float']['input']>;
-  fontWeight?: InputMaybe<Scalars['String']['input']>;
-  italic?: InputMaybe<Scalars['Boolean']['input']>;
-  marginTop?: InputMaybe<Scalars['Float']['input']>;
-  marginBottom?: InputMaybe<Scalars['Float']['input']>;
-  paddingLeft?: InputMaybe<Scalars['Float']['input']>;
-  paddingRight?: InputMaybe<Scalars['Float']['input']>;
-};
-
 export type PageBlocksImageMutation = {
   url?: InputMaybe<Scalars['String']['input']>;
   caption?: InputMaybe<Scalars['String']['input']>;
-  borderRadius?: InputMaybe<Scalars['Float']['input']>;
-  marginTop?: InputMaybe<Scalars['Float']['input']>;
-  marginBottom?: InputMaybe<Scalars['Float']['input']>;
-};
-
-export type PageBlocksCtaMutation = {
-  title?: InputMaybe<Scalars['String']['input']>;
-  link?: InputMaybe<Scalars['String']['input']>;
-  btnBgColor?: InputMaybe<Scalars['String']['input']>;
-  btnTextColor?: InputMaybe<Scalars['String']['input']>;
-  borderRadius?: InputMaybe<Scalars['Float']['input']>;
   align?: InputMaybe<Scalars['String']['input']>;
-  marginTop?: InputMaybe<Scalars['Float']['input']>;
-  marginBottom?: InputMaybe<Scalars['Float']['input']>;
-  paddingLeft?: InputMaybe<Scalars['Float']['input']>;
-  paddingRight?: InputMaybe<Scalars['Float']['input']>;
+  mt?: InputMaybe<Scalars['Float']['input']>;
+  mb?: InputMaybe<Scalars['Float']['input']>;
+  pl?: InputMaybe<Scalars['Float']['input']>;
+  pr?: InputMaybe<Scalars['Float']['input']>;
+  borderRadius?: InputMaybe<Scalars['Float']['input']>;
 };
 
 export type PageBlocksMutation = {
-  navbar?: InputMaybe<PageBlocksNavbarMutation>;
   hero?: InputMaybe<PageBlocksHeroMutation>;
   heading?: InputMaybe<PageBlocksHeadingMutation>;
   content?: InputMaybe<PageBlocksContentMutation>;
-  image?: InputMaybe<PageBlocksImageMutation>;
   cta?: InputMaybe<PageBlocksCtaMutation>;
+  navbar?: InputMaybe<PageBlocksNavbarMutation>;
+  image?: InputMaybe<PageBlocksImageMutation>;
 };
 
 export type PageMutation = {
-  title?: InputMaybe<Scalars['String']['input']>;
-  description?: InputMaybe<Scalars['String']['input']>;
-  titleAlignment?: InputMaybe<Scalars['String']['input']>;
+  adminLabel?: InputMaybe<Scalars['String']['input']>;
   outerBgColor?: InputMaybe<Scalars['String']['input']>;
   blocks?: InputMaybe<Array<InputMaybe<PageBlocksMutation>>>;
 };
 
-export type PagePartsFragment = { __typename: 'Page', title: string, description?: string | null, titleAlignment?: string | null, outerBgColor?: string | null, blocks?: Array<{ __typename: 'PageBlocksNavbar', logoText?: string | null, links?: Array<{ __typename: 'PageBlocksNavbarLinks', label?: string | null, url?: string | null } | null> | null } | { __typename: 'PageBlocksHero', heading?: string | null, subheading?: string | null, align?: string | null, textColor?: string | null, fontSize?: number | null, fontWeight?: string | null, italic?: boolean | null, marginTop?: number | null, marginBottom?: number | null, paddingLeft?: number | null, paddingRight?: number | null } | { __typename: 'PageBlocksHeading', text?: string | null, align?: string | null, textColor?: string | null, fontSize?: number | null, fontWeight?: string | null, italic?: boolean | null, marginTop?: number | null, marginBottom?: number | null, paddingLeft?: number | null, paddingRight?: number | null } | { __typename: 'PageBlocksContent', body?: any | null, align?: string | null, textColor?: string | null, fontSize?: number | null, fontWeight?: string | null, italic?: boolean | null, marginTop?: number | null, marginBottom?: number | null, paddingLeft?: number | null, paddingRight?: number | null } | { __typename: 'PageBlocksImage', url?: string | null, caption?: string | null, borderRadius?: number | null, marginTop?: number | null, marginBottom?: number | null } | { __typename: 'PageBlocksCta', title?: string | null, link?: string | null, btnBgColor?: string | null, btnTextColor?: string | null, borderRadius?: number | null, align?: string | null, marginTop?: number | null, marginBottom?: number | null, paddingLeft?: number | null, paddingRight?: number | null } | null> | null };
+export type PagePartsFragment = { __typename: 'Page', adminLabel: string, outerBgColor?: string | null, blocks?: Array<{ __typename: 'PageBlocksHero', heading?: string | null, subheading?: string | null, align?: string | null, textColor?: string | null, fontSize?: number | null, fontWeight?: string | null, pt?: number | null, pb?: number | null, pl?: number | null, pr?: number | null, mt?: number | null, mb?: number | null, ml?: number | null, mr?: number | null } | { __typename: 'PageBlocksHeading', text?: string | null, align?: string | null, textColor?: string | null, fontSize?: number | null, fontWeight?: string | null, pt?: number | null, pb?: number | null, pl?: number | null, pr?: number | null, mt?: number | null, mb?: number | null, ml?: number | null, mr?: number | null } | { __typename: 'PageBlocksContent', body?: any | null, align?: string | null, textColor?: string | null, fontSize?: number | null, fontWeight?: string | null, pt?: number | null, pb?: number | null, pl?: number | null, pr?: number | null, mt?: number | null, mb?: number | null, ml?: number | null, mr?: number | null } | { __typename: 'PageBlocksCta', title?: string | null, link?: string | null, align?: string | null, textColor?: string | null, fontSize?: number | null, fontWeight?: string | null, pt?: number | null, pb?: number | null, pl?: number | null, pr?: number | null, mt?: number | null, mb?: number | null, ml?: number | null, mr?: number | null, btnBgColor?: string | null, btnTextColor?: string | null } | { __typename: 'PageBlocksNavbar', logoText?: string | null, links?: Array<{ __typename: 'PageBlocksNavbarLinks', label?: string | null, url?: string | null } | null> | null } | { __typename: 'PageBlocksImage', url?: string | null, caption?: string | null, align?: string | null, mt?: number | null, mb?: number | null, pl?: number | null, pr?: number | null, borderRadius?: number | null } | null> | null };
 
 export type PageQueryVariables = Exact<{
   relativePath: Scalars['String']['input'];
 }>;
 
 
-export type PageQuery = { __typename?: 'Query', page: { __typename: 'Page', id: string, title: string, description?: string | null, titleAlignment?: string | null, outerBgColor?: string | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, blocks?: Array<{ __typename: 'PageBlocksNavbar', logoText?: string | null, links?: Array<{ __typename: 'PageBlocksNavbarLinks', label?: string | null, url?: string | null } | null> | null } | { __typename: 'PageBlocksHero', heading?: string | null, subheading?: string | null, align?: string | null, textColor?: string | null, fontSize?: number | null, fontWeight?: string | null, italic?: boolean | null, marginTop?: number | null, marginBottom?: number | null, paddingLeft?: number | null, paddingRight?: number | null } | { __typename: 'PageBlocksHeading', text?: string | null, align?: string | null, textColor?: string | null, fontSize?: number | null, fontWeight?: string | null, italic?: boolean | null, marginTop?: number | null, marginBottom?: number | null, paddingLeft?: number | null, paddingRight?: number | null } | { __typename: 'PageBlocksContent', body?: any | null, align?: string | null, textColor?: string | null, fontSize?: number | null, fontWeight?: string | null, italic?: boolean | null, marginTop?: number | null, marginBottom?: number | null, paddingLeft?: number | null, paddingRight?: number | null } | { __typename: 'PageBlocksImage', url?: string | null, caption?: string | null, borderRadius?: number | null, marginTop?: number | null, marginBottom?: number | null } | { __typename: 'PageBlocksCta', title?: string | null, link?: string | null, btnBgColor?: string | null, btnTextColor?: string | null, borderRadius?: number | null, align?: string | null, marginTop?: number | null, marginBottom?: number | null, paddingLeft?: number | null, paddingRight?: number | null } | null> | null } };
+export type PageQuery = { __typename?: 'Query', page: { __typename: 'Page', id: string, adminLabel: string, outerBgColor?: string | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, blocks?: Array<{ __typename: 'PageBlocksHero', heading?: string | null, subheading?: string | null, align?: string | null, textColor?: string | null, fontSize?: number | null, fontWeight?: string | null, pt?: number | null, pb?: number | null, pl?: number | null, pr?: number | null, mt?: number | null, mb?: number | null, ml?: number | null, mr?: number | null } | { __typename: 'PageBlocksHeading', text?: string | null, align?: string | null, textColor?: string | null, fontSize?: number | null, fontWeight?: string | null, pt?: number | null, pb?: number | null, pl?: number | null, pr?: number | null, mt?: number | null, mb?: number | null, ml?: number | null, mr?: number | null } | { __typename: 'PageBlocksContent', body?: any | null, align?: string | null, textColor?: string | null, fontSize?: number | null, fontWeight?: string | null, pt?: number | null, pb?: number | null, pl?: number | null, pr?: number | null, mt?: number | null, mb?: number | null, ml?: number | null, mr?: number | null } | { __typename: 'PageBlocksCta', title?: string | null, link?: string | null, align?: string | null, textColor?: string | null, fontSize?: number | null, fontWeight?: string | null, pt?: number | null, pb?: number | null, pl?: number | null, pr?: number | null, mt?: number | null, mb?: number | null, ml?: number | null, mr?: number | null, btnBgColor?: string | null, btnTextColor?: string | null } | { __typename: 'PageBlocksNavbar', logoText?: string | null, links?: Array<{ __typename: 'PageBlocksNavbarLinks', label?: string | null, url?: string | null } | null> | null } | { __typename: 'PageBlocksImage', url?: string | null, caption?: string | null, align?: string | null, mt?: number | null, mb?: number | null, pl?: number | null, pr?: number | null, borderRadius?: number | null } | null> | null } };
 
 export type PageConnectionQueryVariables = Exact<{
   before?: InputMaybe<Scalars['String']['input']>;
@@ -565,17 +608,79 @@ export type PageConnectionQueryVariables = Exact<{
 }>;
 
 
-export type PageConnectionQuery = { __typename?: 'Query', pageConnection: { __typename?: 'PageConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'PageConnectionEdges', cursor: string, node?: { __typename: 'Page', id: string, title: string, description?: string | null, titleAlignment?: string | null, outerBgColor?: string | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, blocks?: Array<{ __typename: 'PageBlocksNavbar', logoText?: string | null, links?: Array<{ __typename: 'PageBlocksNavbarLinks', label?: string | null, url?: string | null } | null> | null } | { __typename: 'PageBlocksHero', heading?: string | null, subheading?: string | null, align?: string | null, textColor?: string | null, fontSize?: number | null, fontWeight?: string | null, italic?: boolean | null, marginTop?: number | null, marginBottom?: number | null, paddingLeft?: number | null, paddingRight?: number | null } | { __typename: 'PageBlocksHeading', text?: string | null, align?: string | null, textColor?: string | null, fontSize?: number | null, fontWeight?: string | null, italic?: boolean | null, marginTop?: number | null, marginBottom?: number | null, paddingLeft?: number | null, paddingRight?: number | null } | { __typename: 'PageBlocksContent', body?: any | null, align?: string | null, textColor?: string | null, fontSize?: number | null, fontWeight?: string | null, italic?: boolean | null, marginTop?: number | null, marginBottom?: number | null, paddingLeft?: number | null, paddingRight?: number | null } | { __typename: 'PageBlocksImage', url?: string | null, caption?: string | null, borderRadius?: number | null, marginTop?: number | null, marginBottom?: number | null } | { __typename: 'PageBlocksCta', title?: string | null, link?: string | null, btnBgColor?: string | null, btnTextColor?: string | null, borderRadius?: number | null, align?: string | null, marginTop?: number | null, marginBottom?: number | null, paddingLeft?: number | null, paddingRight?: number | null } | null> | null } | null } | null> | null } };
+export type PageConnectionQuery = { __typename?: 'Query', pageConnection: { __typename?: 'PageConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'PageConnectionEdges', cursor: string, node?: { __typename: 'Page', id: string, adminLabel: string, outerBgColor?: string | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, blocks?: Array<{ __typename: 'PageBlocksHero', heading?: string | null, subheading?: string | null, align?: string | null, textColor?: string | null, fontSize?: number | null, fontWeight?: string | null, pt?: number | null, pb?: number | null, pl?: number | null, pr?: number | null, mt?: number | null, mb?: number | null, ml?: number | null, mr?: number | null } | { __typename: 'PageBlocksHeading', text?: string | null, align?: string | null, textColor?: string | null, fontSize?: number | null, fontWeight?: string | null, pt?: number | null, pb?: number | null, pl?: number | null, pr?: number | null, mt?: number | null, mb?: number | null, ml?: number | null, mr?: number | null } | { __typename: 'PageBlocksContent', body?: any | null, align?: string | null, textColor?: string | null, fontSize?: number | null, fontWeight?: string | null, pt?: number | null, pb?: number | null, pl?: number | null, pr?: number | null, mt?: number | null, mb?: number | null, ml?: number | null, mr?: number | null } | { __typename: 'PageBlocksCta', title?: string | null, link?: string | null, align?: string | null, textColor?: string | null, fontSize?: number | null, fontWeight?: string | null, pt?: number | null, pb?: number | null, pl?: number | null, pr?: number | null, mt?: number | null, mb?: number | null, ml?: number | null, mr?: number | null, btnBgColor?: string | null, btnTextColor?: string | null } | { __typename: 'PageBlocksNavbar', logoText?: string | null, links?: Array<{ __typename: 'PageBlocksNavbarLinks', label?: string | null, url?: string | null } | null> | null } | { __typename: 'PageBlocksImage', url?: string | null, caption?: string | null, align?: string | null, mt?: number | null, mb?: number | null, pl?: number | null, pr?: number | null, borderRadius?: number | null } | null> | null } | null } | null> | null } };
 
 export const PagePartsFragmentDoc = gql`
     fragment PageParts on Page {
   __typename
-  title
-  description
-  titleAlignment
+  adminLabel
   outerBgColor
   blocks {
     __typename
+    ... on PageBlocksHero {
+      heading
+      subheading
+      align
+      textColor
+      fontSize
+      fontWeight
+      pt
+      pb
+      pl
+      pr
+      mt
+      mb
+      ml
+      mr
+    }
+    ... on PageBlocksHeading {
+      text
+      align
+      textColor
+      fontSize
+      fontWeight
+      pt
+      pb
+      pl
+      pr
+      mt
+      mb
+      ml
+      mr
+    }
+    ... on PageBlocksContent {
+      body
+      align
+      textColor
+      fontSize
+      fontWeight
+      pt
+      pb
+      pl
+      pr
+      mt
+      mb
+      ml
+      mr
+    }
+    ... on PageBlocksCta {
+      title
+      link
+      align
+      textColor
+      fontSize
+      fontWeight
+      pt
+      pb
+      pl
+      pr
+      mt
+      mb
+      ml
+      mr
+      btnBgColor
+      btnTextColor
+    }
     ... on PageBlocksNavbar {
       logoText
       links {
@@ -584,61 +689,15 @@ export const PagePartsFragmentDoc = gql`
         url
       }
     }
-    ... on PageBlocksHero {
-      heading
-      subheading
-      align
-      textColor
-      fontSize
-      fontWeight
-      italic
-      marginTop
-      marginBottom
-      paddingLeft
-      paddingRight
-    }
-    ... on PageBlocksHeading {
-      text
-      align
-      textColor
-      fontSize
-      fontWeight
-      italic
-      marginTop
-      marginBottom
-      paddingLeft
-      paddingRight
-    }
-    ... on PageBlocksContent {
-      body
-      align
-      textColor
-      fontSize
-      fontWeight
-      italic
-      marginTop
-      marginBottom
-      paddingLeft
-      paddingRight
-    }
     ... on PageBlocksImage {
       url
       caption
-      borderRadius
-      marginTop
-      marginBottom
-    }
-    ... on PageBlocksCta {
-      title
-      link
-      btnBgColor
-      btnTextColor
-      borderRadius
       align
-      marginTop
-      marginBottom
-      paddingLeft
-      paddingRight
+      mt
+      mb
+      pl
+      pr
+      borderRadius
     }
   }
 }

@@ -8,12 +8,74 @@ export function gql(strings, ...args) {
 export const PagePartsFragmentDoc = gql`
     fragment PageParts on Page {
   __typename
-  title
-  description
-  titleAlignment
+  adminLabel
   outerBgColor
   blocks {
     __typename
+    ... on PageBlocksHero {
+      heading
+      subheading
+      align
+      textColor
+      fontSize
+      fontWeight
+      pt
+      pb
+      pl
+      pr
+      mt
+      mb
+      ml
+      mr
+    }
+    ... on PageBlocksHeading {
+      text
+      align
+      textColor
+      fontSize
+      fontWeight
+      pt
+      pb
+      pl
+      pr
+      mt
+      mb
+      ml
+      mr
+    }
+    ... on PageBlocksContent {
+      body
+      align
+      textColor
+      fontSize
+      fontWeight
+      pt
+      pb
+      pl
+      pr
+      mt
+      mb
+      ml
+      mr
+    }
+    ... on PageBlocksCta {
+      title
+      link
+      align
+      textColor
+      fontSize
+      fontWeight
+      pt
+      pb
+      pl
+      pr
+      mt
+      mb
+      ml
+      mr
+      btnBgColor
+      btnTextColor
+    }
     ... on PageBlocksNavbar {
       logoText
       links {
@@ -22,61 +84,15 @@ export const PagePartsFragmentDoc = gql`
         url
       }
     }
-    ... on PageBlocksHero {
-      heading
-      subheading
-      align
-      textColor
-      fontSize
-      fontWeight
-      italic
-      marginTop
-      marginBottom
-      paddingLeft
-      paddingRight
-    }
-    ... on PageBlocksHeading {
-      text
-      align
-      textColor
-      fontSize
-      fontWeight
-      italic
-      marginTop
-      marginBottom
-      paddingLeft
-      paddingRight
-    }
-    ... on PageBlocksContent {
-      body
-      align
-      textColor
-      fontSize
-      fontWeight
-      italic
-      marginTop
-      marginBottom
-      paddingLeft
-      paddingRight
-    }
     ... on PageBlocksImage {
       url
       caption
-      borderRadius
-      marginTop
-      marginBottom
-    }
-    ... on PageBlocksCta {
-      title
-      link
-      btnBgColor
-      btnTextColor
-      borderRadius
       align
-      marginTop
-      marginBottom
-      paddingLeft
-      paddingRight
+      mt
+      mb
+      pl
+      pr
+      borderRadius
     }
   }
 }

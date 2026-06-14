@@ -87,6 +87,74 @@ type Collection {
 
 union DocumentNode = Page | Folder
 
+type PageBlocksHero {
+  heading: String
+  subheading: String
+  align: String
+  textColor: String
+  fontSize: Float
+  fontWeight: String
+  pt: Float
+  pb: Float
+  pl: Float
+  pr: Float
+  mt: Float
+  mb: Float
+  ml: Float
+  mr: Float
+}
+
+type PageBlocksHeading {
+  text: String
+  align: String
+  textColor: String
+  fontSize: Float
+  fontWeight: String
+  pt: Float
+  pb: Float
+  pl: Float
+  pr: Float
+  mt: Float
+  mb: Float
+  ml: Float
+  mr: Float
+}
+
+type PageBlocksContent {
+  body: JSON
+  align: String
+  textColor: String
+  fontSize: Float
+  fontWeight: String
+  pt: Float
+  pb: Float
+  pl: Float
+  pr: Float
+  mt: Float
+  mb: Float
+  ml: Float
+  mr: Float
+}
+
+type PageBlocksCta {
+  title: String
+  link: String
+  align: String
+  textColor: String
+  fontSize: Float
+  fontWeight: String
+  pt: Float
+  pb: Float
+  pl: Float
+  pr: Float
+  mt: Float
+  mb: Float
+  ml: Float
+  mr: Float
+  btnBgColor: String
+  btnTextColor: String
+}
+
 type PageBlocksNavbarLinks {
   label: String
   url: String
@@ -97,73 +165,21 @@ type PageBlocksNavbar {
   links: [PageBlocksNavbarLinks]
 }
 
-type PageBlocksHero {
-  heading: String
-  subheading: String
-  align: String
-  textColor: String
-  fontSize: Float
-  fontWeight: String
-  italic: Boolean
-  marginTop: Float
-  marginBottom: Float
-  paddingLeft: Float
-  paddingRight: Float
-}
-
-type PageBlocksHeading {
-  text: String
-  align: String
-  textColor: String
-  fontSize: Float
-  fontWeight: String
-  italic: Boolean
-  marginTop: Float
-  marginBottom: Float
-  paddingLeft: Float
-  paddingRight: Float
-}
-
-type PageBlocksContent {
-  body: JSON
-  align: String
-  textColor: String
-  fontSize: Float
-  fontWeight: String
-  italic: Boolean
-  marginTop: Float
-  marginBottom: Float
-  paddingLeft: Float
-  paddingRight: Float
-}
-
 type PageBlocksImage {
   url: String
   caption: String
-  borderRadius: Float
-  marginTop: Float
-  marginBottom: Float
-}
-
-type PageBlocksCta {
-  title: String
-  link: String
-  btnBgColor: String
-  btnTextColor: String
-  borderRadius: Float
   align: String
-  marginTop: Float
-  marginBottom: Float
-  paddingLeft: Float
-  paddingRight: Float
+  mt: Float
+  mb: Float
+  pl: Float
+  pr: Float
+  borderRadius: Float
 }
 
-union PageBlocks = PageBlocksNavbar | PageBlocksHero | PageBlocksHeading | PageBlocksContent | PageBlocksImage | PageBlocksCta
+union PageBlocks = PageBlocksHero | PageBlocksHeading | PageBlocksContent | PageBlocksCta | PageBlocksNavbar | PageBlocksImage
 
 type Page implements Node & Document {
-  title: String!
-  description: String
-  titleAlignment: String
+  adminLabel: String!
   outerBgColor: String
   blocks: [PageBlocks]
   id: ID!
@@ -178,16 +194,6 @@ input StringFilter {
   in: [String]
 }
 
-input PageBlocksNavbarLinksFilter {
-  label: StringFilter
-  url: StringFilter
-}
-
-input PageBlocksNavbarFilter {
-  logoText: StringFilter
-  links: PageBlocksNavbarLinksFilter
-}
-
 input NumberFilter {
   lt: Float
   lte: Float
@@ -198,11 +204,6 @@ input NumberFilter {
   in: [Float]
 }
 
-input BooleanFilter {
-  eq: Boolean
-  exists: Boolean
-}
-
 input PageBlocksHeroFilter {
   heading: StringFilter
   subheading: StringFilter
@@ -210,11 +211,14 @@ input PageBlocksHeroFilter {
   textColor: StringFilter
   fontSize: NumberFilter
   fontWeight: StringFilter
-  italic: BooleanFilter
-  marginTop: NumberFilter
-  marginBottom: NumberFilter
-  paddingLeft: NumberFilter
-  paddingRight: NumberFilter
+  pt: NumberFilter
+  pb: NumberFilter
+  pl: NumberFilter
+  pr: NumberFilter
+  mt: NumberFilter
+  mb: NumberFilter
+  ml: NumberFilter
+  mr: NumberFilter
 }
 
 input PageBlocksHeadingFilter {
@@ -223,11 +227,14 @@ input PageBlocksHeadingFilter {
   textColor: StringFilter
   fontSize: NumberFilter
   fontWeight: StringFilter
-  italic: BooleanFilter
-  marginTop: NumberFilter
-  marginBottom: NumberFilter
-  paddingLeft: NumberFilter
-  paddingRight: NumberFilter
+  pt: NumberFilter
+  pb: NumberFilter
+  pl: NumberFilter
+  pr: NumberFilter
+  mt: NumberFilter
+  mb: NumberFilter
+  ml: NumberFilter
+  mr: NumberFilter
 }
 
 input RichTextFilter {
@@ -242,11 +249,43 @@ input PageBlocksContentFilter {
   textColor: StringFilter
   fontSize: NumberFilter
   fontWeight: StringFilter
-  italic: BooleanFilter
-  marginTop: NumberFilter
-  marginBottom: NumberFilter
-  paddingLeft: NumberFilter
-  paddingRight: NumberFilter
+  pt: NumberFilter
+  pb: NumberFilter
+  pl: NumberFilter
+  pr: NumberFilter
+  mt: NumberFilter
+  mb: NumberFilter
+  ml: NumberFilter
+  mr: NumberFilter
+}
+
+input PageBlocksCtaFilter {
+  title: StringFilter
+  link: StringFilter
+  align: StringFilter
+  textColor: StringFilter
+  fontSize: NumberFilter
+  fontWeight: StringFilter
+  pt: NumberFilter
+  pb: NumberFilter
+  pl: NumberFilter
+  pr: NumberFilter
+  mt: NumberFilter
+  mb: NumberFilter
+  ml: NumberFilter
+  mr: NumberFilter
+  btnBgColor: StringFilter
+  btnTextColor: StringFilter
+}
+
+input PageBlocksNavbarLinksFilter {
+  label: StringFilter
+  url: StringFilter
+}
+
+input PageBlocksNavbarFilter {
+  logoText: StringFilter
+  links: PageBlocksNavbarLinksFilter
 }
 
 input ImageFilter {
@@ -259,37 +298,25 @@ input ImageFilter {
 input PageBlocksImageFilter {
   url: ImageFilter
   caption: StringFilter
-  borderRadius: NumberFilter
-  marginTop: NumberFilter
-  marginBottom: NumberFilter
-}
-
-input PageBlocksCtaFilter {
-  title: StringFilter
-  link: StringFilter
-  btnBgColor: StringFilter
-  btnTextColor: StringFilter
-  borderRadius: NumberFilter
   align: StringFilter
-  marginTop: NumberFilter
-  marginBottom: NumberFilter
-  paddingLeft: NumberFilter
-  paddingRight: NumberFilter
+  mt: NumberFilter
+  mb: NumberFilter
+  pl: NumberFilter
+  pr: NumberFilter
+  borderRadius: NumberFilter
 }
 
 input PageBlocksFilter {
-  navbar: PageBlocksNavbarFilter
   hero: PageBlocksHeroFilter
   heading: PageBlocksHeadingFilter
   content: PageBlocksContentFilter
-  image: PageBlocksImageFilter
   cta: PageBlocksCtaFilter
+  navbar: PageBlocksNavbarFilter
+  image: PageBlocksImageFilter
 }
 
 input PageFilter {
-  title: StringFilter
-  description: StringFilter
-  titleAlignment: StringFilter
+  adminLabel: StringFilter
   outerBgColor: StringFilter
   blocks: PageBlocksFilter
 }
@@ -324,6 +351,74 @@ input DocumentMutation {
   page: PageMutation
 }
 
+input PageBlocksHeroMutation {
+  heading: String
+  subheading: String
+  align: String
+  textColor: String
+  fontSize: Float
+  fontWeight: String
+  pt: Float
+  pb: Float
+  pl: Float
+  pr: Float
+  mt: Float
+  mb: Float
+  ml: Float
+  mr: Float
+}
+
+input PageBlocksHeadingMutation {
+  text: String
+  align: String
+  textColor: String
+  fontSize: Float
+  fontWeight: String
+  pt: Float
+  pb: Float
+  pl: Float
+  pr: Float
+  mt: Float
+  mb: Float
+  ml: Float
+  mr: Float
+}
+
+input PageBlocksContentMutation {
+  body: JSON
+  align: String
+  textColor: String
+  fontSize: Float
+  fontWeight: String
+  pt: Float
+  pb: Float
+  pl: Float
+  pr: Float
+  mt: Float
+  mb: Float
+  ml: Float
+  mr: Float
+}
+
+input PageBlocksCtaMutation {
+  title: String
+  link: String
+  align: String
+  textColor: String
+  fontSize: Float
+  fontWeight: String
+  pt: Float
+  pb: Float
+  pl: Float
+  pr: Float
+  mt: Float
+  mb: Float
+  ml: Float
+  mr: Float
+  btnBgColor: String
+  btnTextColor: String
+}
+
 input PageBlocksNavbarLinksMutation {
   label: String
   url: String
@@ -334,80 +429,28 @@ input PageBlocksNavbarMutation {
   links: [PageBlocksNavbarLinksMutation]
 }
 
-input PageBlocksHeroMutation {
-  heading: String
-  subheading: String
-  align: String
-  textColor: String
-  fontSize: Float
-  fontWeight: String
-  italic: Boolean
-  marginTop: Float
-  marginBottom: Float
-  paddingLeft: Float
-  paddingRight: Float
-}
-
-input PageBlocksHeadingMutation {
-  text: String
-  align: String
-  textColor: String
-  fontSize: Float
-  fontWeight: String
-  italic: Boolean
-  marginTop: Float
-  marginBottom: Float
-  paddingLeft: Float
-  paddingRight: Float
-}
-
-input PageBlocksContentMutation {
-  body: JSON
-  align: String
-  textColor: String
-  fontSize: Float
-  fontWeight: String
-  italic: Boolean
-  marginTop: Float
-  marginBottom: Float
-  paddingLeft: Float
-  paddingRight: Float
-}
-
 input PageBlocksImageMutation {
   url: String
   caption: String
-  borderRadius: Float
-  marginTop: Float
-  marginBottom: Float
-}
-
-input PageBlocksCtaMutation {
-  title: String
-  link: String
-  btnBgColor: String
-  btnTextColor: String
-  borderRadius: Float
   align: String
-  marginTop: Float
-  marginBottom: Float
-  paddingLeft: Float
-  paddingRight: Float
+  mt: Float
+  mb: Float
+  pl: Float
+  pr: Float
+  borderRadius: Float
 }
 
 input PageBlocksMutation {
-  navbar: PageBlocksNavbarMutation
   hero: PageBlocksHeroMutation
   heading: PageBlocksHeadingMutation
   content: PageBlocksContentMutation
-  image: PageBlocksImageMutation
   cta: PageBlocksCtaMutation
+  navbar: PageBlocksNavbarMutation
+  image: PageBlocksImageMutation
 }
 
 input PageMutation {
-  title: String
-  description: String
-  titleAlignment: String
+  adminLabel: String
   outerBgColor: String
   blocks: [PageBlocksMutation]
 }
