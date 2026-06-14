@@ -62,7 +62,8 @@ export const PagePartsFragmentDoc = gql`
       title
       link
       align
-      textColor
+      btnBgColor
+      btnTextColor
       fontSize
       fontWeight
       pt
@@ -73,8 +74,6 @@ export const PagePartsFragmentDoc = gql`
       mb
       ml
       mr
-      btnBgColor
-      btnTextColor
     }
     ... on PageBlocksNavbar {
       logoText

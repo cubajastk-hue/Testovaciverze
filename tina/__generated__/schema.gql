@@ -140,7 +140,8 @@ type PageBlocksCta {
   title: String
   link: String
   align: String
-  textColor: String
+  btnBgColor: String
+  btnTextColor: String
   fontSize: Float
   fontWeight: String
   pt: Float
@@ -151,8 +152,6 @@ type PageBlocksCta {
   mb: Float
   ml: Float
   mr: Float
-  btnBgColor: String
-  btnTextColor: String
 }
 
 type PageBlocksNavbarLinks {
@@ -263,7 +262,8 @@ input PageBlocksCtaFilter {
   title: StringFilter
   link: StringFilter
   align: StringFilter
-  textColor: StringFilter
+  btnBgColor: StringFilter
+  btnTextColor: StringFilter
   fontSize: NumberFilter
   fontWeight: StringFilter
   pt: NumberFilter
@@ -274,8 +274,6 @@ input PageBlocksCtaFilter {
   mb: NumberFilter
   ml: NumberFilter
   mr: NumberFilter
-  btnBgColor: StringFilter
-  btnTextColor: StringFilter
 }
 
 input PageBlocksNavbarLinksFilter {
@@ -404,7 +402,8 @@ input PageBlocksCtaMutation {
   title: String
   link: String
   align: String
-  textColor: String
+  btnBgColor: String
+  btnTextColor: String
   fontSize: Float
   fontWeight: String
   pt: Float
@@ -415,8 +414,6 @@ input PageBlocksCtaMutation {
   mb: Float
   ml: Float
   mr: Float
-  btnBgColor: String
-  btnTextColor: String
 }
 
 input PageBlocksNavbarLinksMutation {

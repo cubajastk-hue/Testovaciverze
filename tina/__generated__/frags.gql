@@ -54,7 +54,8 @@ fragment PageParts on Page {
       title
       link
       align
-      textColor
+      btnBgColor
+      btnTextColor
       fontSize
       fontWeight
       pt
@@ -65,8 +66,6 @@ fragment PageParts on Page {
       mb
       ml
       mr
-      btnBgColor
-      btnTextColor
     }
     ... on PageBlocksNavbar {
       logoText
