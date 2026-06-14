@@ -26,17 +26,6 @@ export default defineConfig({
             label: "Pohyblivé bloky stránky",
             ui: {
               visualSelector: true,
-              itemProps: (item) => {
-                const labels: any = {
-                  navbar: "Menu",
-                  hero: "Velký Hero",
-                  heading: "Nadpis",
-                  content: "Text",
-                  image: "Obrázek",
-                  cta: "Tlačítko"
-                };
-                return { label: `${labels[item.__typename] || item.__typename}: ${item.heading || item.text || item.logoText || ""}` };
-              },
             },
             templates: [
               // 1. HERO BLOK
@@ -44,6 +33,9 @@ export default defineConfig({
                 name: "hero",
                 label: "VELKÝ HERO",
                 ui: {
+                  itemProps: (item: any) => ({
+                    label: `Velký Hero: ${item?.heading || ""}`,
+                  }),
                   defaultItem: {
                     align: "center",
                     fontSize: 60,
@@ -74,6 +66,9 @@ export default defineConfig({
                 name: "heading",
                 label: "NADPIS (H2)",
                 ui: {
+                  itemProps: (item: any) => ({
+                    label: `Nadpis: ${item?.text || ""}`,
+                  }),
                   defaultItem: {
                     align: "left",
                     fontSize: 36,
@@ -102,6 +97,9 @@ export default defineConfig({
                 name: "content",
                 label: "TEXTOVÝ OBSAH",
                 ui: {
+                  itemProps: (item: any) => ({
+                    label: "Textový blok",
+                  }),
                   defaultItem: {
                     align: "left",
                     fontSize: 18,
@@ -114,7 +112,7 @@ export default defineConfig({
                   { type: "string" as const, name: "align", label: "Zarovnání obsahu a textu", options: [{ value: "left", label: "Vlevo" }, { value: "center", label: "Střed" }, { value: "right", label: "Vpravo" }, { value: "custom", label: "Vlastní" }] },
                   { type: "string" as const, name: "textColor", label: "Barva textu", ui: { component: "color" } },
                   { type: "number" as const, name: "fontSize", label: "Velikost písma (px)" },
-                  { type: "string" as const, name: "fontWeight", label: "Tloušku písma", options: [{value:"400",label:"Normální"},{value:"700",label:"Tučné"}] },
+                  { type: "string" as const, name: "fontWeight", label: "Tloušťka písma", options: [{value:"400",label:"Normální"},{value:"700",label:"Tučné"}] },
                   { type: "number" as const, name: "pt", label: "Vnitřní horní prostor (Padding Top)" },
                   { type: "number" as const, name: "pb", label: "Vnitřní dolní prostor (Padding Bottom)" },
                   { type: "number" as const, name: "pl", label: "Vnitřní levý prostor (Padding Left)" },
@@ -130,6 +128,9 @@ export default defineConfig({
                 name: "cta",
                 label: "TLAČÍTKO (CTA)",
                 ui: {
+                  itemProps: (item: any) => ({
+                    label: `Tlačítko: ${item?.title || ""}`,
+                  }),
                   defaultItem: {
                     align: "center",
                     fontSize: 16,
@@ -164,6 +165,11 @@ export default defineConfig({
               {
                 name: "navbar",
                 label: "NAVBAR (Menu)",
+                ui: {
+                  itemProps: (item: any) => ({
+                    label: `Menu: ${item?.logoText || ""}`,
+                  }),
+                },
                 fields: [
                   { type: "string" as const, name: "logoText", label: "Text loga" },
                   { type: "object" as const, list: true, name: "links", label: "Odkazy v menu", fields: [{type:"string" as const,name:"label",label:"Název odkazu"},{type:"string" as const,name:"url",label:"Adresa"}]}
@@ -174,6 +180,9 @@ export default defineConfig({
                 name: "image",
                 label: "IMAGE (Obrázek)",
                 ui: {
+                  itemProps: (item: any) => ({
+                    label: `Obrázek: ${item?.caption || ""}`,
+                  }),
                   defaultItem: {
                     align: "center",
                     borderRadius: 0,
