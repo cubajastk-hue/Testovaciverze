@@ -36,17 +36,10 @@ var config_default = defineConfig({
                   itemProps: (item) => ({
                     label: item?.adminLabel ? `\u{1F680} Hero: ${item.adminLabel}` : "\u{1F680} VELK\xDD HERO"
                   }),
-                  defaultItem: {
-                    align: "center",
-                    fontSize: 60,
-                    fontWeight: "900",
-                    pt: 80,
-                    pb: 80
-                  }
+                  defaultItem: { align: "center", fontSize: 60, fontWeight: "900", pt: 80, pb: 80 }
                 },
                 fields: [
                   { type: "string", name: "adminLabel", label: "Intern\xED n\xE1zev bloku (Pouze pro admina)" },
-                  // OPRAVENO: smazáno required
                   { type: "rich-text", name: "heading", label: "Hlavn\xED nadpis (Rich Text)" },
                   { type: "rich-text", name: "subheading", label: "Podnadpis (Rich Text)" },
                   { type: "rich-text", name: "body", label: "Obsah sekce (Rich Text)" },
@@ -72,16 +65,10 @@ var config_default = defineConfig({
                   itemProps: (item) => ({
                     label: item?.adminLabel ? `\u{1F4DD} Nadpis: ${item.adminLabel}` : "\u{1F4DD} NADPIS (H2)"
                   }),
-                  defaultItem: {
-                    align: "left",
-                    fontSize: 36,
-                    fontWeight: "700",
-                    mb: 20
-                  }
+                  defaultItem: { align: "left", fontSize: 36, fontWeight: "700", mb: 20 }
                 },
                 fields: [
                   { type: "string", name: "adminLabel", label: "Intern\xED n\xE1zev bloku (Pouze pro admina)" },
-                  // OPRAVENO: smazáno required
                   { type: "rich-text", name: "text", label: "Text nadpisu (Rich Text)" },
                   { type: "string", name: "align", label: "Zarovn\xE1n\xED obsahu a textu", options: [{ value: "left", label: "Vlevo" }, { value: "center", label: "St\u0159ed" }, { value: "right", label: "Vpravo" }, { value: "custom", label: "Vlastn\xED" }] },
                   { type: "string", name: "textColor", label: "Barva textu", ui: { component: "color" } },
@@ -105,16 +92,10 @@ var config_default = defineConfig({
                   itemProps: (item) => ({
                     label: item?.adminLabel ? `\u{1F4D6} Text: ${item.adminLabel}` : "\u{1F4D6} TEXTOV\xDD OBSAH (Rich Text)"
                   }),
-                  defaultItem: {
-                    align: "left",
-                    fontSize: 18,
-                    fontWeight: "400",
-                    mb: 16
-                  }
+                  defaultItem: { align: "left", fontSize: 18, fontWeight: "400", mb: 16 }
                 },
                 fields: [
                   { type: "string", name: "adminLabel", label: "Intern\xED n\xE1zev bloku (Pouze pro admina)" },
-                  // OPRAVENO: smazáno required
                   { type: "rich-text", name: "body", label: "Obsah (Rich Text)" },
                   { type: "string", name: "align", label: "Zarovn\xE1n\xED obsahu a textu", options: [{ value: "left", label: "Vlevo" }, { value: "center", label: "St\u0159ed" }, { value: "right", label: "Vpravo" }, { value: "custom", label: "Vlastn\xED" }] },
                   { type: "string", name: "textColor", label: "Barva textu", ui: { component: "color" } },
@@ -130,7 +111,7 @@ var config_default = defineConfig({
                   { type: "number", name: "mr", label: "Vn\u011Bj\u0161\xED prav\xE9 odsazen\xED (Margin Right)" }
                 ]
               },
-              // 4. CTA TLAČÍTKO
+              // 4. CTA TLAČÍTKO - EDITOVÁNO: jednořádkový Rich Text, smazáno body
               {
                 name: "cta",
                 label: "TLA\u010C\xCDTKO (CTA)",
@@ -138,24 +119,12 @@ var config_default = defineConfig({
                   itemProps: (item) => ({
                     label: item?.adminLabel ? `\u{1F517} Tla\u010D\xEDtko: ${item.adminLabel}` : "\u{1F517} TLA\u010C\xCDTKO (CTA)"
                   }),
-                  defaultItem: {
-                    align: "center",
-                    fontSize: 16,
-                    fontWeight: "700",
-                    pt: 14,
-                    pb: 14,
-                    pl: 28,
-                    pr: 28,
-                    btnBgColor: "#2563eb",
-                    btnTextColor: "#ffffff"
-                  }
+                  defaultItem: { align: "center", fontSize: 16, fontWeight: "700", pt: 14, pb: 14, pl: 28, pr: 28, btnBgColor: "#2563eb", btnTextColor: "#ffffff" }
                 },
                 fields: [
                   { type: "string", name: "adminLabel", label: "Intern\xED n\xE1zev bloku (Pouze pro admina)" },
-                  // OPRAVENO: smazáno required
-                  { type: "string", name: "title", label: "Text tla\u010D\xEDtka" },
+                  { type: "rich-text", name: "title", label: "Text tla\u010D\xEDtka (Rich Text)", parser: { type: "markdown" } },
                   { type: "string", name: "link", label: "Odkaz" },
-                  { type: "rich-text", name: "body", label: "Dopl\u0148uj\xEDc\xED text u tla\u010D\xEDtka (Rich Text)" },
                   { type: "string", name: "align", label: "Zarovn\xE1n\xED tla\u010D\xEDtka", options: [{ value: "left", label: "Vlevo" }, { value: "center", label: "St\u0159ed" }, { value: "right", label: "Vpravo" }, { value: "custom", label: "Vlastn\xED" }] },
                   { type: "string", name: "btnBgColor", label: "Barva pozad\xED tla\u010D\xEDtka", ui: { component: "color" } },
                   { type: "string", name: "btnTextColor", label: "Barva textu uvnit\u0159 tla\u010D\xEDtka", ui: { component: "color" } },
@@ -171,7 +140,7 @@ var config_default = defineConfig({
                   { type: "number", name: "mr", label: "Vn\u011Bj\u0161\xED prav\xE9 odsazen\xED cel\xE9ho bloku (Margin Right)" }
                 ]
               },
-              // 5. NAVBAR
+              // 5. NAVBAR - EDITOVÁNO: jednořádkový Rich Text u loga a odkazů, smazáno body
               {
                 name: "navbar",
                 label: "NAVBAR (Menu)",
@@ -182,10 +151,17 @@ var config_default = defineConfig({
                 },
                 fields: [
                   { type: "string", name: "adminLabel", label: "Intern\xED n\xE1zev bloku (Pouze pro admina)" },
-                  // OPRAVENO: smazáno required
-                  { type: "string", name: "logoText", label: "Text loga" },
-                  { type: "rich-text", name: "body", label: "Dopl\u0148uj\xEDc\xED popis v menu (Rich Text)" },
-                  { type: "object", list: true, name: "links", label: "Odkazy v menu", fields: [{ type: "string", name: "label", label: "N\xE1zev odkazu" }, { type: "string", name: "url", label: "Adresa" }] }
+                  { type: "rich-text", name: "logoText", label: "Text loga (Rich Text)", parser: { type: "markdown" } },
+                  {
+                    type: "object",
+                    list: true,
+                    name: "links",
+                    label: "Odkazy v menu",
+                    fields: [
+                      { type: "rich-text", name: "label", label: "N\xE1zev odkazu (Rich Text)", parser: { type: "markdown" } },
+                      { type: "string", name: "url", label: "Adresa" }
+                    ]
+                  }
                 ]
               },
               // 6. OBRÁZEK
@@ -196,16 +172,10 @@ var config_default = defineConfig({
                   itemProps: (item) => ({
                     label: item?.adminLabel ? `\u{1F5BC}\uFE0F Obr\xE1zek: ${item.adminLabel}` : "\u{1F5BC}\uFE0F IMAGE (Obr\xE1zek)"
                   }),
-                  defaultItem: {
-                    align: "center",
-                    borderRadius: 0,
-                    mt: 20,
-                    mb: 20
-                  }
+                  defaultItem: { align: "center", borderRadius: 0, mt: 20, mb: 20 }
                 },
                 fields: [
                   { type: "string", name: "adminLabel", label: "Intern\xED n\xE1zev bloku (Pouze pro admina)" },
-                  // OPRAVENO: smazáno required
                   { type: "image", name: "url", label: "Soubor obr\xE1zku" },
                   { type: "string", name: "caption", label: "Popisek obr\xE1zku" },
                   { type: "rich-text", name: "body", label: "Detailn\xED text pod obr\xE1zkem (Rich Text)" },

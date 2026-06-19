@@ -66,7 +66,6 @@ export const PagePartsFragmentDoc = gql`
       adminLabel
       title
       link
-      body
       align
       btnBgColor
       btnTextColor
@@ -84,7 +83,6 @@ export const PagePartsFragmentDoc = gql`
     ... on PageBlocksNavbar {
       adminLabel
       logoText
-      body
       links {
         __typename
         label

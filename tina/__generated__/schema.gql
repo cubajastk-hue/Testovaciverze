@@ -142,9 +142,8 @@ type PageBlocksContent {
 
 type PageBlocksCta {
   adminLabel: String
-  title: String
+  title: JSON
   link: String
-  body: JSON
   align: String
   btnBgColor: String
   btnTextColor: String
@@ -161,14 +160,13 @@ type PageBlocksCta {
 }
 
 type PageBlocksNavbarLinks {
-  label: String
+  label: JSON
   url: String
 }
 
 type PageBlocksNavbar {
   adminLabel: String
-  logoText: String
-  body: JSON
+  logoText: JSON
   links: [PageBlocksNavbarLinks]
 }
 
@@ -274,9 +272,8 @@ input PageBlocksContentFilter {
 
 input PageBlocksCtaFilter {
   adminLabel: StringFilter
-  title: StringFilter
+  title: RichTextFilter
   link: StringFilter
-  body: RichTextFilter
   align: StringFilter
   btnBgColor: StringFilter
   btnTextColor: StringFilter
@@ -293,14 +290,13 @@ input PageBlocksCtaFilter {
 }
 
 input PageBlocksNavbarLinksFilter {
-  label: StringFilter
+  label: RichTextFilter
   url: StringFilter
 }
 
 input PageBlocksNavbarFilter {
   adminLabel: StringFilter
-  logoText: StringFilter
-  body: RichTextFilter
+  logoText: RichTextFilter
   links: PageBlocksNavbarLinksFilter
 }
 
@@ -424,9 +420,8 @@ input PageBlocksContentMutation {
 
 input PageBlocksCtaMutation {
   adminLabel: String
-  title: String
+  title: JSON
   link: String
-  body: JSON
   align: String
   btnBgColor: String
   btnTextColor: String
@@ -443,14 +438,13 @@ input PageBlocksCtaMutation {
 }
 
 input PageBlocksNavbarLinksMutation {
-  label: String
+  label: JSON
   url: String
 }
 
 input PageBlocksNavbarMutation {
   adminLabel: String
-  logoText: String
-  body: JSON
+  logoText: JSON
   links: [PageBlocksNavbarLinksMutation]
 }
 

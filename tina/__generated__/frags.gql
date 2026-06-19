@@ -58,7 +58,6 @@ fragment PageParts on Page {
       adminLabel
       title
       link
-      body
       align
       btnBgColor
       btnTextColor
@@ -76,7 +75,6 @@ fragment PageParts on Page {
     ... on PageBlocksNavbar {
       adminLabel
       logoText
-      body
       links {
         __typename
         label
