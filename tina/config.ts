@@ -34,7 +34,10 @@ export default defineConfig({
                 label: "VELKÝ HERO",
                 ui: {
                   itemProps: (item: any) => ({
-                    label: `Velký Hero: ${item?.heading || ""}`,
+                    // Priorita: 1. Vlastní název, 2. Hlavní nadpis, 3. Výchozí text
+                    label: item?.blockLabel 
+                      ? `✨ ${item.blockLabel}` 
+                      : `🚀 Velký Hero: ${item?.heading || "Bez nadpisu"}`,
                   }),
                   defaultItem: {
                     align: "center",
@@ -45,11 +48,12 @@ export default defineConfig({
                   }
                 },
                 fields: [
+                  { type: "string" as const, name: "blockLabel", label: "Vlastní název bloku (Pouze pro admina)", description: "Pojmenuj si tento blok, jak chceš. Na webu se to neukáže." },
                   { type: "string" as const, name: "heading", label: "Hlavní nadpis", description: "Největší text na začátku sekce" },
                   { type: "string" as const, name: "subheading", label: "Podnadpis", description: "Menší doplňující text pod hlavním nadpisem" },
-                  { type: "string" as const, name: "align", label: "Zarovnání obsahu a textu", description: "Vyber rychlé zarovnání, nebo zvol 'Vlastní' pro odemknutí pixelů", options: [{ value: "left", label: "Vlevo" }, { value: "center", label: "Střed" }, { value: "right", label: "Vpravo" }, { value: "custom", label: "Vlastní" }] },
-                  { type: "string" as const, name: "textColor", label: "Barva textu", description: "Barva písma pro tento blok", ui: { component: "color" } },
-                  { type: "number" as const, name: "fontSize", label: "Velikost písma (px)", description: "Zadej velikost v px" },
+                  { type: "string" as const, name: "align", label: "Zarovnání obsahu a textu", options: [{ value: "left", label: "Vlevo" }, { value: "center", label: "Střed" }, { value: "right", label: "Vpravo" }, { value: "custom", label: "Vlastní" }] },
+                  { type: "string" as const, name: "textColor", label: "Barva textu", ui: { component: "color" } },
+                  { type: "number" as const, name: "fontSize", label: "Velikost písma (px)" },
                   { type: "string" as const, name: "fontWeight", label: "Tloušťka písma", options: [{value:"400",label:"Normální"},{value:"700",label:"Tučné"},{value:"900",label:"Extra tučné"}] },
                   { type: "number" as const, name: "pt", label: "Vnitřní horní prostor (Padding Top)" },
                   { type: "number" as const, name: "pb", label: "Vnitřní dolní prostor (Padding Bottom)" },
@@ -67,7 +71,9 @@ export default defineConfig({
                 label: "NADPIS (H2)",
                 ui: {
                   itemProps: (item: any) => ({
-                    label: `Nadpis: ${item?.text || ""}`,
+                    label: item?.blockLabel 
+                      ? `✨ ${item.blockLabel}` 
+                      : `📝 Nadpis: ${item?.text || "Bez textu"}`,
                   }),
                   defaultItem: {
                     align: "left",
@@ -77,7 +83,8 @@ export default defineConfig({
                   }
                 },
                 fields: [
-                  { type: "string" as const, name: "text", label: "Text nadpisu", description: "Klasický nadpis druhé úrovně" },
+                  { type: "string" as const, name: "blockLabel", label: "Vlastní název bloku (Pouze pro admina)" },
+                  { type: "string" as const, name: "text", label: "Text nadpisu" },
                   { type: "string" as const, name: "align", label: "Zarovnání obsahu a textu", options: [{ value: "left", label: "Vlevo" }, { value: "center", label: "Střed" }, { value: "right", label: "Vpravo" }, { value: "custom", label: "Vlastní" }] },
                   { type: "string" as const, name: "textColor", label: "Barva textu", ui: { component: "color" } },
                   { type: "number" as const, name: "fontSize", label: "Velikost písma (px)" },
@@ -98,7 +105,10 @@ export default defineConfig({
                 label: "TEXTOVÝ OBSAH",
                 ui: {
                   itemProps: (item: any) => ({
-                    label: "Textový blok",
+                    // U Rich Textu vytáhneme popisek z blockLabel, jinak dáme obecný název
+                    label: item?.blockLabel 
+                      ? `✨ ${item.blockLabel}` 
+                      : `📖 Textový obsah (Content)`,
                   }),
                   defaultItem: {
                     align: "left",
@@ -108,7 +118,8 @@ export default defineConfig({
                   }
                 },
                 fields: [
-                  { type: "rich-text" as const, name: "body", label: "Obsah", description: "Hlavní textový blok" },
+                  { type: "string" as const, name: "blockLabel", label: "Vlastní název bloku (Pouze pro admina)" },
+                  { type: "rich-text" as const, name: "body", label: "Obsah" },
                   { type: "string" as const, name: "align", label: "Zarovnání obsahu a textu", options: [{ value: "left", label: "Vlevo" }, { value: "center", label: "Střed" }, { value: "right", label: "Vpravo" }, { value: "custom", label: "Vlastní" }] },
                   { type: "string" as const, name: "textColor", label: "Barva textu", ui: { component: "color" } },
                   { type: "number" as const, name: "fontSize", label: "Velikost písma (px)" },
@@ -129,7 +140,9 @@ export default defineConfig({
                 label: "TLAČÍTKO (CTA)",
                 ui: {
                   itemProps: (item: any) => ({
-                    label: `Tlačítko: ${item?.title || ""}`,
+                    label: item?.blockLabel 
+                      ? `✨ ${item.blockLabel}` 
+                      : `🔗 Tlačítko: ${item?.title || "Bez textu"}`,
                   }),
                   defaultItem: {
                     align: "center",
@@ -144,6 +157,7 @@ export default defineConfig({
                   }
                 },
                 fields: [
+                  { type: "string" as const, name: "blockLabel", label: "Vlastní název bloku (Pouze pro admina)" },
                   { type: "string" as const, name: "title", label: "Text tlačítka" },
                   { type: "string" as const, name: "link", label: "Odkaz" },
                   { type: "string" as const, name: "align", label: "Zarovnání tlačítka", options: [{ value: "left", label: "Vlevo" }, { value: "center", label: "Střed" }, { value: "right", label: "Vpravo" }, { value: "custom", label: "Vlastní" }] },
@@ -167,10 +181,13 @@ export default defineConfig({
                 label: "NAVBAR (Menu)",
                 ui: {
                   itemProps: (item: any) => ({
-                    label: `Menu: ${item?.logoText || ""}`,
+                    label: item?.blockLabel 
+                      ? `✨ ${item.blockLabel}` 
+                      : `🧭 Menu: ${item?.logoText || "Bez loga"}`,
                   }),
                 },
                 fields: [
+                  { type: "string" as const, name: "blockLabel", label: "Vlastní název bloku (Pouze pro admina)" },
                   { type: "string" as const, name: "logoText", label: "Text loga" },
                   { type: "object" as const, list: true, name: "links", label: "Odkazy v menu", fields: [{type:"string" as const,name:"label",label:"Název odkazu"},{type:"string" as const,name:"url",label:"Adresa"}]}
                 ]
@@ -181,7 +198,9 @@ export default defineConfig({
                 label: "IMAGE (Obrázek)",
                 ui: {
                   itemProps: (item: any) => ({
-                    label: `Obrázek: ${item?.caption || ""}`,
+                    label: item?.blockLabel 
+                      ? `✨ ${item.blockLabel}` 
+                      : `🖼️ Obrázek: ${item?.caption || "Bez popisku"}`,
                   }),
                   defaultItem: {
                     align: "center",
@@ -191,6 +210,7 @@ export default defineConfig({
                   }
                 },
                 fields: [
+                  { type: "string" as const, name: "blockLabel", label: "Vlastní název bloku (Pouze pro admina)" },
                   { type: "image" as const, name: "url", label: "Soubor obrázku" },
                   { type: "string" as const, name: "caption", label: "Popisek obrázku" },
                   { type: "string" as const, name: "align", label: "Zarovnání obrázku", options: [{value:"left",label:"Vlevo"},{value:"center",label:"Střed"},{value:"right",label:"Vpravo"},{value:"custom",label:"Vlastní"}] },
