@@ -34,10 +34,7 @@ export default defineConfig({
                 label: "VELKÝ HERO",
                 ui: {
                   itemProps: (item: any) => ({
-                    // Priorita: 1. Vlastní název, 2. Hlavní nadpis, 3. Výchozí text
-                    label: item?.blockLabel 
-                      ? `✨ ${item.blockLabel}` 
-                      : `🚀 Velký Hero: ${item?.heading || "Bez nadpisu"}`,
+                    label: item?.heading ? `🚀 Hero: ${item.heading}` : "🚀 Velký Hero (Prázdný)",
                   }),
                   defaultItem: {
                     align: "center",
@@ -48,7 +45,6 @@ export default defineConfig({
                   }
                 },
                 fields: [
-                  { type: "string" as const, name: "blockLabel", label: "Vlastní název bloku (Pouze pro admina)", description: "Pojmenuj si tento blok, jak chceš. Na webu se to neukáže." },
                   { type: "string" as const, name: "heading", label: "Hlavní nadpis", description: "Největší text na začátku sekce" },
                   { type: "string" as const, name: "subheading", label: "Podnadpis", description: "Menší doplňující text pod hlavním nadpisem" },
                   { type: "string" as const, name: "align", label: "Zarovnání obsahu a textu", options: [{ value: "left", label: "Vlevo" }, { value: "center", label: "Střed" }, { value: "right", label: "Vpravo" }, { value: "custom", label: "Vlastní" }] },
@@ -71,9 +67,7 @@ export default defineConfig({
                 label: "NADPIS (H2)",
                 ui: {
                   itemProps: (item: any) => ({
-                    label: item?.blockLabel 
-                      ? `✨ ${item.blockLabel}` 
-                      : `📝 Nadpis: ${item?.text || "Bez textu"}`,
+                    label: item?.text ? `📝 Nadpis: ${item.text}` : "📝 Nadpis (Prázdný)",
                   }),
                   defaultItem: {
                     align: "left",
@@ -83,7 +77,6 @@ export default defineConfig({
                   }
                 },
                 fields: [
-                  { type: "string" as const, name: "blockLabel", label: "Vlastní název bloku (Pouze pro admina)" },
                   { type: "string" as const, name: "text", label: "Text nadpisu" },
                   { type: "string" as const, name: "align", label: "Zarovnání obsahu a textu", options: [{ value: "left", label: "Vlevo" }, { value: "center", label: "Střed" }, { value: "right", label: "Vpravo" }, { value: "custom", label: "Vlastní" }] },
                   { type: "string" as const, name: "textColor", label: "Barva textu", ui: { component: "color" } },
@@ -105,10 +98,7 @@ export default defineConfig({
                 label: "TEXTOVÝ OBSAH",
                 ui: {
                   itemProps: (item: any) => ({
-                    // U Rich Textu vytáhneme popisek z blockLabel, jinak dáme obecný název
-                    label: item?.blockLabel 
-                      ? `✨ ${item.blockLabel}` 
-                      : `📖 Textový obsah (Content)`,
+                    label: "📖 Textový obsah (Rich Text)",
                   }),
                   defaultItem: {
                     align: "left",
@@ -118,7 +108,6 @@ export default defineConfig({
                   }
                 },
                 fields: [
-                  { type: "string" as const, name: "blockLabel", label: "Vlastní název bloku (Pouze pro admina)" },
                   { type: "rich-text" as const, name: "body", label: "Obsah" },
                   { type: "string" as const, name: "align", label: "Zarovnání obsahu a textu", options: [{ value: "left", label: "Vlevo" }, { value: "center", label: "Střed" }, { value: "right", label: "Vpravo" }, { value: "custom", label: "Vlastní" }] },
                   { type: "string" as const, name: "textColor", label: "Barva textu", ui: { component: "color" } },
@@ -140,9 +129,7 @@ export default defineConfig({
                 label: "TLAČÍTKO (CTA)",
                 ui: {
                   itemProps: (item: any) => ({
-                    label: item?.blockLabel 
-                      ? `✨ ${item.blockLabel}` 
-                      : `🔗 Tlačítko: ${item?.title || "Bez textu"}`,
+                    label: item?.title ? `🔗 Tlačítko: ${item.title}` : "🔗 Tlačítko (Bez textu)",
                   }),
                   defaultItem: {
                     align: "center",
@@ -157,7 +144,6 @@ export default defineConfig({
                   }
                 },
                 fields: [
-                  { type: "string" as const, name: "blockLabel", label: "Vlastní název bloku (Pouze pro admina)" },
                   { type: "string" as const, name: "title", label: "Text tlačítka" },
                   { type: "string" as const, name: "link", label: "Odkaz" },
                   { type: "string" as const, name: "align", label: "Zarovnání tlačítka", options: [{ value: "left", label: "Vlevo" }, { value: "center", label: "Střed" }, { value: "right", label: "Vpravo" }, { value: "custom", label: "Vlastní" }] },
@@ -181,13 +167,10 @@ export default defineConfig({
                 label: "NAVBAR (Menu)",
                 ui: {
                   itemProps: (item: any) => ({
-                    label: item?.blockLabel 
-                      ? `✨ ${item.blockLabel}` 
-                      : `🧭 Menu: ${item?.logoText || "Bez loga"}`,
+                    label: item?.logoText ? `🧭 Menu: ${item.logoText}` : "🧭 Menu (Navbar)",
                   }),
                 },
                 fields: [
-                  { type: "string" as const, name: "blockLabel", label: "Vlastní název bloku (Pouze pro admina)" },
                   { type: "string" as const, name: "logoText", label: "Text loga" },
                   { type: "object" as const, list: true, name: "links", label: "Odkazy v menu", fields: [{type:"string" as const,name:"label",label:"Název odkazu"},{type:"string" as const,name:"url",label:"Adresa"}]}
                 ]
@@ -198,9 +181,7 @@ export default defineConfig({
                 label: "IMAGE (Obrázek)",
                 ui: {
                   itemProps: (item: any) => ({
-                    label: item?.blockLabel 
-                      ? `✨ ${item.blockLabel}` 
-                      : `🖼️ Obrázek: ${item?.caption || "Bez popisku"}`,
+                    label: item?.caption ? `🖼️ Obrázek: ${item.caption}` : "🖼️ Obrázek (Bez popisku)",
                   }),
                   defaultItem: {
                     align: "center",
@@ -210,7 +191,6 @@ export default defineConfig({
                   }
                 },
                 fields: [
-                  { type: "string" as const, name: "blockLabel", label: "Vlastní název bloku (Pouze pro admina)" },
                   { type: "image" as const, name: "url", label: "Soubor obrázku" },
                   { type: "string" as const, name: "caption", label: "Popisek obrázku" },
                   { type: "string" as const, name: "align", label: "Zarovnání obrázku", options: [{value:"left",label:"Vlevo"},{value:"center",label:"Střed"},{value:"right",label:"Vpravo"},{value:"custom",label:"Vlastní"}] },
