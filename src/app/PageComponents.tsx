@@ -49,33 +49,30 @@ export function PageComponents(props: any) {
               return (
                 <div key={i} data-tina-field={tinaField(block)} className="w-full bg-white/10 backdrop-blur border-b border-black/5">
                   <nav className="max-w-6xl mx-auto w-full flex justify-between items-center p-6">
-                    <span data-tina-field={tinaField(block, "logoText")} className="font-black text-2xl text-slate-900">{block.logoText || "Logo"}</span>
+                    <span data-tina-field={tinaField(block, "logoText")} className="font-black text-2xl text-slate-900">
+                      {block.logoText ? <TinaMarkdown content={block.logoText} /> : "Logo"}
+                    </span>
                     <ul className="flex gap-6">
                       {block.links?.map((link:any, idx:number) => (
                         <li key={idx} data-tina-field={tinaField(link)}>
-                          <Link href={link.url || "#"} className="font-medium text-slate-700 hover:text-black transition-colors">{link.label || "Odkaz"}</Link>
+                          <Link href={link.url || "#"} className="font-medium text-slate-700 hover:text-black transition-colors">
+                            {link.label ? <TinaMarkdown content={link.label} /> : "Odkaz"}
+                          </Link>
                         </li>
                       ))}
                     </ul>
                   </nav>
-                  {block.body && (
-                    <div data-tina-field={tinaField(block, "body")} className="max-w-6xl mx-auto px-6 pb-4 prose prose-sm">
-                      <TinaMarkdown content={block.body} />
-                    </div>
-                  )}
                 </div>
               );
 
             case "PageBlocksHero":
               return (
                 <section key={i} data-tina-field={tinaField(block)} style={styles as any} className="max-w-6xl w-full mx-auto px-4">
-                  {/* Hlavní nadpis jako Rich Text */}
                   {block.heading && (
                     <div data-tina-field={tinaField(block, "heading")} className="text-6xl font-black tracking-tight prose prose-h1:text-6xl max-w-none">
                       <TinaMarkdown content={block.heading} />
                     </div>
                   )}
-                  {/* Podnadpis jako Rich Text */}
                   {block.subheading && (
                     <div data-tina-field={tinaField(block, "subheading")} className="text-xl opacity-80 mt-4 leading-relaxed prose max-w-none">
                       <TinaMarkdown content={block.subheading} />
@@ -92,7 +89,6 @@ export function PageComponents(props: any) {
             case "PageBlocksHeading":
               return (
                 <div key={i} data-tina-field={tinaField(block)} style={styles as any} className="max-w-4xl w-full mx-auto px-4">
-                  {/* Nadpis H2 jako Rich Text */}
                   {block.text && (
                     <div data-tina-field={tinaField(block, "text")} className="text-4xl font-bold tracking-tight prose prose-h2:text-4xl max-w-none">
                       <TinaMarkdown content={block.text} />
@@ -182,13 +178,8 @@ export function PageComponents(props: any) {
                     }}
                     className="shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all duration-150"
                   >
-                    {block.title || "Tlačítko"}
+                    {block.title ? <TinaMarkdown content={block.title} /> : "Tlačítko"}
                   </Link>
-                  {block.body && (
-                    <div data-tina-field={tinaField(block, "body")} className="mt-4 w-full prose prose-slate max-w-none text-center">
-                      <TinaMarkdown content={block.body} />
-                    </div>
-                  )}
                 </div>
               );
 

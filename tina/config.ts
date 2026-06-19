@@ -36,16 +36,10 @@ export default defineConfig({
                   itemProps: (item: any) => ({
                     label: item?.adminLabel ? `🚀 Hero: ${item.adminLabel}` : "🚀 VELKÝ HERO",
                   }),
-                  defaultItem: {
-                    align: "center",
-                    fontSize: 60,
-                    fontWeight: "900",
-                    pt: 80,
-                    pb: 80
-                  }
+                  defaultItem: { align: "center", fontSize: 60, fontWeight: "900", pt: 80, pb: 80 }
                 },
                 fields: [
-                  { type: "string" as const, name: "adminLabel", label: "Interní název bloku (Pouze pro admina)" }, // OPRAVENO: smazáno required
+                  { type: "string" as const, name: "adminLabel", label: "Interní název bloku (Pouze pro admina)" },
                   { type: "rich-text" as const, name: "heading", label: "Hlavní nadpis (Rich Text)" },
                   { type: "rich-text" as const, name: "subheading", label: "Podnadpis (Rich Text)" },
                   { type: "rich-text" as const, name: "body", label: "Obsah sekce (Rich Text)" },
@@ -71,15 +65,10 @@ export default defineConfig({
                   itemProps: (item: any) => ({
                     label: item?.adminLabel ? `📝 Nadpis: ${item.adminLabel}` : "📝 NADPIS (H2)",
                   }),
-                  defaultItem: {
-                    align: "left",
-                    fontSize: 36,
-                    fontWeight: "700",
-                    mb: 20
-                  }
+                  defaultItem: { align: "left", fontSize: 36, fontWeight: "700", mb: 20 }
                 },
                 fields: [
-                  { type: "string" as const, name: "adminLabel", label: "Interní název bloku (Pouze pro admina)" }, // OPRAVENO: smazáno required
+                  { type: "string" as const, name: "adminLabel", label: "Interní název bloku (Pouze pro admina)" },
                   { type: "rich-text" as const, name: "text", label: "Text nadpisu (Rich Text)" },
                   { type: "string" as const, name: "align", label: "Zarovnání obsahu a textu", options: [{ value: "left", label: "Vlevo" }, { value: "center", label: "Střed" }, { value: "right", label: "Vpravo" }, { value: "custom", label: "Vlastní" }] },
                   { type: "string" as const, name: "textColor", label: "Barva textu", ui: { component: "color" } },
@@ -103,15 +92,10 @@ export default defineConfig({
                   itemProps: (item: any) => ({
                     label: item?.adminLabel ? `📖 Text: ${item.adminLabel}` : "📖 TEXTOVÝ OBSAH (Rich Text)",
                   }),
-                  defaultItem: {
-                    align: "left",
-                    fontSize: 18,
-                    fontWeight: "400",
-                    mb: 16
-                  }
+                  defaultItem: { align: "left", fontSize: 18, fontWeight: "400", mb: 16 }
                 },
                 fields: [
-                  { type: "string" as const, name: "adminLabel", label: "Interní název bloku (Pouze pro admina)" }, // OPRAVENO: smazáno required
+                  { type: "string" as const, name: "adminLabel", label: "Interní název bloku (Pouze pro admina)" },
                   { type: "rich-text" as const, name: "body", label: "Obsah (Rich Text)" },
                   { type: "string" as const, name: "align", label: "Zarovnání obsahu a textu", options: [{ value: "left", label: "Vlevo" }, { value: "center", label: "Střed" }, { value: "right", label: "Vpravo" }, { value: "custom", label: "Vlastní" }] },
                   { type: "string" as const, name: "textColor", label: "Barva textu", ui: { component: "color" } },
@@ -127,7 +111,7 @@ export default defineConfig({
                   { type: "number" as const, name: "mr", label: "Vnější pravé odsazení (Margin Right)" }
                 ]
               },
-              // 4. CTA TLAČÍTKO
+              // 4. CTA TLAČÍTKO - EDITOVÁNO: jednořádkový Rich Text, smazáno body
               {
                 name: "cta",
                 label: "TLAČÍTKO (CTA)",
@@ -135,23 +119,12 @@ export default defineConfig({
                   itemProps: (item: any) => ({
                     label: item?.adminLabel ? `🔗 Tlačítko: ${item.adminLabel}` : "🔗 TLAČÍTKO (CTA)",
                   }),
-                  defaultItem: {
-                    align: "center",
-                    fontSize: 16,
-                    fontWeight: "700",
-                    pt: 14,
-                    pb: 14,
-                    pl: 28,
-                    pr: 28,
-                    btnBgColor: "#2563eb",
-                    btnTextColor: "#ffffff"
-                  }
+                  defaultItem: { align: "center", fontSize: 16, fontWeight: "700", pt: 14, pb: 14, pl: 28, pr: 28, btnBgColor: "#2563eb", btnTextColor: "#ffffff" }
                 },
                 fields: [
-                  { type: "string" as const, name: "adminLabel", label: "Interní název bloku (Pouze pro admina)" }, // OPRAVENO: smazáno required
-                  { type: "string" as const, name: "title", label: "Text tlačítka" },
+                  { type: "string" as const, name: "adminLabel", label: "Interní název bloku (Pouze pro admina)" },
+                  { type: "rich-text" as const, name: "title", label: "Text tlačítka (Rich Text)", parser: { type: "markdown" } },
                   { type: "string" as const, name: "link", label: "Odkaz" },
-                  { type: "rich-text" as const, name: "body", label: "Doplňující text u tlačítka (Rich Text)" },
                   { type: "string" as const, name: "align", label: "Zarovnání tlačítka", options: [{ value: "left", label: "Vlevo" }, { value: "center", label: "Střed" }, { value: "right", label: "Vpravo" }, { value: "custom", label: "Vlastní" }] },
                   { type: "string" as const, name: "btnBgColor", label: "Barva pozadí tlačítka", ui: { component: "color" } },
                   { type: "string" as const, name: "btnTextColor", label: "Barva textu uvnitř tlačítka", ui: { component: "color" } },
@@ -167,7 +140,7 @@ export default defineConfig({
                   { type: "number" as const, name: "mr", label: "Vnější pravé odsazení celého bloku (Margin Right)" }
                 ]
               },
-              // 5. NAVBAR
+              // 5. NAVBAR - EDITOVÁNO: jednořádkový Rich Text u loga a odkazů, smazáno body
               {
                 name: "navbar",
                 label: "NAVBAR (Menu)",
@@ -177,10 +150,18 @@ export default defineConfig({
                   }),
                 },
                 fields: [
-                  { type: "string" as const, name: "adminLabel", label: "Interní název bloku (Pouze pro admina)" }, // OPRAVENO: smazáno required
-                  { type: "string" as const, name: "logoText", label: "Text loga" },
-                  { type: "rich-text" as const, name: "body", label: "Doplňující popis v menu (Rich Text)" },
-                  { type: "object" as const, list: true, name: "links", label: "Odkazy v menu", fields: [{type:"string" as const,name:"label",label:"Název odkazu"},{type:"string" as const,name:"url",label:"Adresa"}]}
+                  { type: "string" as const, name: "adminLabel", label: "Interní název bloku (Pouze pro admina)" },
+                  { type: "rich-text" as const, name: "logoText", label: "Text loga (Rich Text)", parser: { type: "markdown" } },
+                  { 
+                    type: "object" as const, 
+                    list: true, 
+                    name: "links", 
+                    label: "Odkazy v menu", 
+                    fields: [
+                      { type: "rich-text" as const, name: "label", label: "Název odkazu (Rich Text)", parser: { type: "markdown" } },
+                      { type: "string" as const, name: "url", label: "Adresa" }
+                    ]
+                  }
                 ]
               },
               // 6. OBRÁZEK
@@ -191,15 +172,10 @@ export default defineConfig({
                   itemProps: (item: any) => ({
                     label: item?.adminLabel ? `🖼️ Obrázek: ${item.adminLabel}` : "🖼️ IMAGE (Obrázek)",
                   }),
-                  defaultItem: {
-                    align: "center",
-                    borderRadius: 0,
-                    mt: 20,
-                    mb: 20
-                  }
+                  defaultItem: { align: "center", borderRadius: 0, mt: 20, mb: 20 }
                 },
                 fields: [
-                  { type: "string" as const, name: "adminLabel", label: "Interní název bloku (Pouze pro admina)" }, // OPRAVENO: smazáno required
+                  { type: "string" as const, name: "adminLabel", label: "Interní název bloku (Pouze pro admina)" },
                   { type: "image" as const, name: "url", label: "Soubor obrázku" },
                   { type: "string" as const, name: "caption", label: "Popisek obrázku" },
                   { type: "rich-text" as const, name: "body", label: "Detailní text pod obrázkem (Rich Text)" },
