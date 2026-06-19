@@ -5,57 +5,49 @@ description: 'Tento návod tě provede tím, aby jsi udělal 1:1 stránku a mohl
 titleAlignment: center
 outerBgColor: '#f1f5f9'
 blocks:
-  - _template: navbar
-  - heading: Jak to celé funguje?
-    subheading: 'Než napíšeme první řádek kódu, musíš přesně rozumět tomu, jak tahle skládačka komunikuje. Náš web stojí na třech pilířích: Next.js (App Router), Tina CMS (Self-hosted/Lokální) a Git/.mdx soubory.'
+  - logoText: MojeLogo
+    links:
+      - label: Domů
+        url: /
+      - label: O nás
+        url: /o-nas
+    _template: navbar
+
+  - heading: Vítejte na našem novém webu!
+    subheading: Tento web byl postaven pomocí Next.js a Tina CMS.
     align: center
-    textColor: ''
-    marginBottom: 10
+    textColor: '#1e293b'
+    fontSize: 60
+    fontWeight: '900'
+    pt: 80
+    pb: 80
     _template: hero
-  - url: /uploads/Sn%C3%ADmek%20obrazovky%202026-06-11%20154730.png
-    _template: image
+
+  - text: Jak to celé funguje?
+    align: center
+    fontSize: 36
+    fontWeight: '700'
+    mb: 20
+    _template: heading
+
   - body: |
-      **Inicializace projektu a propojení**
-
-      1\. Založení projektu a instalace Tiny
-
-      V terminálu Codespaces inicializujeme nový Next.js projekt a přidáme do něj Tinu CMS:
-    align: center
-    fontSize: 20
-    marginTop: 30
-    marginBottom: 10
+      **Administrace (Tina Admin):** Když v prohlížeči upravuješ text, barvu nebo odsazení v px, Tina CMS neukládá data do žádné externí SQL databáze. Zapíše je přímo do textového souboru s příponou `.mdx` na tvůj disk.
+    align: left
+    fontSize: 18
+    fontWeight: '400'
+    mb: 16
     _template: content
-  - url: /uploads/Sn%C3%ADmek%20obrazovky%202026-06-11%20155005.png
-    _template: image
-  - body: |
-      **2. Propojení s GitHubem a první oprava Gitu**
 
-      Aby ti fungovalo stahování změn z adminu bez chyb, musíme hned na začátku nastavit Git tak, aby při příkazu git pull automaticky spojoval větve (merge) a neházel fatal error divergent branches.
+  - title: Vyzkoušet hned
+    link: /kontakt
     align: center
-    fontSize: 20
-    marginTop: 30
-    marginBottom: 10
-    _template: content
-  - url: /uploads/Sn%C3%ADmek%20obrazovky%202026-06-11%20155348.png
-    _template: image
-  - body: |
-      **3. Nastavení projektu na Vercelu**
-
-      Běž na Vercel, importuj svůj repozitář a v nastavení projektu (Project Settings) uprav dvě klíčové věci:
-    align: center
-    fontSize: 20
-    marginTop: 30
-    marginBottom: 10
-    _template: content
-  - url: /uploads/Sn%C3%ADmek%20obrazovky%202026-06-11%20155544.png
-    _template: image
-  - url: /uploads/Sn%C3%ADmek%20obrazovky%202026-06-11%20155612.png
-    _template: image
-  - heading: tina/config.ts
-    subheading: 'Tento soubor definuje, jaká políčka uvidíš v administraci. Všimni si, že nepoužíváme externí pole (která způsobovala chybu ts(2322) - Typ string nejde přiřadit typu "string"), ale typy píšeme natvrdo do každého bloku. Máme tu taky upravený dynamický router, který generuje správné živé adresy i pro podstránky.'
-    align: center
-    marginTop: 30
-    marginBottom: 10
-    _template: hero
+    btnBgColor: '#2563eb'
+    btnTextColor: '#ffffff'
+    fontSize: 16
+    fontWeight: '700'
+    pt: 14
+    pb: 14
+    pl: 28
+    pr: 28
+    _template: cta
 ---
-
