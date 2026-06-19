@@ -28,13 +28,13 @@ export default defineConfig({
               visualSelector: true,
             },
             templates: [
-              // 1. HERO BLOK
+              // 1. HERO BLOK - Bere text z "heading"
               {
                 name: "hero",
                 label: "VELKÝ HERO",
                 ui: {
                   itemProps: (item: any) => ({
-                    label: item?.heading ? `🚀 Hero: ${item.heading}` : "🚀 Velký Hero (Prázdný)",
+                    label: item?.heading ? `🚀 Hero: ${item.heading}` : "🚀 VELKÝ HERO (Prázdný)",
                   }),
                   defaultItem: {
                     align: "center",
@@ -47,6 +47,7 @@ export default defineConfig({
                 fields: [
                   { type: "string" as const, name: "heading", label: "Hlavní nadpis", description: "Největší text na začátku sekce" },
                   { type: "string" as const, name: "subheading", label: "Podnadpis", description: "Menší doplňující text pod hlavním nadpisem" },
+                  { type: "rich-text" as const, name: "body", label: "Obsah" },
                   { type: "string" as const, name: "align", label: "Zarovnání obsahu a textu", options: [{ value: "left", label: "Vlevo" }, { value: "center", label: "Střed" }, { value: "right", label: "Vpravo" }, { value: "custom", label: "Vlastní" }] },
                   { type: "string" as const, name: "textColor", label: "Barva textu", ui: { component: "color" } },
                   { type: "number" as const, name: "fontSize", label: "Velikost písma (px)" },
@@ -61,13 +62,13 @@ export default defineConfig({
                   { type: "number" as const, name: "mr", label: "Vnější pravé odsazení (Margin Right)" }
                 ]
               },
-              // 2. HEADING BLOK
+              // 2. HEADING BLOK - Bere text z "text"
               {
                 name: "heading",
                 label: "NADPIS (H2)",
                 ui: {
                   itemProps: (item: any) => ({
-                    label: item?.text ? `📝 Nadpis: ${item.text}` : "📝 Nadpis (Prázdný)",
+                    label: item?.text ? `📝 Nadpis: ${item.text}` : "📝 NADPIS (Prázdný)",
                   }),
                   defaultItem: {
                     align: "left",
@@ -78,6 +79,7 @@ export default defineConfig({
                 },
                 fields: [
                   { type: "string" as const, name: "text", label: "Text nadpisu" },
+                  { type: "rich-text" as const, name: "body", label: "Obsah" },
                   { type: "string" as const, name: "align", label: "Zarovnání obsahu a textu", options: [{ value: "left", label: "Vlevo" }, { value: "center", label: "Střed" }, { value: "right", label: "Vpravo" }, { value: "custom", label: "Vlastní" }] },
                   { type: "string" as const, name: "textColor", label: "Barva textu", ui: { component: "color" } },
                   { type: "number" as const, name: "fontSize", label: "Velikost písma (px)" },
@@ -92,13 +94,13 @@ export default defineConfig({
                   { type: "number" as const, name: "mr", label: "Vnější pravé odsazení (Margin Right)" }
                 ]
               },
-              // 3. CONTENT BLOK
+              // 3. CONTENT BLOK (Rich Text) - Zde zůstává adminLabel, protože z formátu mdx nejde text přímo vytáhnout
               {
                 name: "content",
                 label: "TEXTOVÝ OBSAH",
                 ui: {
                   itemProps: (item: any) => ({
-                    label: "📖 Textový obsah (Rich Text)",
+                    label: item?.adminLabel ? `📖 ${item.adminLabel}` : "📖 TEXTOVÝ OBSAH (Rich Text)",
                   }),
                   defaultItem: {
                     align: "left",
@@ -108,6 +110,7 @@ export default defineConfig({
                   }
                 },
                 fields: [
+                  { type: "string" as const, name: "adminLabel", label: "Interní název bloku (Pouze pro admina)", description: "Rich Text neumí automaticky ukázat název, sem si napiš, o čem blok je." },
                   { type: "rich-text" as const, name: "body", label: "Obsah" },
                   { type: "string" as const, name: "align", label: "Zarovnání obsahu a textu", options: [{ value: "left", label: "Vlevo" }, { value: "center", label: "Střed" }, { value: "right", label: "Vpravo" }, { value: "custom", label: "Vlastní" }] },
                   { type: "string" as const, name: "textColor", label: "Barva textu", ui: { component: "color" } },
@@ -123,13 +126,13 @@ export default defineConfig({
                   { type: "number" as const, name: "mr", label: "Vnější pravé odsazení (Margin Right)" }
                 ]
               },
-              // 4. CTA TLAČÍTKO
+              // 4. CTA TLAČÍTKO - Bere text z "title"
               {
                 name: "cta",
                 label: "TLAČÍTKO (CTA)",
                 ui: {
                   itemProps: (item: any) => ({
-                    label: item?.title ? `🔗 Tlačítko: ${item.title}` : "🔗 Tlačítko (Bez textu)",
+                    label: item?.title ? `🔗 Tlačítko: ${item.title}` : "🔗 TLAČÍTKO (Bez textu)",
                   }),
                   defaultItem: {
                     align: "center",
@@ -146,6 +149,7 @@ export default defineConfig({
                 fields: [
                   { type: "string" as const, name: "title", label: "Text tlačítka" },
                   { type: "string" as const, name: "link", label: "Odkaz" },
+                  { type: "rich-text" as const, name: "body", label: "Obsah" },
                   { type: "string" as const, name: "align", label: "Zarovnání tlačítka", options: [{ value: "left", label: "Vlevo" }, { value: "center", label: "Střed" }, { value: "right", label: "Vpravo" }, { value: "custom", label: "Vlastní" }] },
                   { type: "string" as const, name: "btnBgColor", label: "Barva pozadí tlačítka", ui: { component: "color" } },
                   { type: "string" as const, name: "btnTextColor", label: "Barva textu uvnitř tlačítka", ui: { component: "color" } },
@@ -161,27 +165,28 @@ export default defineConfig({
                   { type: "number" as const, name: "mr", label: "Vnější pravé odsazení celého bloku (Margin Right)" }
                 ]
               },
-              // 5. NAVBAR
+              // 5. NAVBAR - Bere text z "logoText"
               {
                 name: "navbar",
                 label: "NAVBAR (Menu)",
                 ui: {
                   itemProps: (item: any) => ({
-                    label: item?.logoText ? `🧭 Menu: ${item.logoText}` : "🧭 Menu (Navbar)",
+                    label: item?.logoText ? `🧭 Menu: ${item.logoText}` : "🧭 NAVBAR (Menu)",
                   }),
                 },
                 fields: [
                   { type: "string" as const, name: "logoText", label: "Text loga" },
+                  { type: "rich-text" as const, name: "body", label: "Obsah" },
                   { type: "object" as const, list: true, name: "links", label: "Odkazy v menu", fields: [{type:"string" as const,name:"label",label:"Název odkazu"},{type:"string" as const,name:"url",label:"Adresa"}]}
                 ]
               },
-              // 6. OBRÁZEK
+              // 6. OBRÁZEK - Bere text z "caption"
               {
                 name: "image",
                 label: "IMAGE (Obrázek)",
                 ui: {
                   itemProps: (item: any) => ({
-                    label: item?.caption ? `🖼️ Obrázek: ${item.caption}` : "🖼️ Obrázek (Bez popisku)",
+                    label: item?.caption ? `🖼️ Obrázek: ${item.caption}` : "🖼️ IMAGE (Bez popisku)",
                   }),
                   defaultItem: {
                     align: "center",
@@ -193,6 +198,7 @@ export default defineConfig({
                 fields: [
                   { type: "image" as const, name: "url", label: "Soubor obrázku" },
                   { type: "string" as const, name: "caption", label: "Popisek obrázku" },
+                  { type: "rich-text" as const, name: "body", label: "Obsah" },
                   { type: "string" as const, name: "align", label: "Zarovnání obrázku", options: [{value:"left",label:"Vlevo"},{value:"center",label:"Střed"},{value:"right",label:"Vpravo"},{value:"custom",label:"Vlastní"}] },
                   { type: "number" as const, name: "mt", label: "Horní odsazení (Margin Top)" },
                   { type: "number" as const, name: "mb", label: "Dolní odsazení (Margin Bottom)" },
