@@ -13,8 +13,10 @@ export const PagePartsFragmentDoc = gql`
   blocks {
     __typename
     ... on PageBlocksHero {
+      adminLabel
       heading
       subheading
+      body
       align
       textColor
       fontSize
@@ -29,7 +31,9 @@ export const PagePartsFragmentDoc = gql`
       mr
     }
     ... on PageBlocksHeading {
+      adminLabel
       text
+      body
       align
       textColor
       fontSize
@@ -44,6 +48,7 @@ export const PagePartsFragmentDoc = gql`
       mr
     }
     ... on PageBlocksContent {
+      adminLabel
       body
       align
       textColor
@@ -59,8 +64,10 @@ export const PagePartsFragmentDoc = gql`
       mr
     }
     ... on PageBlocksCta {
+      adminLabel
       title
       link
+      body
       align
       btnBgColor
       btnTextColor
@@ -76,7 +83,9 @@ export const PagePartsFragmentDoc = gql`
       mr
     }
     ... on PageBlocksNavbar {
+      adminLabel
       logoText
+      body
       links {
         __typename
         label
@@ -84,8 +93,10 @@ export const PagePartsFragmentDoc = gql`
       }
     }
     ... on PageBlocksImage {
+      adminLabel
       url
       caption
+      body
       align
       mt
       mb

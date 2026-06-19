@@ -65,6 +65,12 @@ export function PageComponents(props: any) {
                       ))}
                     </ul>
                   </nav>
+                  {/* Rich Text pod Navbarem, pokud existuje */}
+                  {block.body && (
+                    <div data-tina-field={tinaField(block, "body")} className="max-w-6xl mx-auto px-6 pb-4 prose prose-sm">
+                      <TinaMarkdown content={block.body} />
+                    </div>
+                  )}
                 </div>
               );
 
@@ -73,13 +79,25 @@ export function PageComponents(props: any) {
                 <section key={i} data-tina-field={tinaField(block)} style={styles as any} className="max-w-6xl w-full mx-auto px-4">
                   <h1 data-tina-field={tinaField(block, "heading")} className="text-6xl font-black tracking-tight">{block.heading}</h1>
                   {block.subheading && <p data-tina-field={tinaField(block, "subheading")} className="text-xl opacity-80 mt-4 leading-relaxed">{block.subheading}</p>}
+                  {/* Formátovaný Rich Text uvnitř Hero bloku */}
+                  {block.body && (
+                    <div data-tina-field={tinaField(block, "body")} className="mt-6 prose prose-slate max-w-none">
+                      <TinaMarkdown content={block.body} />
+                    </div>
+                  )}
                 </section>
               );
 
             case "PageBlocksHeading":
               return (
                 <div key={i} data-tina-field={tinaField(block)} style={styles as any} className="max-w-4xl w-full mx-auto px-4">
-                   <h2 data-tina-field={tinaField(block, "text")} className="text-4xl font-bold tracking-tight">{block.text}</h2>
+                  <h2 data-tina-field={tinaField(block, "text")} className="text-4xl font-bold tracking-tight">{block.text}</h2>
+                  {/* Formátovaný Rich Text pod nadpisem */}
+                  {block.body && (
+                    <div data-tina-field={tinaField(block, "body")} className="mt-4 prose prose-slate max-w-none">
+                      <TinaMarkdown content={block.body} />
+                    </div>
+                  )}
                 </div>
               );
 
@@ -87,7 +105,7 @@ export function PageComponents(props: any) {
               return (
                 <div key={i} data-tina-field={tinaField(block)} style={styles as any} className="max-w-4xl w-full mx-auto px-4 prose prose-slate prose-lg">
                    <div data-tina-field={tinaField(block, "body")}>
-                     <TinaMarkdown content={block.body} />
+                     {block.body && <TinaMarkdown content={block.body} />}
                    </div>
                 </div>
               );
@@ -103,28 +121,34 @@ export function PageComponents(props: any) {
                     paddingLeft: block.pl ? `${block.pl}px` : "0px",
                     paddingRight: block.pr ? `${block.pr}px` : "0px"
                   }} 
-                  className={`w-full max-w-4xl mx-auto flex ${getFlexJustify(block.align || "center")}`}
+                  className={`w-full max-w-4xl mx-auto flex flex-col items-center px-4`}
                 >
-                  <figure className="flex flex-col items-center max-w-full">
+                  <figure className={`flex flex-col max-w-full ${getFlexJustify(block.align || "center")}`}>
                     {block.url ? (
                       <img 
                         data-tina-field={tinaField(block, "url")}
                         src={block.url} 
                         alt={block.caption || "Obrázek z webu"}
                         style={{ borderRadius: block.borderRadius ? `${block.borderRadius}px` : "0px" }}
-                        className="shadow-xl max-w-full h-auto object-contain" 
+                        className="shadow-xl max-w-full h-auto object-contain mx-auto" 
                       />
                     ) : (
-                      <div className="w-[600px] max-w-full h-64 bg-slate-100 border border-dashed border-slate-300 rounded-xl flex items-center justify-center text-slate-400 font-medium text-sm">
+                      <div className="w-[600px] max-w-full h-64 bg-slate-100 border border-dashed border-slate-300 rounded-xl flex items-center justify-center text-slate-400 font-medium text-sm mx-auto">
                         Klikni sem a nahraj obrázek v bočním panelu
                       </div>
                     )}
                     {block.caption && (
-                      <figcaption data-tina-field={tinaField(block, "caption")} className="italic mt-3 text-sm text-slate-500">
+                      <figcaption data-tina-field={tinaField(block, "caption")} className="italic mt-3 text-sm text-slate-500 text-center">
                         {block.caption}
                       </figcaption>
                     )}
                   </figure>
+                  {/* Formátovaný Rich Text pod obrázkem */}
+                  {block.body && (
+                    <div data-tina-field={tinaField(block, "body")} className="mt-4 w-full prose prose-slate max-w-none">
+                      <TinaMarkdown content={block.body} />
+                    </div>
+                  )}
                 </div>
               );
 
@@ -140,7 +164,7 @@ export function PageComponents(props: any) {
                     marginRight: styles.marginRight,
                     textAlign: styles.textAlign as any
                   }} 
-                  className="w-full max-w-4xl mx-auto px-4"
+                  className="w-full max-w-4xl mx-auto px-4 flex flex-col items-center justify-center"
                 >
                   <Link 
                     data-tina-field={tinaField(block, "title")}
@@ -161,6 +185,12 @@ export function PageComponents(props: any) {
                   >
                     {block.title || "Tlačítko"}
                   </Link>
+                  {/* Formátovaný Rich Text pod tlačítkem */}
+                  {block.body && (
+                    <div data-tina-field={tinaField(block, "body")} className="mt-4 w-full prose prose-slate max-w-none text-center">
+                      <TinaMarkdown content={block.body} />
+                    </div>
+                  )}
                 </div>
               );
 

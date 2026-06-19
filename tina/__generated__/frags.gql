@@ -5,8 +5,10 @@ fragment PageParts on Page {
   blocks {
     __typename
     ... on PageBlocksHero {
+      adminLabel
       heading
       subheading
+      body
       align
       textColor
       fontSize
@@ -21,7 +23,9 @@ fragment PageParts on Page {
       mr
     }
     ... on PageBlocksHeading {
+      adminLabel
       text
+      body
       align
       textColor
       fontSize
@@ -36,6 +40,7 @@ fragment PageParts on Page {
       mr
     }
     ... on PageBlocksContent {
+      adminLabel
       body
       align
       textColor
@@ -51,8 +56,10 @@ fragment PageParts on Page {
       mr
     }
     ... on PageBlocksCta {
+      adminLabel
       title
       link
+      body
       align
       btnBgColor
       btnTextColor
@@ -68,7 +75,9 @@ fragment PageParts on Page {
       mr
     }
     ... on PageBlocksNavbar {
+      adminLabel
       logoText
+      body
       links {
         __typename
         label
@@ -76,8 +85,10 @@ fragment PageParts on Page {
       }
     }
     ... on PageBlocksImage {
+      adminLabel
       url
       caption
+      body
       align
       mt
       mb

@@ -88,8 +88,10 @@ type Collection {
 union DocumentNode = Page | Folder
 
 type PageBlocksHero {
+  adminLabel: String
   heading: String
   subheading: String
+  body: JSON
   align: String
   textColor: String
   fontSize: Float
@@ -105,7 +107,9 @@ type PageBlocksHero {
 }
 
 type PageBlocksHeading {
+  adminLabel: String
   text: String
+  body: JSON
   align: String
   textColor: String
   fontSize: Float
@@ -121,6 +125,7 @@ type PageBlocksHeading {
 }
 
 type PageBlocksContent {
+  adminLabel: String
   body: JSON
   align: String
   textColor: String
@@ -137,8 +142,10 @@ type PageBlocksContent {
 }
 
 type PageBlocksCta {
+  adminLabel: String
   title: String
   link: String
+  body: JSON
   align: String
   btnBgColor: String
   btnTextColor: String
@@ -160,13 +167,17 @@ type PageBlocksNavbarLinks {
 }
 
 type PageBlocksNavbar {
+  adminLabel: String
   logoText: String
+  body: JSON
   links: [PageBlocksNavbarLinks]
 }
 
 type PageBlocksImage {
+  adminLabel: String
   url: String
   caption: String
+  body: JSON
   align: String
   mt: Float
   mb: Float
@@ -193,6 +204,12 @@ input StringFilter {
   in: [String]
 }
 
+input RichTextFilter {
+  startsWith: String
+  eq: String
+  exists: Boolean
+}
+
 input NumberFilter {
   lt: Float
   lte: Float
@@ -204,8 +221,10 @@ input NumberFilter {
 }
 
 input PageBlocksHeroFilter {
+  adminLabel: StringFilter
   heading: StringFilter
   subheading: StringFilter
+  body: RichTextFilter
   align: StringFilter
   textColor: StringFilter
   fontSize: NumberFilter
@@ -221,7 +240,9 @@ input PageBlocksHeroFilter {
 }
 
 input PageBlocksHeadingFilter {
+  adminLabel: StringFilter
   text: StringFilter
+  body: RichTextFilter
   align: StringFilter
   textColor: StringFilter
   fontSize: NumberFilter
@@ -236,13 +257,8 @@ input PageBlocksHeadingFilter {
   mr: NumberFilter
 }
 
-input RichTextFilter {
-  startsWith: String
-  eq: String
-  exists: Boolean
-}
-
 input PageBlocksContentFilter {
+  adminLabel: StringFilter
   body: RichTextFilter
   align: StringFilter
   textColor: StringFilter
@@ -259,8 +275,10 @@ input PageBlocksContentFilter {
 }
 
 input PageBlocksCtaFilter {
+  adminLabel: StringFilter
   title: StringFilter
   link: StringFilter
+  body: RichTextFilter
   align: StringFilter
   btnBgColor: StringFilter
   btnTextColor: StringFilter
@@ -282,7 +300,9 @@ input PageBlocksNavbarLinksFilter {
 }
 
 input PageBlocksNavbarFilter {
+  adminLabel: StringFilter
   logoText: StringFilter
+  body: RichTextFilter
   links: PageBlocksNavbarLinksFilter
 }
 
@@ -294,8 +314,10 @@ input ImageFilter {
 }
 
 input PageBlocksImageFilter {
+  adminLabel: StringFilter
   url: ImageFilter
   caption: StringFilter
+  body: RichTextFilter
   align: StringFilter
   mt: NumberFilter
   mb: NumberFilter
@@ -350,8 +372,10 @@ input DocumentMutation {
 }
 
 input PageBlocksHeroMutation {
+  adminLabel: String
   heading: String
   subheading: String
+  body: JSON
   align: String
   textColor: String
   fontSize: Float
@@ -367,7 +391,9 @@ input PageBlocksHeroMutation {
 }
 
 input PageBlocksHeadingMutation {
+  adminLabel: String
   text: String
+  body: JSON
   align: String
   textColor: String
   fontSize: Float
@@ -383,6 +409,7 @@ input PageBlocksHeadingMutation {
 }
 
 input PageBlocksContentMutation {
+  adminLabel: String
   body: JSON
   align: String
   textColor: String
@@ -399,8 +426,10 @@ input PageBlocksContentMutation {
 }
 
 input PageBlocksCtaMutation {
+  adminLabel: String
   title: String
   link: String
+  body: JSON
   align: String
   btnBgColor: String
   btnTextColor: String
@@ -422,13 +451,17 @@ input PageBlocksNavbarLinksMutation {
 }
 
 input PageBlocksNavbarMutation {
+  adminLabel: String
   logoText: String
+  body: JSON
   links: [PageBlocksNavbarLinksMutation]
 }
 
 input PageBlocksImageMutation {
+  adminLabel: String
   url: String
   caption: String
+  body: JSON
   align: String
   mt: Float
   mb: Float

@@ -25,18 +25,7 @@ var config_default = defineConfig({
             name: "blocks",
             label: "Pohybliv\xE9 bloky str\xE1nky",
             ui: {
-              visualSelector: true,
-              itemProps: (item) => {
-                const labels = {
-                  navbar: "Menu",
-                  hero: "Velk\xFD Hero",
-                  heading: "Nadpis",
-                  content: "Text",
-                  image: "Obr\xE1zek",
-                  cta: "Tla\u010D\xEDtko"
-                };
-                return { label: `${labels[item.__typename] || item.__typename}: ${item.heading || item.text || item.logoText || ""}` };
-              }
+              visualSelector: true
             },
             templates: [
               // 1. HERO BLOK
@@ -44,6 +33,9 @@ var config_default = defineConfig({
                 name: "hero",
                 label: "VELK\xDD HERO",
                 ui: {
+                  itemProps: (item) => ({
+                    label: item?.adminLabel ? `\u{1F680} Hero: ${item.adminLabel}` : "\u{1F680} VELK\xDD HERO"
+                  }),
                   defaultItem: {
                     align: "center",
                     fontSize: 60,
@@ -53,11 +45,13 @@ var config_default = defineConfig({
                   }
                 },
                 fields: [
+                  { type: "string", name: "adminLabel", label: "Intern\xED n\xE1zev bloku (Pouze pro admina)", description: "Pojmenuj si sekci, a\u0165 ji v seznamu hned pozn\xE1\u0161." },
                   { type: "string", name: "heading", label: "Hlavn\xED nadpis", description: "Nejv\u011Bt\u0161\xED text na za\u010D\xE1tku sekce" },
                   { type: "string", name: "subheading", label: "Podnadpis", description: "Men\u0161\xED dopl\u0148uj\xEDc\xED text pod hlavn\xEDm nadpisem" },
-                  { type: "string", name: "align", label: "Zarovn\xE1n\xED obsahu a textu", description: "Vyber rychl\xE9 zarovn\xE1n\xED, nebo zvol 'Vlastn\xED' pro odemknut\xED pixel\u016F", options: [{ value: "left", label: "Vlevo" }, { value: "center", label: "St\u0159ed" }, { value: "right", label: "Vpravo" }, { value: "custom", label: "Vlastn\xED" }] },
-                  { type: "string", name: "textColor", label: "Barva textu", description: "Barva p\xEDsma pro tento blok", ui: { component: "color" } },
-                  { type: "number", name: "fontSize", label: "Velikost p\xEDsma (px)", description: "Zadej velikost v px" },
+                  { type: "rich-text", name: "body", label: "Obsah sekce (Rich Text)" },
+                  { type: "string", name: "align", label: "Zarovn\xE1n\xED obsahu a textu", options: [{ value: "left", label: "Vlevo" }, { value: "center", label: "St\u0159ed" }, { value: "right", label: "Vpravo" }, { value: "custom", label: "Vlastn\xED" }] },
+                  { type: "string", name: "textColor", label: "Barva textu", ui: { component: "color" } },
+                  { type: "number", name: "fontSize", label: "Velikost p\xEDsma (px)" },
                   { type: "string", name: "fontWeight", label: "Tlou\u0161\u0165ka p\xEDsma", options: [{ value: "400", label: "Norm\xE1ln\xED" }, { value: "700", label: "Tu\u010Dn\xE9" }, { value: "900", label: "Extra tu\u010Dn\xE9" }] },
                   { type: "number", name: "pt", label: "Vnit\u0159n\xED horn\xED prostor (Padding Top)" },
                   { type: "number", name: "pb", label: "Vnit\u0159n\xED doln\xED prostor (Padding Bottom)" },
@@ -74,6 +68,9 @@ var config_default = defineConfig({
                 name: "heading",
                 label: "NADPIS (H2)",
                 ui: {
+                  itemProps: (item) => ({
+                    label: item?.adminLabel ? `\u{1F4DD} Nadpis: ${item.adminLabel}` : "\u{1F4DD} NADPIS (H2)"
+                  }),
                   defaultItem: {
                     align: "left",
                     fontSize: 36,
@@ -82,7 +79,9 @@ var config_default = defineConfig({
                   }
                 },
                 fields: [
-                  { type: "string", name: "text", label: "Text nadpisu", description: "Klasick\xFD nadpis druh\xE9 \xFArovn\u011B" },
+                  { type: "string", name: "adminLabel", label: "Intern\xED n\xE1zev bloku (Pouze pro admina)" },
+                  { type: "string", name: "text", label: "Text nadpisu" },
+                  { type: "rich-text", name: "body", label: "Dopl\u0148uj\xEDc\xED text pod nadpisem (Rich Text)" },
                   { type: "string", name: "align", label: "Zarovn\xE1n\xED obsahu a textu", options: [{ value: "left", label: "Vlevo" }, { value: "center", label: "St\u0159ed" }, { value: "right", label: "Vpravo" }, { value: "custom", label: "Vlastn\xED" }] },
                   { type: "string", name: "textColor", label: "Barva textu", ui: { component: "color" } },
                   { type: "number", name: "fontSize", label: "Velikost p\xEDsma (px)" },
@@ -102,6 +101,9 @@ var config_default = defineConfig({
                 name: "content",
                 label: "TEXTOV\xDD OBSAH",
                 ui: {
+                  itemProps: (item) => ({
+                    label: item?.adminLabel ? `\u{1F4D6} Text: ${item.adminLabel}` : "\u{1F4D6} TEXTOV\xDD OBSAH (Rich Text)"
+                  }),
                   defaultItem: {
                     align: "left",
                     fontSize: 18,
@@ -110,11 +112,12 @@ var config_default = defineConfig({
                   }
                 },
                 fields: [
-                  { type: "rich-text", name: "body", label: "Obsah", description: "Hlavn\xED textov\xFD blok" },
+                  { type: "string", name: "adminLabel", label: "Intern\xED n\xE1zev bloku (Pouze pro admina)" },
+                  { type: "rich-text", name: "body", label: "Obsah (Rich Text)" },
                   { type: "string", name: "align", label: "Zarovn\xE1n\xED obsahu a textu", options: [{ value: "left", label: "Vlevo" }, { value: "center", label: "St\u0159ed" }, { value: "right", label: "Vpravo" }, { value: "custom", label: "Vlastn\xED" }] },
                   { type: "string", name: "textColor", label: "Barva textu", ui: { component: "color" } },
                   { type: "number", name: "fontSize", label: "Velikost p\xEDsma (px)" },
-                  { type: "string", name: "fontWeight", label: "Tlou\u0161ku p\xEDsma", options: [{ value: "400", label: "Norm\xE1ln\xED" }, { value: "700", label: "Tu\u010Dn\xE9" }] },
+                  { type: "string", name: "fontWeight", label: "Tlou\u0161\u0165ka p\xEDsma", options: [{ value: "400", label: "Norm\xE1ln\xED" }, { value: "700", label: "Tu\u010Dn\xE9" }] },
                   { type: "number", name: "pt", label: "Vnit\u0159n\xED horn\xED prostor (Padding Top)" },
                   { type: "number", name: "pb", label: "Vnit\u0159n\xED doln\xED prostor (Padding Bottom)" },
                   { type: "number", name: "pl", label: "Vnit\u0159n\xED lev\xFD prostor (Padding Left)" },
@@ -130,6 +133,9 @@ var config_default = defineConfig({
                 name: "cta",
                 label: "TLA\u010C\xCDTKO (CTA)",
                 ui: {
+                  itemProps: (item) => ({
+                    label: item?.adminLabel ? `\u{1F517} Tla\u010D\xEDtko: ${item.adminLabel}` : "\u{1F517} TLA\u010C\xCDTKO (CTA)"
+                  }),
                   defaultItem: {
                     align: "center",
                     fontSize: 16,
@@ -143,8 +149,10 @@ var config_default = defineConfig({
                   }
                 },
                 fields: [
+                  { type: "string", name: "adminLabel", label: "Intern\xED n\xE1zev bloku (Pouze pro admina)" },
                   { type: "string", name: "title", label: "Text tla\u010D\xEDtka" },
                   { type: "string", name: "link", label: "Odkaz" },
+                  { type: "rich-text", name: "body", label: "Dopl\u0148uj\xEDc\xED text u tla\u010D\xEDtka (Rich Text)" },
                   { type: "string", name: "align", label: "Zarovn\xE1n\xED tla\u010D\xEDtka", options: [{ value: "left", label: "Vlevo" }, { value: "center", label: "St\u0159ed" }, { value: "right", label: "Vpravo" }, { value: "custom", label: "Vlastn\xED" }] },
                   { type: "string", name: "btnBgColor", label: "Barva pozad\xED tla\u010D\xEDtka", ui: { component: "color" } },
                   { type: "string", name: "btnTextColor", label: "Barva textu uvnit\u0159 tla\u010D\xEDtka", ui: { component: "color" } },
@@ -164,8 +172,15 @@ var config_default = defineConfig({
               {
                 name: "navbar",
                 label: "NAVBAR (Menu)",
+                ui: {
+                  itemProps: (item) => ({
+                    label: item?.adminLabel ? `\u{1F9ED} Menu: ${item.adminLabel}` : "\u{1F9ED} NAVBAR (Menu)"
+                  })
+                },
                 fields: [
+                  { type: "string", name: "adminLabel", label: "Intern\xED n\xE1zev bloku (Pouze pro admina)" },
                   { type: "string", name: "logoText", label: "Text loga" },
+                  { type: "rich-text", name: "body", label: "Dopl\u0148uj\xEDc\xED popis v menu (Rich Text)" },
                   { type: "object", list: true, name: "links", label: "Odkazy v menu", fields: [{ type: "string", name: "label", label: "N\xE1zev odkazu" }, { type: "string", name: "url", label: "Adresa" }] }
                 ]
               },
@@ -174,6 +189,9 @@ var config_default = defineConfig({
                 name: "image",
                 label: "IMAGE (Obr\xE1zek)",
                 ui: {
+                  itemProps: (item) => ({
+                    label: item?.adminLabel ? `\u{1F5BC}\uFE0F Obr\xE1zek: ${item.adminLabel}` : "\u{1F5BC}\uFE0F IMAGE (Obr\xE1zek)"
+                  }),
                   defaultItem: {
                     align: "center",
                     borderRadius: 0,
@@ -182,8 +200,10 @@ var config_default = defineConfig({
                   }
                 },
                 fields: [
+                  { type: "string", name: "adminLabel", label: "Intern\xED n\xE1zev bloku (Pouze pro admina)" },
                   { type: "image", name: "url", label: "Soubor obr\xE1zku" },
                   { type: "string", name: "caption", label: "Popisek obr\xE1zku" },
+                  { type: "rich-text", name: "body", label: "Detailn\xED text pod obr\xE1zkem (Rich Text)" },
                   { type: "string", name: "align", label: "Zarovn\xE1n\xED obr\xE1zku", options: [{ value: "left", label: "Vlevo" }, { value: "center", label: "St\u0159ed" }, { value: "right", label: "Vpravo" }, { value: "custom", label: "Vlastn\xED" }] },
                   { type: "number", name: "mt", label: "Horn\xED odsazen\xED (Margin Top)" },
                   { type: "number", name: "mb", label: "Doln\xED odsazen\xED (Margin Bottom)" },
