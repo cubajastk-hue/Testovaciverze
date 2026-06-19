@@ -25,7 +25,6 @@ fragment PageParts on Page {
     ... on PageBlocksHeading {
       adminLabel
       text
-      body
       align
       textColor
       fontSize

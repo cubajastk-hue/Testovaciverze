@@ -28,7 +28,7 @@ var config_default = defineConfig({
               visualSelector: true
             },
             templates: [
-              // 1. HERO BLOK
+              // 1. HERO BLOK - Všechny texty předělány na Rich Text
               {
                 name: "hero",
                 label: "VELK\xDD HERO",
@@ -45,9 +45,9 @@ var config_default = defineConfig({
                   }
                 },
                 fields: [
-                  { type: "string", name: "adminLabel", label: "Intern\xED n\xE1zev bloku (Pouze pro admina)", description: "Pojmenuj si sekci, a\u0165 ji v seznamu hned pozn\xE1\u0161." },
-                  { type: "string", name: "heading", label: "Hlavn\xED nadpis", description: "Nejv\u011Bt\u0161\xED text na za\u010D\xE1tku sekce" },
-                  { type: "string", name: "subheading", label: "Podnadpis", description: "Men\u0161\xED dopl\u0148uj\xEDc\xED text pod hlavn\xEDm nadpisem" },
+                  { type: "string", name: "adminLabel", label: "Intern\xED n\xE1zev bloku (Pouze pro admina)", required: true },
+                  { type: "rich-text", name: "heading", label: "Hlavn\xED nadpis (Rich Text)" },
+                  { type: "rich-text", name: "subheading", label: "Podnadpis (Rich Text)" },
                   { type: "rich-text", name: "body", label: "Obsah sekce (Rich Text)" },
                   { type: "string", name: "align", label: "Zarovn\xE1n\xED obsahu a textu", options: [{ value: "left", label: "Vlevo" }, { value: "center", label: "St\u0159ed" }, { value: "right", label: "Vpravo" }, { value: "custom", label: "Vlastn\xED" }] },
                   { type: "string", name: "textColor", label: "Barva textu", ui: { component: "color" } },
@@ -63,7 +63,7 @@ var config_default = defineConfig({
                   { type: "number", name: "mr", label: "Vn\u011Bj\u0161\xED prav\xE9 odsazen\xED (Margin Right)" }
                 ]
               },
-              // 2. HEADING BLOK
+              // 2. HEADING BLOK - Text nadpisu změněn na Rich Text
               {
                 name: "heading",
                 label: "NADPIS (H2)",
@@ -79,9 +79,8 @@ var config_default = defineConfig({
                   }
                 },
                 fields: [
-                  { type: "string", name: "adminLabel", label: "Intern\xED n\xE1zev bloku (Pouze pro admina)" },
-                  { type: "string", name: "text", label: "Text nadpisu" },
-                  { type: "rich-text", name: "body", label: "Dopl\u0148uj\xEDc\xED text pod nadpisem (Rich Text)" },
+                  { type: "string", name: "adminLabel", label: "Intern\xED n\xE1zev bloku (Pouze pro admina)", required: true },
+                  { type: "rich-text", name: "text", label: "Text nadpisu (Rich Text)" },
                   { type: "string", name: "align", label: "Zarovn\xE1n\xED obsahu a textu", options: [{ value: "left", label: "Vlevo" }, { value: "center", label: "St\u0159ed" }, { value: "right", label: "Vpravo" }, { value: "custom", label: "Vlastn\xED" }] },
                   { type: "string", name: "textColor", label: "Barva textu", ui: { component: "color" } },
                   { type: "number", name: "fontSize", label: "Velikost p\xEDsma (px)" },
@@ -112,7 +111,7 @@ var config_default = defineConfig({
                   }
                 },
                 fields: [
-                  { type: "string", name: "adminLabel", label: "Intern\xED n\xE1zev bloku (Pouze pro admina)" },
+                  { type: "string", name: "adminLabel", label: "Intern\xED n\xE1zev bloku (Pouze pro admina)", required: true },
                   { type: "rich-text", name: "body", label: "Obsah (Rich Text)" },
                   { type: "string", name: "align", label: "Zarovn\xE1n\xED obsahu a textu", options: [{ value: "left", label: "Vlevo" }, { value: "center", label: "St\u0159ed" }, { value: "right", label: "Vpravo" }, { value: "custom", label: "Vlastn\xED" }] },
                   { type: "string", name: "textColor", label: "Barva textu", ui: { component: "color" } },
@@ -149,7 +148,7 @@ var config_default = defineConfig({
                   }
                 },
                 fields: [
-                  { type: "string", name: "adminLabel", label: "Intern\xED n\xE1zev bloku (Pouze pro admina)" },
+                  { type: "string", name: "adminLabel", label: "Intern\xED n\xE1zev bloku (Pouze pro admina)", required: true },
                   { type: "string", name: "title", label: "Text tla\u010D\xEDtka" },
                   { type: "string", name: "link", label: "Odkaz" },
                   { type: "rich-text", name: "body", label: "Dopl\u0148uj\xEDc\xED text u tla\u010D\xEDtka (Rich Text)" },
@@ -178,7 +177,7 @@ var config_default = defineConfig({
                   })
                 },
                 fields: [
-                  { type: "string", name: "adminLabel", label: "Intern\xED n\xE1zev bloku (Pouze pro admina)" },
+                  { type: "string", name: "adminLabel", label: "Intern\xED n\xE1zev bloku (Pouze pro admina)", required: true },
                   { type: "string", name: "logoText", label: "Text loga" },
                   { type: "rich-text", name: "body", label: "Dopl\u0148uj\xEDc\xED popis v menu (Rich Text)" },
                   { type: "object", list: true, name: "links", label: "Odkazy v menu", fields: [{ type: "string", name: "label", label: "N\xE1zev odkazu" }, { type: "string", name: "url", label: "Adresa" }] }
@@ -200,7 +199,7 @@ var config_default = defineConfig({
                   }
                 },
                 fields: [
-                  { type: "string", name: "adminLabel", label: "Intern\xED n\xE1zev bloku (Pouze pro admina)" },
+                  { type: "string", name: "adminLabel", label: "Intern\xED n\xE1zev bloku (Pouze pro admina)", required: true },
                   { type: "image", name: "url", label: "Soubor obr\xE1zku" },
                   { type: "string", name: "caption", label: "Popisek obr\xE1zku" },
                   { type: "rich-text", name: "body", label: "Detailn\xED text pod obr\xE1zkem (Rich Text)" },
@@ -210,6 +209,7 @@ var config_default = defineConfig({
                   { type: "number", name: "pl", label: "Lev\xE9 odsazen\xED (Padding Left)" },
                   { type: "number", name: "pr", label: "Prav\xE9 odsazen\xED (Padding Right)" },
                   { type: "number", name: "borderRadius", label: "Zaoblen\xED roh\u016F (px)" }
+                  // OPRAVENO: borderRadius místo chyby border
                 ]
               }
             ]

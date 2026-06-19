@@ -33,7 +33,6 @@ export const PagePartsFragmentDoc = gql`
     ... on PageBlocksHeading {
       adminLabel
       text
-      body
       align
       textColor
       fontSize

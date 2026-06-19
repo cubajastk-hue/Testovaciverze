@@ -88,9 +88,9 @@ type Collection {
 union DocumentNode = Page | Folder
 
 type PageBlocksHero {
-  adminLabel: String
-  heading: String
-  subheading: String
+  adminLabel: String!
+  heading: JSON
+  subheading: JSON
   body: JSON
   align: String
   textColor: String
@@ -107,9 +107,8 @@ type PageBlocksHero {
 }
 
 type PageBlocksHeading {
-  adminLabel: String
-  text: String
-  body: JSON
+  adminLabel: String!
+  text: JSON
   align: String
   textColor: String
   fontSize: Float
@@ -125,7 +124,7 @@ type PageBlocksHeading {
 }
 
 type PageBlocksContent {
-  adminLabel: String
+  adminLabel: String!
   body: JSON
   align: String
   textColor: String
@@ -142,7 +141,7 @@ type PageBlocksContent {
 }
 
 type PageBlocksCta {
-  adminLabel: String
+  adminLabel: String!
   title: String
   link: String
   body: JSON
@@ -167,14 +166,14 @@ type PageBlocksNavbarLinks {
 }
 
 type PageBlocksNavbar {
-  adminLabel: String
+  adminLabel: String!
   logoText: String
   body: JSON
   links: [PageBlocksNavbarLinks]
 }
 
 type PageBlocksImage {
-  adminLabel: String
+  adminLabel: String!
   url: String
   caption: String
   body: JSON
@@ -222,8 +221,8 @@ input NumberFilter {
 
 input PageBlocksHeroFilter {
   adminLabel: StringFilter
-  heading: StringFilter
-  subheading: StringFilter
+  heading: RichTextFilter
+  subheading: RichTextFilter
   body: RichTextFilter
   align: StringFilter
   textColor: StringFilter
@@ -241,8 +240,7 @@ input PageBlocksHeroFilter {
 
 input PageBlocksHeadingFilter {
   adminLabel: StringFilter
-  text: StringFilter
-  body: RichTextFilter
+  text: RichTextFilter
   align: StringFilter
   textColor: StringFilter
   fontSize: NumberFilter
@@ -373,8 +371,8 @@ input DocumentMutation {
 
 input PageBlocksHeroMutation {
   adminLabel: String
-  heading: String
-  subheading: String
+  heading: JSON
+  subheading: JSON
   body: JSON
   align: String
   textColor: String
@@ -392,8 +390,7 @@ input PageBlocksHeroMutation {
 
 input PageBlocksHeadingMutation {
   adminLabel: String
-  text: String
-  body: JSON
+  text: JSON
   align: String
   textColor: String
   fontSize: Float

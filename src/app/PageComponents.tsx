@@ -13,23 +13,17 @@ export function PageComponents(props: any) {
 
   const page = data.page;
 
-  // Společná logika pro výpočet všech pozic, mezer a stylů
   const getCustomStyles = (block: any) => {
     const isCustom = block.align === "custom";
-    
     return {
       color: block.textColor || "inherit",
       fontSize: block.fontSize ? `${block.fontSize}px` : "inherit",
       fontWeight: block.fontWeight || "inherit",
       textAlign: isCustom ? "left" : (block.align as any) || "left",
-
-      // PADDING (Vnitřní prostor)
       paddingTop: block.pt ? `${block.pt}px` : "0px",
       paddingBottom: block.pb ? `${block.pb}px` : "0px",
       paddingLeft: block.pl ? `${block.pl}px` : "0px",
       paddingRight: block.pr ? `${block.pr}px` : "0px",
-
-      // MARGIN (Vnější odsazení)
       marginTop: block.mt ? `${block.mt}px` : "0px",
       marginBottom: block.mb ? `${block.mb}px` : "0px",
       marginLeft: isCustom ? `${block.ml || 0}px` : (block.align === "center" ? "auto" : "0px"),
@@ -37,7 +31,6 @@ export function PageComponents(props: any) {
     };
   };
 
-  // Pomocná funkce pro flexboxové vyrovnání kontejnerů do stran
   const getFlexJustify = (align: string) => {
     if (align === "left") return "justify-start";
     if (align === "right") return "justify-end";
@@ -65,7 +58,6 @@ export function PageComponents(props: any) {
                       ))}
                     </ul>
                   </nav>
-                  {/* Rich Text pod Navbarem, pokud existuje */}
                   {block.body && (
                     <div data-tina-field={tinaField(block, "body")} className="max-w-6xl mx-auto px-6 pb-4 prose prose-sm">
                       <TinaMarkdown content={block.body} />
@@ -77,9 +69,18 @@ export function PageComponents(props: any) {
             case "PageBlocksHero":
               return (
                 <section key={i} data-tina-field={tinaField(block)} style={styles as any} className="max-w-6xl w-full mx-auto px-4">
-                  <h1 data-tina-field={tinaField(block, "heading")} className="text-6xl font-black tracking-tight">{block.heading}</h1>
-                  {block.subheading && <p data-tina-field={tinaField(block, "subheading")} className="text-xl opacity-80 mt-4 leading-relaxed">{block.subheading}</p>}
-                  {/* Formátovaný Rich Text uvnitř Hero bloku */}
+                  {/* Hlavní nadpis jako Rich Text */}
+                  {block.heading && (
+                    <div data-tina-field={tinaField(block, "heading")} className="text-6xl font-black tracking-tight prose prose-h1:text-6xl max-w-none">
+                      <TinaMarkdown content={block.heading} />
+                    </div>
+                  )}
+                  {/* Podnadpis jako Rich Text */}
+                  {block.subheading && (
+                    <div data-tina-field={tinaField(block, "subheading")} className="text-xl opacity-80 mt-4 leading-relaxed prose max-w-none">
+                      <TinaMarkdown content={block.subheading} />
+                    </div>
+                  )}
                   {block.body && (
                     <div data-tina-field={tinaField(block, "body")} className="mt-6 prose prose-slate max-w-none">
                       <TinaMarkdown content={block.body} />
@@ -91,11 +92,10 @@ export function PageComponents(props: any) {
             case "PageBlocksHeading":
               return (
                 <div key={i} data-tina-field={tinaField(block)} style={styles as any} className="max-w-4xl w-full mx-auto px-4">
-                  <h2 data-tina-field={tinaField(block, "text")} className="text-4xl font-bold tracking-tight">{block.text}</h2>
-                  {/* Formátovaný Rich Text pod nadpisem */}
-                  {block.body && (
-                    <div data-tina-field={tinaField(block, "body")} className="mt-4 prose prose-slate max-w-none">
-                      <TinaMarkdown content={block.body} />
+                  {/* Nadpis H2 jako Rich Text */}
+                  {block.text && (
+                    <div data-tina-field={tinaField(block, "text")} className="text-4xl font-bold tracking-tight prose prose-h2:text-4xl max-w-none">
+                      <TinaMarkdown content={block.text} />
                     </div>
                   )}
                 </div>
@@ -121,7 +121,7 @@ export function PageComponents(props: any) {
                     paddingLeft: block.pl ? `${block.pl}px` : "0px",
                     paddingRight: block.pr ? `${block.pr}px` : "0px"
                   }} 
-                  className={`w-full max-w-4xl mx-auto flex flex-col items-center px-4`}
+                  className="w-full max-w-4xl mx-auto flex flex-col items-center px-4"
                 >
                   <figure className={`flex flex-col max-w-full ${getFlexJustify(block.align || "center")}`}>
                     {block.url ? (
@@ -143,7 +143,6 @@ export function PageComponents(props: any) {
                       </figcaption>
                     )}
                   </figure>
-                  {/* Formátovaný Rich Text pod obrázkem */}
                   {block.body && (
                     <div data-tina-field={tinaField(block, "body")} className="mt-4 w-full prose prose-slate max-w-none">
                       <TinaMarkdown content={block.body} />
@@ -185,7 +184,6 @@ export function PageComponents(props: any) {
                   >
                     {block.title || "Tlačítko"}
                   </Link>
-                  {/* Formátovaný Rich Text pod tlačítkem */}
                   {block.body && (
                     <div data-tina-field={tinaField(block, "body")} className="mt-4 w-full prose prose-slate max-w-none text-center">
                       <TinaMarkdown content={block.body} />
