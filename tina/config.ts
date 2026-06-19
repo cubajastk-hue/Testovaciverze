@@ -28,7 +28,7 @@ export default defineConfig({
               visualSelector: true,
             },
             templates: [
-              // 1. HERO BLOK - Všechny texty předělány na Rich Text
+              // 1. HERO BLOK
               {
                 name: "hero",
                 label: "VELKÝ HERO",
@@ -45,7 +45,7 @@ export default defineConfig({
                   }
                 },
                 fields: [
-                  { type: "string" as const, name: "adminLabel", label: "Interní název bloku (Pouze pro admina)", required: true },
+                  { type: "string" as const, name: "adminLabel", label: "Interní název bloku (Pouze pro admina)" }, // OPRAVENO: smazáno required
                   { type: "rich-text" as const, name: "heading", label: "Hlavní nadpis (Rich Text)" },
                   { type: "rich-text" as const, name: "subheading", label: "Podnadpis (Rich Text)" },
                   { type: "rich-text" as const, name: "body", label: "Obsah sekce (Rich Text)" },
@@ -63,7 +63,7 @@ export default defineConfig({
                   { type: "number" as const, name: "mr", label: "Vnější pravé odsazení (Margin Right)" }
                 ]
               },
-              // 2. HEADING BLOK - Text nadpisu změněn na Rich Text
+              // 2. HEADING BLOK
               {
                 name: "heading",
                 label: "NADPIS (H2)",
@@ -79,7 +79,7 @@ export default defineConfig({
                   }
                 },
                 fields: [
-                  { type: "string" as const, name: "adminLabel", label: "Interní název bloku (Pouze pro admina)", required: true },
+                  { type: "string" as const, name: "adminLabel", label: "Interní název bloku (Pouze pro admina)" }, // OPRAVENO: smazáno required
                   { type: "rich-text" as const, name: "text", label: "Text nadpisu (Rich Text)" },
                   { type: "string" as const, name: "align", label: "Zarovnání obsahu a textu", options: [{ value: "left", label: "Vlevo" }, { value: "center", label: "Střed" }, { value: "right", label: "Vpravo" }, { value: "custom", label: "Vlastní" }] },
                   { type: "string" as const, name: "textColor", label: "Barva textu", ui: { component: "color" } },
@@ -111,7 +111,7 @@ export default defineConfig({
                   }
                 },
                 fields: [
-                  { type: "string" as const, name: "adminLabel", label: "Interní název bloku (Pouze pro admina)", required: true },
+                  { type: "string" as const, name: "adminLabel", label: "Interní název bloku (Pouze pro admina)" }, // OPRAVENO: smazáno required
                   { type: "rich-text" as const, name: "body", label: "Obsah (Rich Text)" },
                   { type: "string" as const, name: "align", label: "Zarovnání obsahu a textu", options: [{ value: "left", label: "Vlevo" }, { value: "center", label: "Střed" }, { value: "right", label: "Vpravo" }, { value: "custom", label: "Vlastní" }] },
                   { type: "string" as const, name: "textColor", label: "Barva textu", ui: { component: "color" } },
@@ -148,7 +148,7 @@ export default defineConfig({
                   }
                 },
                 fields: [
-                  { type: "string" as const, name: "adminLabel", label: "Interní název bloku (Pouze pro admina)", required: true },
+                  { type: "string" as const, name: "adminLabel", label: "Interní název bloku (Pouze pro admina)" }, // OPRAVENO: smazáno required
                   { type: "string" as const, name: "title", label: "Text tlačítka" },
                   { type: "string" as const, name: "link", label: "Odkaz" },
                   { type: "rich-text" as const, name: "body", label: "Doplňující text u tlačítka (Rich Text)" },
@@ -177,7 +177,7 @@ export default defineConfig({
                   }),
                 },
                 fields: [
-                  { type: "string" as const, name: "adminLabel", label: "Interní název bloku (Pouze pro admina)", required: true },
+                  { type: "string" as const, name: "adminLabel", label: "Interní název bloku (Pouze pro admina)" }, // OPRAVENO: smazáno required
                   { type: "string" as const, name: "logoText", label: "Text loga" },
                   { type: "rich-text" as const, name: "body", label: "Doplňující popis v menu (Rich Text)" },
                   { type: "object" as const, list: true, name: "links", label: "Odkazy v menu", fields: [{type:"string" as const,name:"label",label:"Název odkazu"},{type:"string" as const,name:"url",label:"Adresa"}]}
@@ -199,7 +199,7 @@ export default defineConfig({
                   }
                 },
                 fields: [
-                  { type: "string" as const, name: "adminLabel", label: "Interní název bloku (Pouze pro admina)", required: true },
+                  { type: "string" as const, name: "adminLabel", label: "Interní název bloku (Pouze pro admina)" }, // OPRAVENO: smazáno required
                   { type: "image" as const, name: "url", label: "Soubor obrázku" },
                   { type: "string" as const, name: "caption", label: "Popisek obrázku" },
                   { type: "rich-text" as const, name: "body", label: "Detailní text pod obrázkem (Rich Text)" },
@@ -208,7 +208,7 @@ export default defineConfig({
                   { type: "number" as const, name: "mb", label: "Dolní odsazení (Margin Bottom)" },
                   { type: "number" as const, name: "pl", label: "Levé odsazení (Padding Left)" },
                   { type: "number" as const, name: "pr", label: "Pravé odsazení (Padding Right)" },
-                  { type: "number" as const, name: "borderRadius", label: "Zaoblení rohů (px)" } // OPRAVENO: borderRadius místo chyby border
+                  { type: "number" as const, name: "borderRadius", label: "Zaoblení rohů (px)" }
                 ]
               }
             ],

@@ -88,7 +88,7 @@ type Collection {
 union DocumentNode = Page | Folder
 
 type PageBlocksHero {
-  adminLabel: String!
+  adminLabel: String
   heading: JSON
   subheading: JSON
   body: JSON
@@ -107,7 +107,7 @@ type PageBlocksHero {
 }
 
 type PageBlocksHeading {
-  adminLabel: String!
+  adminLabel: String
   text: JSON
   align: String
   textColor: String
@@ -124,7 +124,7 @@ type PageBlocksHeading {
 }
 
 type PageBlocksContent {
-  adminLabel: String!
+  adminLabel: String
   body: JSON
   align: String
   textColor: String
@@ -141,7 +141,7 @@ type PageBlocksContent {
 }
 
 type PageBlocksCta {
-  adminLabel: String!
+  adminLabel: String
   title: String
   link: String
   body: JSON
@@ -166,14 +166,14 @@ type PageBlocksNavbarLinks {
 }
 
 type PageBlocksNavbar {
-  adminLabel: String!
+  adminLabel: String
   logoText: String
   body: JSON
   links: [PageBlocksNavbarLinks]
 }
 
 type PageBlocksImage {
-  adminLabel: String!
+  adminLabel: String
   url: String
   caption: String
   body: JSON
