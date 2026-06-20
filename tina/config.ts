@@ -22,13 +22,27 @@ const highlightTextTemplate = {
   ]
 };
 
-// OPRAVENÁ FUNKCE: Správně typuje návratový objekt jako rich-text pole pro Tinu
-function createRichTextField(config: { name: string; label: string; ui?: { toolbar: string[] } }): any {
+function createRichTextField(config: { name: string; label: string; ui?: { toolbar?: string[] } }): any {
+  // Seznam věcí, které chceme povolit, pokud jsou předány v config.ui.toolbar
+  const enabledToolbar = config.ui?.toolbar || [];
+
   return {
-    type: "rich-text" as const, // Tady muselo být explicitně "as const"
-    parser: { type: "markdown" as const }, // I zde "as const"
+    type: "rich-text" as const,
+    parser: { type: "markdown" as const },
     templates: [colorTextTemplate, highlightTextTemplate],
     ...config,
+    ui: {
+      ...config.ui,
+      // Tímto natvrdo skryjeme výchozí tlačítka Tiny, pokud nejsou v našem seznamu
+      heading: enabledToolbar.includes("heading"),
+      link: enabledToolbar.includes("link"),
+      image: enabledToolbar.includes("image"),
+      quote: enabledToolbar.includes("quote"),
+      ul: enabledToolbar.includes("ul"),
+      ol: enabledToolbar.includes("ol"),
+      italic: enabledToolbar.includes("italic"),
+      bold: enabledToolbar.includes("bold"),
+    }
   };
 }
 
