@@ -22,34 +22,6 @@ const highlightTextTemplate = {
   ]
 };
 
-// 🌟 NEPRŮSTŘELNÁ FUNKCE: Povolí jen to, co explicitně zadáš v toolbar poli
-function createRichTextField(config: { name: string; label: string; ui?: { toolbar: string[] } }): any {
-  const allowed = config.ui?.toolbar || [];
-
-  return {
-    type: "rich-text" as const,
-    parser: { type: "markdown" as const },
-    templates: [colorTextTemplate, highlightTextTemplate],
-    ...config,
-    ui: {
-      ...config.ui,
-      // Tina CMS vyžaduje přesné true/false pro každý element, aby schovala defaulty
-      heading: allowed.includes("heading"),
-      link: allowed.includes("link"),
-      image: allowed.includes("image"),
-      bold: allowed.includes("bold"),
-      italic: allowed.includes("italic"),
-      code: allowed.includes("code"),
-      code_block: allowed.includes("code_block"),
-      
-      // Tyto otravné defaulty vypínáme natvrdo všude
-      quote: false,
-      ul: false,
-      ol: false,
-    }
-  };
-}
-
 export default defineConfig({
   branch: process.env.NEXT_PUBLIC_TINA_BRANCH || "main",
   clientId: process.env.NEXT_PUBLIC_TINA_CLIENT_ID,
@@ -83,22 +55,32 @@ export default defineConfig({
                 ui: { itemProps: (item: any) => ({ label: item?.adminLabel ? `🧭 Menu: ${item.adminLabel}` : "🧭 NAVBAR (Menu)" }) },
                 fields: [
                   { type: "string" as const, name: "adminLabel", label: "Interní název bloku (Pouze pro admina)" },
-                  createRichTextField({
+                  {
+                    type: "rich-text" as const,
                     name: "logoText",
                     label: "Text loga",
-                    ui: { toolbar: ["bold", "italic", "link", "code"] }
-                  }),
+                    templates: [colorTextTemplate, highlightTextTemplate],
+                    ui: {
+                      toolbar: ["bold", "italic", "link", "code"],
+                      heading: false, image: false, quote: false, ul: false, ol: false, code_block: false
+                    } as any
+                  },
                   { 
                     type: "object" as const, 
                     list: true, 
                     name: "links", 
                     label: "Odkazy v menu", 
                     fields: [
-                      createRichTextField({
+                      {
+                        type: "rich-text" as const,
                         name: "label",
                         label: "Název odkazu",
-                        ui: { toolbar: ["bold", "italic", "link", "code"] }
-                      }),
+                        templates: [colorTextTemplate, highlightTextTemplate],
+                        ui: {
+                          toolbar: ["bold", "italic", "link", "code"],
+                          heading: false, image: false, quote: false, ul: false, ol: false, code_block: false
+                        } as any
+                      },
                       { type: "string" as const, name: "url", label: "Adresa" }
                     ]
                   }
@@ -114,21 +96,36 @@ export default defineConfig({
                 },
                 fields: [
                   { type: "string" as const, name: "adminLabel", label: "Interní název bloku (Pouze pro admina)" },
-                  createRichTextField({
+                  {
+                    type: "rich-text" as const,
                     name: "heading",
                     label: "Hlavní nadpis",
-                    ui: { toolbar: ["heading", "bold", "italic", "link", "image", "code", "code_block"] }
-                  }),
-                  createRichTextField({
+                    templates: [colorTextTemplate, highlightTextTemplate],
+                    ui: {
+                      toolbar: ["heading", "bold", "italic", "link", "image", "code", "code_block"],
+                      quote: false, ul: false, ol: false
+                    } as any
+                  },
+                  {
+                    type: "rich-text" as const,
                     name: "subheading",
                     label: "Podnadpis",
-                    ui: { toolbar: ["heading", "bold", "italic", "link", "image", "code", "code_block"] }
-                  }),
-                  createRichTextField({
+                    templates: [colorTextTemplate, highlightTextTemplate],
+                    ui: {
+                      toolbar: ["heading", "bold", "italic", "link", "image", "code", "code_block"],
+                      quote: false, ul: false, ol: false
+                    } as any
+                  },
+                  {
+                    type: "rich-text" as const,
                     name: "body",
                     label: "Obsah sekce",
-                    ui: { toolbar: ["heading", "bold", "italic", "link", "image", "code", "code_block"] }
-                  }),
+                    templates: [colorTextTemplate, highlightTextTemplate],
+                    ui: {
+                      toolbar: ["heading", "bold", "italic", "link", "image", "code", "code_block"],
+                      quote: false, ul: false, ol: false
+                    } as any
+                  },
                   { type: "string" as const, name: "align", label: "Zarovnání obsahu a textu", options: [{ value: "left", label: "Vlevo" }, { value: "center", label: "Střed" }, { value: "right", label: "Vpravo" }, { value: "custom", label: "Vlastní" }] },
                   { type: "string" as const, name: "textColor", label: "Barva textu", ui: { component: "color" } },
                   { type: "number" as const, name: "fontSize", label: "Velikost písma (px)" },
@@ -153,11 +150,16 @@ export default defineConfig({
                 },
                 fields: [
                   { type: "string" as const, name: "adminLabel", label: "Interní název bloku (Pouze pro admina)" },
-                  createRichTextField({
+                  {
+                    type: "rich-text" as const,
                     name: "text",
                     label: "Text nadpisu",
-                    ui: { toolbar: ["heading", "bold", "italic", "link", "image", "code", "code_block"] }
-                  }),
+                    templates: [colorTextTemplate, highlightTextTemplate],
+                    ui: {
+                      toolbar: ["heading", "bold", "italic", "link", "image", "code", "code_block"],
+                      quote: false, ul: false, ol: false
+                    } as any
+                  },
                   { type: "string" as const, name: "align", label: "Zarovnání obsahu a textu", options: [{ value: "left", label: "Vlevo" }, { value: "center", label: "Střed" }, { value: "right", label: "Vpravo" }, { value: "custom", label: "Vlastní" }] },
                   { type: "string" as const, name: "textColor", label: "Barva textu", ui: { component: "color" } },
                   { type: "number" as const, name: "fontSize", label: "Velikost písma (px)" },
@@ -182,11 +184,16 @@ export default defineConfig({
                 },
                 fields: [
                   { type: "string" as const, name: "adminLabel", label: "Interní název bloku (Pouze pro admina)" },
-                  createRichTextField({
+                  {
+                    type: "rich-text" as const,
                     name: "body",
                     label: "Obsah",
-                    ui: { toolbar: ["heading", "bold", "italic", "link", "image", "code", "code_block"] }
-                  }),
+                    templates: [colorTextTemplate, highlightTextTemplate],
+                    ui: {
+                      toolbar: ["heading", "bold", "italic", "link", "image", "code", "code_block"],
+                      quote: false, ul: false, ol: false
+                    } as any
+                  },
                   { type: "string" as const, name: "align", label: "Zarovnání obsahu a textu", options: [{ value: "left", label: "Vlevo" }, { value: "center", label: "Střed" }, { value: "right", label: "Vpravo" }, { value: "custom", label: "Vlastní" }] },
                   { type: "string" as const, name: "textColor", label: "Barva textu", ui: { component: "color" } },
                   { type: "number" as const, name: "fontSize", label: "Velikost písma (px)" },
@@ -211,11 +218,16 @@ export default defineConfig({
                 },
                 fields: [
                   { type: "string" as const, name: "adminLabel", label: "Interní název bloku (Pouze pro admina)" },
-                  createRichTextField({
+                  {
+                    type: "rich-text" as const,
                     name: "title",
                     label: "Text tlačítka",
-                    ui: { toolbar: ["bold", "italic", "link", "code"] }
-                  }),
+                    templates: [colorTextTemplate, highlightTextTemplate],
+                    ui: {
+                      toolbar: ["bold", "italic", "link", "code"],
+                      heading: false, image: false, quote: false, ul: false, ol: false, code_block: false
+                    } as any
+                  },
                   { type: "string" as const, name: "link", label: "Odkaz" },
                   { type: "string" as const, name: "align", label: "Zarovnání tlačítka", options: [{ value: "left", label: "Vlevo" }, { value: "center", label: "Střed" }, { value: "right", label: "Vpravo" }, { value: "custom", label: "Vlastní" }] },
                   { type: "string" as const, name: "btnBgColor", label: "Barva pozadí tlačítka", ui: { component: "color" } },
@@ -244,11 +256,16 @@ export default defineConfig({
                   { type: "string" as const, name: "adminLabel", label: "Interní název bloku (Pouze pro admina)" },
                   { type: "image" as const, name: "url", label: "Soubor obrázku" },
                   { type: "string" as const, name: "caption", label: "Popisek obrázku" },
-                  createRichTextField({
+                  {
+                    type: "rich-text" as const,
                     name: "body",
                     label: "Detailní text pod obrázkem",
-                    ui: { toolbar: ["heading", "bold", "italic", "link", "image", "code", "code_block"] }
-                  }),
+                    templates: [colorTextTemplate, highlightTextTemplate],
+                    ui: {
+                      toolbar: ["heading", "bold", "italic", "link", "image", "code", "code_block"],
+                      quote: false, ul: false, ol: false
+                    } as any
+                  },
                   { type: "string" as const, name: "align", label: "Zarovnání obrázku", options: [{value:"left",label:"Vlevo"},{value:"center",label:"Střed"},{value:"right",label:"Vpravo"},{value:"custom",label:"Vlastní"}] },
                   { type: "number" as const, name: "mt", label: "Horní odsazení (Margin Top)" },
                   { type: "number" as const, name: "mb", label: "Dolní odsazení (Margin Bottom)" },

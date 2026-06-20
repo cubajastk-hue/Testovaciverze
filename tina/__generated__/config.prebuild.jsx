@@ -19,30 +19,6 @@ var highlightTextTemplate = {
     { type: "string", name: "textColor", label: "Barva p\xEDsma uvnit\u0159 zv\xFDrazn\u011Bn\xED", ui: { component: "color" } }
   ]
 };
-function createRichTextField(config) {
-  const allowed = config.ui?.toolbar || [];
-  return {
-    type: "rich-text",
-    parser: { type: "markdown" },
-    templates: [colorTextTemplate, highlightTextTemplate],
-    ...config,
-    ui: {
-      ...config.ui,
-      // Tina CMS vyžaduje přesné true/false pro každý element, aby schovala defaulty
-      heading: allowed.includes("heading"),
-      link: allowed.includes("link"),
-      image: allowed.includes("image"),
-      bold: allowed.includes("bold"),
-      italic: allowed.includes("italic"),
-      code: allowed.includes("code"),
-      code_block: allowed.includes("code_block"),
-      // Tyto otravné defaulty vypínáme natvrdo všude
-      quote: false,
-      ul: false,
-      ol: false
-    }
-  };
-}
 var config_default = defineConfig({
   branch: process.env.NEXT_PUBLIC_TINA_BRANCH || "main",
   clientId: process.env.NEXT_PUBLIC_TINA_CLIENT_ID,
@@ -76,22 +52,42 @@ var config_default = defineConfig({
                 ui: { itemProps: (item) => ({ label: item?.adminLabel ? `\u{1F9ED} Menu: ${item.adminLabel}` : "\u{1F9ED} NAVBAR (Menu)" }) },
                 fields: [
                   { type: "string", name: "adminLabel", label: "Intern\xED n\xE1zev bloku (Pouze pro admina)" },
-                  createRichTextField({
+                  {
+                    type: "rich-text",
                     name: "logoText",
                     label: "Text loga",
-                    ui: { toolbar: ["bold", "italic", "link", "code"] }
-                  }),
+                    templates: [colorTextTemplate, highlightTextTemplate],
+                    ui: {
+                      toolbar: ["bold", "italic", "link", "code"],
+                      heading: false,
+                      image: false,
+                      quote: false,
+                      ul: false,
+                      ol: false,
+                      code_block: false
+                    }
+                  },
                   {
                     type: "object",
                     list: true,
                     name: "links",
                     label: "Odkazy v menu",
                     fields: [
-                      createRichTextField({
+                      {
+                        type: "rich-text",
                         name: "label",
                         label: "N\xE1zev odkazu",
-                        ui: { toolbar: ["bold", "italic", "link", "code"] }
-                      }),
+                        templates: [colorTextTemplate, highlightTextTemplate],
+                        ui: {
+                          toolbar: ["bold", "italic", "link", "code"],
+                          heading: false,
+                          image: false,
+                          quote: false,
+                          ul: false,
+                          ol: false,
+                          code_block: false
+                        }
+                      },
                       { type: "string", name: "url", label: "Adresa" }
                     ]
                   }
@@ -107,21 +103,42 @@ var config_default = defineConfig({
                 },
                 fields: [
                   { type: "string", name: "adminLabel", label: "Intern\xED n\xE1zev bloku (Pouze pro admina)" },
-                  createRichTextField({
+                  {
+                    type: "rich-text",
                     name: "heading",
                     label: "Hlavn\xED nadpis",
-                    ui: { toolbar: ["heading", "bold", "italic", "link", "image", "code", "code_block"] }
-                  }),
-                  createRichTextField({
+                    templates: [colorTextTemplate, highlightTextTemplate],
+                    ui: {
+                      toolbar: ["heading", "bold", "italic", "link", "image", "code", "code_block"],
+                      quote: false,
+                      ul: false,
+                      ol: false
+                    }
+                  },
+                  {
+                    type: "rich-text",
                     name: "subheading",
                     label: "Podnadpis",
-                    ui: { toolbar: ["heading", "bold", "italic", "link", "image", "code", "code_block"] }
-                  }),
-                  createRichTextField({
+                    templates: [colorTextTemplate, highlightTextTemplate],
+                    ui: {
+                      toolbar: ["heading", "bold", "italic", "link", "image", "code", "code_block"],
+                      quote: false,
+                      ul: false,
+                      ol: false
+                    }
+                  },
+                  {
+                    type: "rich-text",
                     name: "body",
                     label: "Obsah sekce",
-                    ui: { toolbar: ["heading", "bold", "italic", "link", "image", "code", "code_block"] }
-                  }),
+                    templates: [colorTextTemplate, highlightTextTemplate],
+                    ui: {
+                      toolbar: ["heading", "bold", "italic", "link", "image", "code", "code_block"],
+                      quote: false,
+                      ul: false,
+                      ol: false
+                    }
+                  },
                   { type: "string", name: "align", label: "Zarovn\xE1n\xED obsahu a textu", options: [{ value: "left", label: "Vlevo" }, { value: "center", label: "St\u0159ed" }, { value: "right", label: "Vpravo" }, { value: "custom", label: "Vlastn\xED" }] },
                   { type: "string", name: "textColor", label: "Barva textu", ui: { component: "color" } },
                   { type: "number", name: "fontSize", label: "Velikost p\xEDsma (px)" },
@@ -146,11 +163,18 @@ var config_default = defineConfig({
                 },
                 fields: [
                   { type: "string", name: "adminLabel", label: "Intern\xED n\xE1zev bloku (Pouze pro admina)" },
-                  createRichTextField({
+                  {
+                    type: "rich-text",
                     name: "text",
                     label: "Text nadpisu",
-                    ui: { toolbar: ["heading", "bold", "italic", "link", "image", "code", "code_block"] }
-                  }),
+                    templates: [colorTextTemplate, highlightTextTemplate],
+                    ui: {
+                      toolbar: ["heading", "bold", "italic", "link", "image", "code", "code_block"],
+                      quote: false,
+                      ul: false,
+                      ol: false
+                    }
+                  },
                   { type: "string", name: "align", label: "Zarovn\xE1n\xED obsahu a textu", options: [{ value: "left", label: "Vlevo" }, { value: "center", label: "St\u0159ed" }, { value: "right", label: "Vpravo" }, { value: "custom", label: "Vlastn\xED" }] },
                   { type: "string", name: "textColor", label: "Barva textu", ui: { component: "color" } },
                   { type: "number", name: "fontSize", label: "Velikost p\xEDsma (px)" },
@@ -175,11 +199,18 @@ var config_default = defineConfig({
                 },
                 fields: [
                   { type: "string", name: "adminLabel", label: "Intern\xED n\xE1zev bloku (Pouze pro admina)" },
-                  createRichTextField({
+                  {
+                    type: "rich-text",
                     name: "body",
                     label: "Obsah",
-                    ui: { toolbar: ["heading", "bold", "italic", "link", "image", "code", "code_block"] }
-                  }),
+                    templates: [colorTextTemplate, highlightTextTemplate],
+                    ui: {
+                      toolbar: ["heading", "bold", "italic", "link", "image", "code", "code_block"],
+                      quote: false,
+                      ul: false,
+                      ol: false
+                    }
+                  },
                   { type: "string", name: "align", label: "Zarovn\xE1n\xED obsahu a textu", options: [{ value: "left", label: "Vlevo" }, { value: "center", label: "St\u0159ed" }, { value: "right", label: "Vpravo" }, { value: "custom", label: "Vlastn\xED" }] },
                   { type: "string", name: "textColor", label: "Barva textu", ui: { component: "color" } },
                   { type: "number", name: "fontSize", label: "Velikost p\xEDsma (px)" },
@@ -204,11 +235,21 @@ var config_default = defineConfig({
                 },
                 fields: [
                   { type: "string", name: "adminLabel", label: "Intern\xED n\xE1zev bloku (Pouze pro admina)" },
-                  createRichTextField({
+                  {
+                    type: "rich-text",
                     name: "title",
                     label: "Text tla\u010D\xEDtka",
-                    ui: { toolbar: ["bold", "italic", "link", "code"] }
-                  }),
+                    templates: [colorTextTemplate, highlightTextTemplate],
+                    ui: {
+                      toolbar: ["bold", "italic", "link", "code"],
+                      heading: false,
+                      image: false,
+                      quote: false,
+                      ul: false,
+                      ol: false,
+                      code_block: false
+                    }
+                  },
                   { type: "string", name: "link", label: "Odkaz" },
                   { type: "string", name: "align", label: "Zarovn\xE1n\xED tla\u010D\xEDtka", options: [{ value: "left", label: "Vlevo" }, { value: "center", label: "St\u0159ed" }, { value: "right", label: "Vpravo" }, { value: "custom", label: "Vlastn\xED" }] },
                   { type: "string", name: "btnBgColor", label: "Barva pozad\xED tla\u010D\xEDtka", ui: { component: "color" } },
@@ -237,11 +278,18 @@ var config_default = defineConfig({
                   { type: "string", name: "adminLabel", label: "Intern\xED n\xE1zev bloku (Pouze pro admina)" },
                   { type: "image", name: "url", label: "Soubor obr\xE1zku" },
                   { type: "string", name: "caption", label: "Popisek obr\xE1zku" },
-                  createRichTextField({
+                  {
+                    type: "rich-text",
                     name: "body",
                     label: "Detailn\xED text pod obr\xE1zkem",
-                    ui: { toolbar: ["heading", "bold", "italic", "link", "image", "code", "code_block"] }
-                  }),
+                    templates: [colorTextTemplate, highlightTextTemplate],
+                    ui: {
+                      toolbar: ["heading", "bold", "italic", "link", "image", "code", "code_block"],
+                      quote: false,
+                      ul: false,
+                      ol: false
+                    }
+                  },
                   { type: "string", name: "align", label: "Zarovn\xE1n\xED obr\xE1zku", options: [{ value: "left", label: "Vlevo" }, { value: "center", label: "St\u0159ed" }, { value: "right", label: "Vpravo" }, { value: "custom", label: "Vlastn\xED" }] },
                   { type: "number", name: "mt", label: "Horn\xED odsazen\xED (Margin Top)" },
                   { type: "number", name: "mb", label: "Doln\xED odsazen\xED (Margin Bottom)" },
