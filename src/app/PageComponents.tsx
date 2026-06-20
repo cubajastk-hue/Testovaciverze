@@ -4,6 +4,17 @@ import { useTina, tinaField } from "tinacms/dist/react";
 import { TinaMarkdown } from "tinacms/dist/rich-text";
 import Link from "next/link";
 
+// Globální definice pro správné formátování Rich Text nadpisů uvnitř bloků
+const markdownComponents = {
+  h1: (props: any) => <h1 className="text-5xl font-black tracking-tight mb-4" {...props} />,
+  h2: (props: any) => <h2 className="text-4xl font-bold tracking-tight mb-3" {...props} />,
+  h3: (props: any) => <h3 className="text-3xl font-bold tracking-tight mb-2" {...props} />,
+  h4: (props: any) => <h4 className="text-2xl font-semibold tracking-tight mb-2" {...props} />,
+  h5: (props: any) => <h5 className="text-xl font-semibold mb-1" {...props} />,
+  h6: (props: any) => <h6 className="text-lg font-medium mb-1" {...props} />,
+  p: (props: any) => <p className="leading-relaxed mb-4" {...props} />,
+};
+
 export function PageComponents(props: any) {
   const { data } = useTina({
     query: props.query,
@@ -50,13 +61,13 @@ export function PageComponents(props: any) {
                 <div key={i} data-tina-field={tinaField(block)} className="w-full bg-white/10 backdrop-blur border-b border-black/5">
                   <nav className="max-w-6xl mx-auto w-full flex justify-between items-center p-6">
                     <span data-tina-field={tinaField(block, "logoText")} className="font-black text-2xl text-slate-900">
-                      {block.logoText ? <TinaMarkdown content={block.logoText} /> : "Logo"}
+                      {block.logoText ? <TinaMarkdown components={markdownComponents} content={block.logoText} /> : "Logo"}
                     </span>
                     <ul className="flex gap-6">
                       {block.links?.map((link:any, idx:number) => (
                         <li key={idx} data-tina-field={tinaField(link)}>
                           <Link href={link.url || "#"} className="font-medium text-slate-700 hover:text-black transition-colors">
-                            {link.label ? <TinaMarkdown content={link.label} /> : "Odkaz"}
+                            {link.label ? <TinaMarkdown components={markdownComponents} content={link.label} /> : "Odkaz"}
                           </Link>
                         </li>
                       ))}
@@ -69,18 +80,18 @@ export function PageComponents(props: any) {
               return (
                 <section key={i} data-tina-field={tinaField(block)} style={styles as any} className="max-w-6xl w-full mx-auto px-4">
                   {block.heading && (
-                    <div data-tina-field={tinaField(block, "heading")} className="text-6xl font-black tracking-tight prose prose-h1:text-6xl max-w-none">
-                      <TinaMarkdown content={block.heading} />
+                    <div data-tina-field={tinaField(block, "heading")} className="text-6xl font-black tracking-tight max-w-none">
+                      <TinaMarkdown components={markdownComponents} content={block.heading} />
                     </div>
                   )}
                   {block.subheading && (
-                    <div data-tina-field={tinaField(block, "subheading")} className="text-xl opacity-80 mt-4 leading-relaxed prose max-w-none">
-                      <TinaMarkdown content={block.subheading} />
+                    <div data-tina-field={tinaField(block, "subheading")} className="text-xl opacity-80 mt-4 leading-relaxed max-w-none">
+                      <TinaMarkdown components={markdownComponents} content={block.subheading} />
                     </div>
                   )}
                   {block.body && (
-                    <div data-tina-field={tinaField(block, "body")} className="mt-6 prose prose-slate max-w-none">
-                      <TinaMarkdown content={block.body} />
+                    <div data-tina-field={tinaField(block, "body")} className="mt-6 max-w-none">
+                      <TinaMarkdown components={markdownComponents} content={block.body} />
                     </div>
                   )}
                 </section>
@@ -90,8 +101,8 @@ export function PageComponents(props: any) {
               return (
                 <div key={i} data-tina-field={tinaField(block)} style={styles as any} className="max-w-4xl w-full mx-auto px-4">
                   {block.text && (
-                    <div data-tina-field={tinaField(block, "text")} className="text-4xl font-bold tracking-tight prose prose-h2:text-4xl max-w-none">
-                      <TinaMarkdown content={block.text} />
+                    <div data-tina-field={tinaField(block, "text")} className="text-4xl font-bold tracking-tight max-w-none">
+                      <TinaMarkdown components={markdownComponents} content={block.text} />
                     </div>
                   )}
                 </div>
@@ -99,9 +110,9 @@ export function PageComponents(props: any) {
 
             case "PageBlocksContent":
               return (
-                <div key={i} data-tina-field={tinaField(block)} style={styles as any} className="max-w-4xl w-full mx-auto px-4 prose prose-slate prose-lg">
+                <div key={i} data-tina-field={tinaField(block)} style={styles as any} className="max-w-4xl w-full mx-auto px-4 prose-slate prose-lg">
                    <div data-tina-field={tinaField(block, "body")}>
-                     {block.body && <TinaMarkdown content={block.body} />}
+                     {block.body && <TinaMarkdown components={markdownComponents} content={block.body} />}
                    </div>
                 </div>
               );
@@ -140,8 +151,8 @@ export function PageComponents(props: any) {
                     )}
                   </figure>
                   {block.body && (
-                    <div data-tina-field={tinaField(block, "body")} className="mt-4 w-full prose prose-slate max-w-none">
-                      <TinaMarkdown content={block.body} />
+                    <div data-tina-field={tinaField(block, "body")} className="mt-4 w-full max-w-none">
+                      <TinaMarkdown components={markdownComponents} content={block.body} />
                     </div>
                   )}
                 </div>
@@ -178,7 +189,7 @@ export function PageComponents(props: any) {
                     }}
                     className="shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all duration-150"
                   >
-                    {block.title ? <TinaMarkdown content={block.title} /> : "Tlačítko"}
+                    {block.title ? <TinaMarkdown components={markdownComponents} content={block.title} /> : "Tlačítko"}
                   </Link>
                 </div>
               );
