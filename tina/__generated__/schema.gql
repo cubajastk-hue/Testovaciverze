@@ -113,8 +113,6 @@ type PageBlocksHero {
   pr: Float
   mt: Float
   mb: Float
-  ml: Float
-  mr: Float
 }
 
 type PageBlocksHeading {
@@ -124,14 +122,8 @@ type PageBlocksHeading {
   textColor: String
   fontSize: Float
   fontWeight: String
-  pt: Float
-  pb: Float
-  pl: Float
-  pr: Float
   mt: Float
   mb: Float
-  ml: Float
-  mr: Float
 }
 
 type PageBlocksContent {
@@ -140,15 +132,8 @@ type PageBlocksContent {
   align: String
   textColor: String
   fontSize: Float
-  fontWeight: String
-  pt: Float
-  pb: Float
-  pl: Float
-  pr: Float
   mt: Float
   mb: Float
-  ml: Float
-  mr: Float
 }
 
 type PageBlocksCta {
@@ -158,16 +143,6 @@ type PageBlocksCta {
   align: String
   btnBgColor: String
   btnTextColor: String
-  fontSize: Float
-  fontWeight: String
-  pt: Float
-  pb: Float
-  pl: Float
-  pr: Float
-  mt: Float
-  mb: Float
-  ml: Float
-  mr: Float
 }
 
 type PageBlocksImage {
@@ -176,11 +151,6 @@ type PageBlocksImage {
   caption: String
   body: JSON
   align: String
-  mt: Float
-  mb: Float
-  pl: Float
-  pr: Float
-  borderRadius: Float
 }
 
 union PageBlocks = PageBlocksNavbar | PageBlocksHero | PageBlocksHeading | PageBlocksContent | PageBlocksCta | PageBlocksImage
@@ -317,8 +287,6 @@ input PageBlocksHeroFilter {
   pr: NumberFilter
   mt: NumberFilter
   mb: NumberFilter
-  ml: NumberFilter
-  mr: NumberFilter
 }
 
 input PageBlocksHeadingTextColorTextFilter {
@@ -344,14 +312,8 @@ input PageBlocksHeadingFilter {
   textColor: StringFilter
   fontSize: NumberFilter
   fontWeight: StringFilter
-  pt: NumberFilter
-  pb: NumberFilter
-  pl: NumberFilter
-  pr: NumberFilter
   mt: NumberFilter
   mb: NumberFilter
-  ml: NumberFilter
-  mr: NumberFilter
 }
 
 input PageBlocksContentBodyColorTextFilter {
@@ -376,15 +338,8 @@ input PageBlocksContentFilter {
   align: StringFilter
   textColor: StringFilter
   fontSize: NumberFilter
-  fontWeight: StringFilter
-  pt: NumberFilter
-  pb: NumberFilter
-  pl: NumberFilter
-  pr: NumberFilter
   mt: NumberFilter
   mb: NumberFilter
-  ml: NumberFilter
-  mr: NumberFilter
 }
 
 input PageBlocksCtaTitleColorTextFilter {
@@ -410,16 +365,6 @@ input PageBlocksCtaFilter {
   align: StringFilter
   btnBgColor: StringFilter
   btnTextColor: StringFilter
-  fontSize: NumberFilter
-  fontWeight: StringFilter
-  pt: NumberFilter
-  pb: NumberFilter
-  pl: NumberFilter
-  pr: NumberFilter
-  mt: NumberFilter
-  mb: NumberFilter
-  ml: NumberFilter
-  mr: NumberFilter
 }
 
 input ImageFilter {
@@ -451,11 +396,6 @@ input PageBlocksImageFilter {
   caption: StringFilter
   body: PageBlocksImageBodyFilter
   align: StringFilter
-  mt: NumberFilter
-  mb: NumberFilter
-  pl: NumberFilter
-  pr: NumberFilter
-  borderRadius: NumberFilter
 }
 
 input PageBlocksFilter {
@@ -529,8 +469,6 @@ input PageBlocksHeroMutation {
   pr: Float
   mt: Float
   mb: Float
-  ml: Float
-  mr: Float
 }
 
 input PageBlocksHeadingMutation {
@@ -540,14 +478,8 @@ input PageBlocksHeadingMutation {
   textColor: String
   fontSize: Float
   fontWeight: String
-  pt: Float
-  pb: Float
-  pl: Float
-  pr: Float
   mt: Float
   mb: Float
-  ml: Float
-  mr: Float
 }
 
 input PageBlocksContentMutation {
@@ -556,15 +488,8 @@ input PageBlocksContentMutation {
   align: String
   textColor: String
   fontSize: Float
-  fontWeight: String
-  pt: Float
-  pb: Float
-  pl: Float
-  pr: Float
   mt: Float
   mb: Float
-  ml: Float
-  mr: Float
 }
 
 input PageBlocksCtaMutation {
@@ -574,16 +499,6 @@ input PageBlocksCtaMutation {
   align: String
   btnBgColor: String
   btnTextColor: String
-  fontSize: Float
-  fontWeight: String
-  pt: Float
-  pb: Float
-  pl: Float
-  pr: Float
-  mt: Float
-  mb: Float
-  ml: Float
-  mr: Float
 }
 
 input PageBlocksImageMutation {
@@ -592,11 +507,6 @@ input PageBlocksImageMutation {
   caption: String
   body: JSON
   align: String
-  mt: Float
-  mb: Float
-  pl: Float
-  pr: Float
-  borderRadius: Float
 }
 
 input PageBlocksMutation {

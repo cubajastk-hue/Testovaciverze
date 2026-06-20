@@ -28,8 +28,6 @@ fragment PageParts on Page {
       pr
       mt
       mb
-      ml
-      mr
     }
     ... on PageBlocksHeading {
       adminLabel
@@ -38,14 +36,8 @@ fragment PageParts on Page {
       textColor
       fontSize
       fontWeight
-      pt
-      pb
-      pl
-      pr
       mt
       mb
-      ml
-      mr
     }
     ... on PageBlocksContent {
       adminLabel
@@ -53,15 +45,8 @@ fragment PageParts on Page {
       align
       textColor
       fontSize
-      fontWeight
-      pt
-      pb
-      pl
-      pr
       mt
       mb
-      ml
-      mr
     }
     ... on PageBlocksCta {
       adminLabel
@@ -70,16 +55,6 @@ fragment PageParts on Page {
       align
       btnBgColor
       btnTextColor
-      fontSize
-      fontWeight
-      pt
-      pb
-      pl
-      pr
-      mt
-      mb
-      ml
-      mr
     }
     ... on PageBlocksImage {
       adminLabel
@@ -87,11 +62,6 @@ fragment PageParts on Page {
       caption
       body
       align
-      mt
-      mb
-      pl
-      pr
-      borderRadius
     }
   }
 }

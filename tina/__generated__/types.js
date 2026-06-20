@@ -36,8 +36,6 @@ export const PagePartsFragmentDoc = gql`
       pr
       mt
       mb
-      ml
-      mr
     }
     ... on PageBlocksHeading {
       adminLabel
@@ -46,14 +44,8 @@ export const PagePartsFragmentDoc = gql`
       textColor
       fontSize
       fontWeight
-      pt
-      pb
-      pl
-      pr
       mt
       mb
-      ml
-      mr
     }
     ... on PageBlocksContent {
       adminLabel
@@ -61,15 +53,8 @@ export const PagePartsFragmentDoc = gql`
       align
       textColor
       fontSize
-      fontWeight
-      pt
-      pb
-      pl
-      pr
       mt
       mb
-      ml
-      mr
     }
     ... on PageBlocksCta {
       adminLabel
@@ -78,16 +63,6 @@ export const PagePartsFragmentDoc = gql`
       align
       btnBgColor
       btnTextColor
-      fontSize
-      fontWeight
-      pt
-      pb
-      pl
-      pr
-      mt
-      mb
-      ml
-      mr
     }
     ... on PageBlocksImage {
       adminLabel
@@ -95,11 +70,6 @@ export const PagePartsFragmentDoc = gql`
       caption
       body
       align
-      mt
-      mb
-      pl
-      pr
-      borderRadius
     }
   }
 }
