@@ -12,6 +12,15 @@ export const PagePartsFragmentDoc = gql`
   outerBgColor
   blocks {
     __typename
+    ... on PageBlocksNavbar {
+      adminLabel
+      logoText
+      links {
+        __typename
+        label
+        url
+      }
+    }
     ... on PageBlocksHero {
       adminLabel
       heading
@@ -79,15 +88,6 @@ export const PagePartsFragmentDoc = gql`
       mb
       ml
       mr
-    }
-    ... on PageBlocksNavbar {
-      adminLabel
-      logoText
-      links {
-        __typename
-        label
-        url
-      }
     }
     ... on PageBlocksImage {
       adminLabel

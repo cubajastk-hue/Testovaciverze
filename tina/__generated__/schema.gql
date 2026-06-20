@@ -87,6 +87,17 @@ type Collection {
 
 union DocumentNode = Page | Folder
 
+type PageBlocksNavbarLinks {
+  label: JSON
+  url: String
+}
+
+type PageBlocksNavbar {
+  adminLabel: String
+  logoText: JSON
+  links: [PageBlocksNavbarLinks]
+}
+
 type PageBlocksHero {
   adminLabel: String
   heading: JSON
@@ -159,17 +170,6 @@ type PageBlocksCta {
   mr: Float
 }
 
-type PageBlocksNavbarLinks {
-  label: JSON
-  url: String
-}
-
-type PageBlocksNavbar {
-  adminLabel: String
-  logoText: JSON
-  links: [PageBlocksNavbarLinks]
-}
-
 type PageBlocksImage {
   adminLabel: String
   url: String
@@ -183,7 +183,7 @@ type PageBlocksImage {
   borderRadius: Float
 }
 
-union PageBlocks = PageBlocksHero | PageBlocksHeading | PageBlocksContent | PageBlocksCta | PageBlocksNavbar | PageBlocksImage
+union PageBlocks = PageBlocksNavbar | PageBlocksHero | PageBlocksHeading | PageBlocksContent | PageBlocksCta | PageBlocksImage
 
 type Page implements Node & Document {
   adminLabel: String!
@@ -201,10 +201,95 @@ input StringFilter {
   in: [String]
 }
 
-input RichTextFilter {
-  startsWith: String
-  eq: String
-  exists: Boolean
+input PageBlocksNavbarLogoTextColorTextFilter {
+  text: StringFilter
+  color: StringFilter
+}
+
+input PageBlocksNavbarLogoTextHighlightTextFilter {
+  text: StringFilter
+  bgColor: StringFilter
+  textColor: StringFilter
+}
+
+input PageBlocksNavbarLogoTextFilter {
+  ColorText: PageBlocksNavbarLogoTextColorTextFilter
+  HighlightText: PageBlocksNavbarLogoTextHighlightTextFilter
+}
+
+input PageBlocksNavbarLinksLabelColorTextFilter {
+  text: StringFilter
+  color: StringFilter
+}
+
+input PageBlocksNavbarLinksLabelHighlightTextFilter {
+  text: StringFilter
+  bgColor: StringFilter
+  textColor: StringFilter
+}
+
+input PageBlocksNavbarLinksLabelFilter {
+  ColorText: PageBlocksNavbarLinksLabelColorTextFilter
+  HighlightText: PageBlocksNavbarLinksLabelHighlightTextFilter
+}
+
+input PageBlocksNavbarLinksFilter {
+  label: PageBlocksNavbarLinksLabelFilter
+  url: StringFilter
+}
+
+input PageBlocksNavbarFilter {
+  adminLabel: StringFilter
+  logoText: PageBlocksNavbarLogoTextFilter
+  links: PageBlocksNavbarLinksFilter
+}
+
+input PageBlocksHeroHeadingColorTextFilter {
+  text: StringFilter
+  color: StringFilter
+}
+
+input PageBlocksHeroHeadingHighlightTextFilter {
+  text: StringFilter
+  bgColor: StringFilter
+  textColor: StringFilter
+}
+
+input PageBlocksHeroHeadingFilter {
+  ColorText: PageBlocksHeroHeadingColorTextFilter
+  HighlightText: PageBlocksHeroHeadingHighlightTextFilter
+}
+
+input PageBlocksHeroSubheadingColorTextFilter {
+  text: StringFilter
+  color: StringFilter
+}
+
+input PageBlocksHeroSubheadingHighlightTextFilter {
+  text: StringFilter
+  bgColor: StringFilter
+  textColor: StringFilter
+}
+
+input PageBlocksHeroSubheadingFilter {
+  ColorText: PageBlocksHeroSubheadingColorTextFilter
+  HighlightText: PageBlocksHeroSubheadingHighlightTextFilter
+}
+
+input PageBlocksHeroBodyColorTextFilter {
+  text: StringFilter
+  color: StringFilter
+}
+
+input PageBlocksHeroBodyHighlightTextFilter {
+  text: StringFilter
+  bgColor: StringFilter
+  textColor: StringFilter
+}
+
+input PageBlocksHeroBodyFilter {
+  ColorText: PageBlocksHeroBodyColorTextFilter
+  HighlightText: PageBlocksHeroBodyHighlightTextFilter
 }
 
 input NumberFilter {
@@ -219,9 +304,9 @@ input NumberFilter {
 
 input PageBlocksHeroFilter {
   adminLabel: StringFilter
-  heading: RichTextFilter
-  subheading: RichTextFilter
-  body: RichTextFilter
+  heading: PageBlocksHeroHeadingFilter
+  subheading: PageBlocksHeroSubheadingFilter
+  body: PageBlocksHeroBodyFilter
   align: StringFilter
   textColor: StringFilter
   fontSize: NumberFilter
@@ -234,11 +319,27 @@ input PageBlocksHeroFilter {
   mb: NumberFilter
   ml: NumberFilter
   mr: NumberFilter
+}
+
+input PageBlocksHeadingTextColorTextFilter {
+  text: StringFilter
+  color: StringFilter
+}
+
+input PageBlocksHeadingTextHighlightTextFilter {
+  text: StringFilter
+  bgColor: StringFilter
+  textColor: StringFilter
+}
+
+input PageBlocksHeadingTextFilter {
+  ColorText: PageBlocksHeadingTextColorTextFilter
+  HighlightText: PageBlocksHeadingTextHighlightTextFilter
 }
 
 input PageBlocksHeadingFilter {
   adminLabel: StringFilter
-  text: RichTextFilter
+  text: PageBlocksHeadingTextFilter
   align: StringFilter
   textColor: StringFilter
   fontSize: NumberFilter
@@ -251,11 +352,27 @@ input PageBlocksHeadingFilter {
   mb: NumberFilter
   ml: NumberFilter
   mr: NumberFilter
+}
+
+input PageBlocksContentBodyColorTextFilter {
+  text: StringFilter
+  color: StringFilter
+}
+
+input PageBlocksContentBodyHighlightTextFilter {
+  text: StringFilter
+  bgColor: StringFilter
+  textColor: StringFilter
+}
+
+input PageBlocksContentBodyFilter {
+  ColorText: PageBlocksContentBodyColorTextFilter
+  HighlightText: PageBlocksContentBodyHighlightTextFilter
 }
 
 input PageBlocksContentFilter {
   adminLabel: StringFilter
-  body: RichTextFilter
+  body: PageBlocksContentBodyFilter
   align: StringFilter
   textColor: StringFilter
   fontSize: NumberFilter
@@ -270,9 +387,25 @@ input PageBlocksContentFilter {
   mr: NumberFilter
 }
 
+input PageBlocksCtaTitleColorTextFilter {
+  text: StringFilter
+  color: StringFilter
+}
+
+input PageBlocksCtaTitleHighlightTextFilter {
+  text: StringFilter
+  bgColor: StringFilter
+  textColor: StringFilter
+}
+
+input PageBlocksCtaTitleFilter {
+  ColorText: PageBlocksCtaTitleColorTextFilter
+  HighlightText: PageBlocksCtaTitleHighlightTextFilter
+}
+
 input PageBlocksCtaFilter {
   adminLabel: StringFilter
-  title: RichTextFilter
+  title: PageBlocksCtaTitleFilter
   link: StringFilter
   align: StringFilter
   btnBgColor: StringFilter
@@ -289,17 +422,6 @@ input PageBlocksCtaFilter {
   mr: NumberFilter
 }
 
-input PageBlocksNavbarLinksFilter {
-  label: RichTextFilter
-  url: StringFilter
-}
-
-input PageBlocksNavbarFilter {
-  adminLabel: StringFilter
-  logoText: RichTextFilter
-  links: PageBlocksNavbarLinksFilter
-}
-
 input ImageFilter {
   startsWith: String
   eq: String
@@ -307,11 +429,27 @@ input ImageFilter {
   in: [String]
 }
 
+input PageBlocksImageBodyColorTextFilter {
+  text: StringFilter
+  color: StringFilter
+}
+
+input PageBlocksImageBodyHighlightTextFilter {
+  text: StringFilter
+  bgColor: StringFilter
+  textColor: StringFilter
+}
+
+input PageBlocksImageBodyFilter {
+  ColorText: PageBlocksImageBodyColorTextFilter
+  HighlightText: PageBlocksImageBodyHighlightTextFilter
+}
+
 input PageBlocksImageFilter {
   adminLabel: StringFilter
   url: ImageFilter
   caption: StringFilter
-  body: RichTextFilter
+  body: PageBlocksImageBodyFilter
   align: StringFilter
   mt: NumberFilter
   mb: NumberFilter
@@ -321,11 +459,11 @@ input PageBlocksImageFilter {
 }
 
 input PageBlocksFilter {
+  navbar: PageBlocksNavbarFilter
   hero: PageBlocksHeroFilter
   heading: PageBlocksHeadingFilter
   content: PageBlocksContentFilter
   cta: PageBlocksCtaFilter
-  navbar: PageBlocksNavbarFilter
   image: PageBlocksImageFilter
 }
 
@@ -363,6 +501,17 @@ input DocumentUpdateMutation {
 
 input DocumentMutation {
   page: PageMutation
+}
+
+input PageBlocksNavbarLinksMutation {
+  label: JSON
+  url: String
+}
+
+input PageBlocksNavbarMutation {
+  adminLabel: String
+  logoText: JSON
+  links: [PageBlocksNavbarLinksMutation]
 }
 
 input PageBlocksHeroMutation {
@@ -437,17 +586,6 @@ input PageBlocksCtaMutation {
   mr: Float
 }
 
-input PageBlocksNavbarLinksMutation {
-  label: JSON
-  url: String
-}
-
-input PageBlocksNavbarMutation {
-  adminLabel: String
-  logoText: JSON
-  links: [PageBlocksNavbarLinksMutation]
-}
-
 input PageBlocksImageMutation {
   adminLabel: String
   url: String
@@ -462,11 +600,11 @@ input PageBlocksImageMutation {
 }
 
 input PageBlocksMutation {
+  navbar: PageBlocksNavbarMutation
   hero: PageBlocksHeroMutation
   heading: PageBlocksHeadingMutation
   content: PageBlocksContentMutation
   cta: PageBlocksCtaMutation
-  navbar: PageBlocksNavbarMutation
   image: PageBlocksImageMutation
 }
 

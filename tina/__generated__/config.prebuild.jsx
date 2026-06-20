@@ -1,5 +1,29 @@
 // tina/config.ts
 import { defineConfig } from "tinacms";
+var fullRichTextConfig = {
+  parser: { type: "markdown" },
+  templates: [
+    {
+      name: "ColorText",
+      label: "\u{1F3A8} Barva p\xEDsma (Slovo/P\xEDsmeno)",
+      inline: true,
+      fields: [
+        { type: "string", name: "text", label: "Text", required: true },
+        { type: "string", name: "color", label: "Barva textu", ui: { component: "color" } }
+      ]
+    },
+    {
+      name: "HighlightText",
+      label: "\u{1F58D}\uFE0F Zv\xFDrazn\u011Bn\xED textu (Zv\xFDraz\u0148ova\u010D)",
+      inline: true,
+      fields: [
+        { type: "string", name: "text", label: "Text", required: true },
+        { type: "string", name: "bgColor", label: "Barva zv\xFDrazn\u011Bn\xED (Pozad\xED)", ui: { component: "color" } },
+        { type: "string", name: "textColor", label: "Barva p\xEDsma uvnit\u0159 zv\xFDrazn\u011Bn\xED", ui: { component: "color" } }
+      ]
+    }
+  ]
+};
 var config_default = defineConfig({
   branch: process.env.NEXT_PUBLIC_TINA_BRANCH || "main",
   clientId: process.env.NEXT_PUBLIC_TINA_CLIENT_ID,
@@ -24,25 +48,41 @@ var config_default = defineConfig({
             list: true,
             name: "blocks",
             label: "Pohybliv\xE9 bloky str\xE1nky",
-            ui: {
-              visualSelector: true
-            },
+            ui: { visualSelector: true },
             templates: [
-              // 1. HERO BLOK
+              // 1. NAVBAR
+              {
+                name: "navbar",
+                label: "NAVBAR (Menu)",
+                ui: { itemProps: (item) => ({ label: item?.adminLabel ? `\u{1F9ED} Menu: ${item.adminLabel}` : "\u{1F9ED} NAVBAR (Menu)" }) },
+                fields: [
+                  { type: "string", name: "adminLabel", label: "Intern\xED n\xE1zev bloku (Pouze pro admina)" },
+                  { type: "rich-text", name: "logoText", label: "Text loga", ...fullRichTextConfig },
+                  {
+                    type: "object",
+                    list: true,
+                    name: "links",
+                    label: "Odkazy v menu",
+                    fields: [
+                      { type: "rich-text", name: "label", label: "N\xE1zev odkazu", ...fullRichTextConfig },
+                      { type: "string", name: "url", label: "Adresa" }
+                    ]
+                  }
+                ]
+              },
+              // 2. HERO BLOK
               {
                 name: "hero",
                 label: "VELK\xDD HERO",
                 ui: {
-                  itemProps: (item) => ({
-                    label: item?.adminLabel ? `\u{1F680} Hero: ${item.adminLabel}` : "\u{1F680} VELK\xDD HERO"
-                  }),
+                  itemProps: (item) => ({ label: item?.adminLabel ? `\u{1F680} Hero: ${item.adminLabel}` : "\u{1F680} VELK\xDD HERO" }),
                   defaultItem: { align: "center", fontSize: 60, fontWeight: "900", pt: 80, pb: 80 }
                 },
                 fields: [
                   { type: "string", name: "adminLabel", label: "Intern\xED n\xE1zev bloku (Pouze pro admina)" },
-                  { type: "rich-text", name: "heading", label: "Hlavn\xED nadpis (Rich Text)" },
-                  { type: "rich-text", name: "subheading", label: "Podnadpis (Rich Text)" },
-                  { type: "rich-text", name: "body", label: "Obsah sekce (Rich Text)" },
+                  { type: "rich-text", name: "heading", label: "Hlavn\xED nadpis", ...fullRichTextConfig },
+                  { type: "rich-text", name: "subheading", label: "Podnadpis", ...fullRichTextConfig },
+                  { type: "rich-text", name: "body", label: "Obsah sekce", ...fullRichTextConfig },
                   { type: "string", name: "align", label: "Zarovn\xE1n\xED obsahu a textu", options: [{ value: "left", label: "Vlevo" }, { value: "center", label: "St\u0159ed" }, { value: "right", label: "Vpravo" }, { value: "custom", label: "Vlastn\xED" }] },
                   { type: "string", name: "textColor", label: "Barva textu", ui: { component: "color" } },
                   { type: "number", name: "fontSize", label: "Velikost p\xEDsma (px)" },
@@ -57,19 +97,17 @@ var config_default = defineConfig({
                   { type: "number", name: "mr", label: "Vn\u011Bj\u0161\xED prav\xE9 odsazen\xED (Margin Right)" }
                 ]
               },
-              // 2. HEADING BLOK
+              // 3. HEADING BLOK
               {
                 name: "heading",
                 label: "NADPIS (H2)",
                 ui: {
-                  itemProps: (item) => ({
-                    label: item?.adminLabel ? `\u{1F4DD} Nadpis: ${item.adminLabel}` : "\u{1F4DD} NADPIS (H2)"
-                  }),
+                  itemProps: (item) => ({ label: item?.adminLabel ? `\u{1F4DD} Nadpis: ${item.adminLabel}` : "\u{1F4DD} NADPIS (H2)" }),
                   defaultItem: { align: "left", fontSize: 36, fontWeight: "700", mb: 20 }
                 },
                 fields: [
                   { type: "string", name: "adminLabel", label: "Intern\xED n\xE1zev bloku (Pouze pro admina)" },
-                  { type: "rich-text", name: "text", label: "Text nadpisu (Rich Text)" },
+                  { type: "rich-text", name: "text", label: "Text nadpisu", ...fullRichTextConfig },
                   { type: "string", name: "align", label: "Zarovn\xE1n\xED obsahu a textu", options: [{ value: "left", label: "Vlevo" }, { value: "center", label: "St\u0159ed" }, { value: "right", label: "Vpravo" }, { value: "custom", label: "Vlastn\xED" }] },
                   { type: "string", name: "textColor", label: "Barva textu", ui: { component: "color" } },
                   { type: "number", name: "fontSize", label: "Velikost p\xEDsma (px)" },
@@ -84,19 +122,17 @@ var config_default = defineConfig({
                   { type: "number", name: "mr", label: "Vn\u011Bj\u0161\xED prav\xE9 odsazen\xED (Margin Right)" }
                 ]
               },
-              // 3. CONTENT BLOK
+              // 4. CONTENT BLOK
               {
                 name: "content",
                 label: "TEXTOV\xDD OBSAH",
                 ui: {
-                  itemProps: (item) => ({
-                    label: item?.adminLabel ? `\u{1F4D6} Text: ${item.adminLabel}` : "\u{1F4D6} TEXTOV\xDD OBSAH (Rich Text)"
-                  }),
+                  itemProps: (item) => ({ label: item?.adminLabel ? `\u{1F4D6} Text: ${item.adminLabel}` : "\u{1F4D6} TEXTOV\xDD OBSAH (Rich Text)" }),
                   defaultItem: { align: "left", fontSize: 18, fontWeight: "400", mb: 16 }
                 },
                 fields: [
                   { type: "string", name: "adminLabel", label: "Intern\xED n\xE1zev bloku (Pouze pro admina)" },
-                  { type: "rich-text", name: "body", label: "Obsah (Rich Text)" },
+                  { type: "rich-text", name: "body", label: "Obsah", ...fullRichTextConfig },
                   { type: "string", name: "align", label: "Zarovn\xE1n\xED obsahu a textu", options: [{ value: "left", label: "Vlevo" }, { value: "center", label: "St\u0159ed" }, { value: "right", label: "Vpravo" }, { value: "custom", label: "Vlastn\xED" }] },
                   { type: "string", name: "textColor", label: "Barva textu", ui: { component: "color" } },
                   { type: "number", name: "fontSize", label: "Velikost p\xEDsma (px)" },
@@ -111,19 +147,17 @@ var config_default = defineConfig({
                   { type: "number", name: "mr", label: "Vn\u011Bj\u0161\xED prav\xE9 odsazen\xED (Margin Right)" }
                 ]
               },
-              // 4. CTA TLAČÍTKO - EDITOVÁNO: jednořádkový Rich Text, smazáno body
+              // 5. CTA TLAČÍTKO
               {
                 name: "cta",
                 label: "TLA\u010C\xCDTKO (CTA)",
                 ui: {
-                  itemProps: (item) => ({
-                    label: item?.adminLabel ? `\u{1F517} Tla\u010D\xEDtko: ${item.adminLabel}` : "\u{1F517} TLA\u010C\xCDTKO (CTA)"
-                  }),
+                  itemProps: (item) => ({ label: item?.adminLabel ? `\u{1F517} Tla\u010D\xEDtko: ${item.adminLabel}` : "\u{1F517} TLA\u010C\xCDTKO (CTA)" }),
                   defaultItem: { align: "center", fontSize: 16, fontWeight: "700", pt: 14, pb: 14, pl: 28, pr: 28, btnBgColor: "#2563eb", btnTextColor: "#ffffff" }
                 },
                 fields: [
                   { type: "string", name: "adminLabel", label: "Intern\xED n\xE1zev bloku (Pouze pro admina)" },
-                  { type: "rich-text", name: "title", label: "Text tla\u010D\xEDtka (Rich Text)", parser: { type: "markdown" } },
+                  { type: "rich-text", name: "title", label: "Text tla\u010D\xEDtka", ...fullRichTextConfig },
                   { type: "string", name: "link", label: "Odkaz" },
                   { type: "string", name: "align", label: "Zarovn\xE1n\xED tla\u010D\xEDtka", options: [{ value: "left", label: "Vlevo" }, { value: "center", label: "St\u0159ed" }, { value: "right", label: "Vpravo" }, { value: "custom", label: "Vlastn\xED" }] },
                   { type: "string", name: "btnBgColor", label: "Barva pozad\xED tla\u010D\xEDtka", ui: { component: "color" } },
@@ -140,45 +174,19 @@ var config_default = defineConfig({
                   { type: "number", name: "mr", label: "Vn\u011Bj\u0161\xED prav\xE9 odsazen\xED cel\xE9ho bloku (Margin Right)" }
                 ]
               },
-              // 5. NAVBAR - EDITOVÁNO: jednořádkový Rich Text u loga a odkazů, smazáno body
-              {
-                name: "navbar",
-                label: "NAVBAR (Menu)",
-                ui: {
-                  itemProps: (item) => ({
-                    label: item?.adminLabel ? `\u{1F9ED} Menu: ${item.adminLabel}` : "\u{1F9ED} NAVBAR (Menu)"
-                  })
-                },
-                fields: [
-                  { type: "string", name: "adminLabel", label: "Intern\xED n\xE1zev bloku (Pouze pro admina)" },
-                  { type: "rich-text", name: "logoText", label: "Text loga (Rich Text)", parser: { type: "markdown" } },
-                  {
-                    type: "object",
-                    list: true,
-                    name: "links",
-                    label: "Odkazy v menu",
-                    fields: [
-                      { type: "rich-text", name: "label", label: "N\xE1zev odkazu (Rich Text)", parser: { type: "markdown" } },
-                      { type: "string", name: "url", label: "Adresa" }
-                    ]
-                  }
-                ]
-              },
               // 6. OBRÁZEK
               {
                 name: "image",
                 label: "IMAGE (Obr\xE1zek)",
                 ui: {
-                  itemProps: (item) => ({
-                    label: item?.adminLabel ? `\u{1F5BC}\uFE0F Obr\xE1zek: ${item.adminLabel}` : "\u{1F5BC}\uFE0F IMAGE (Obr\xE1zek)"
-                  }),
+                  itemProps: (item) => ({ label: item?.adminLabel ? `\u{1F5BC}\uFE0F Obr\xE1zek: ${item.adminLabel}` : "\u{1F5BC}\uFE0F IMAGE (Obr\xE1zek)" }),
                   defaultItem: { align: "center", borderRadius: 0, mt: 20, mb: 20 }
                 },
                 fields: [
                   { type: "string", name: "adminLabel", label: "Intern\xED n\xE1zev bloku (Pouze pro admina)" },
                   { type: "image", name: "url", label: "Soubor obr\xE1zku" },
                   { type: "string", name: "caption", label: "Popisek obr\xE1zku" },
-                  { type: "rich-text", name: "body", label: "Detailn\xED text pod obr\xE1zkem (Rich Text)" },
+                  { type: "rich-text", name: "body", label: "Detailn\xED text pod obr\xE1zkem", ...fullRichTextConfig },
                   { type: "string", name: "align", label: "Zarovn\xE1n\xED obr\xE1zku", options: [{ value: "left", label: "Vlevo" }, { value: "center", label: "St\u0159ed" }, { value: "right", label: "Vpravo" }, { value: "custom", label: "Vlastn\xED" }] },
                   { type: "number", name: "mt", label: "Horn\xED odsazen\xED (Margin Top)" },
                   { type: "number", name: "mb", label: "Doln\xED odsazen\xED (Margin Bottom)" },

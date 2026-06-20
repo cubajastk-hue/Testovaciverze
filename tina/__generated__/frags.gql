@@ -4,6 +4,15 @@ fragment PageParts on Page {
   outerBgColor
   blocks {
     __typename
+    ... on PageBlocksNavbar {
+      adminLabel
+      logoText
+      links {
+        __typename
+        label
+        url
+      }
+    }
     ... on PageBlocksHero {
       adminLabel
       heading
@@ -71,15 +80,6 @@ fragment PageParts on Page {
       mb
       ml
       mr
-    }
-    ... on PageBlocksNavbar {
-      adminLabel
-      logoText
-      links {
-        __typename
-        label
-        url
-      }
     }
     ... on PageBlocksImage {
       adminLabel
