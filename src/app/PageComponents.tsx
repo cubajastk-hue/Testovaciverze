@@ -1,232 +1,169 @@
-"use client";
-
-import { useTina, tinaField } from "tinacms/dist/react";
+import React from "react";
 import { TinaMarkdown } from "tinacms/dist/rich-text";
-import Link from "next/link";
 
-// Registrace vlastních HTML elementů pro Tina Markdown (včetně Inline barev a zvýrazňovačů)
-const markdownComponents = {
-  h1: (props: any) => <h1 className="text-5xl font-black tracking-tight mb-4 inline-block w-full" {...props} />,
-  h2: (props: any) => <h2 className="text-4xl font-bold tracking-tight mb-3 inline-block w-full" {...props} />,
-  h3: (props: any) => <h3 className="text-3xl font-bold tracking-tight mb-2 inline-block w-full" {...props} />,
-  h4: (props: any) => <h4 className="text-2xl font-semibold tracking-tight mb-2 inline-block w-full" {...props} />,
-  h5: (props: any) => <h5 className="text-xl font-semibold mb-1 inline-block w-full" {...props} />,
-  h6: (props: any) => <h6 className="text-lg font-medium mb-1 inline-block w-full" {...props} />,
-  p: (props: any) => <p className="leading-relaxed mb-4 inline" {...props} />,
-  bold: (props: any) => <strong className="font-bold" {...props} />,
-  italic: (props: any) => <em className="italic" {...props} />,
-  strikethrough: (props: any) => <span className="line-through" {...props} />,
-  code: (props: any) => <code className="bg-black/5 dark:bg-white/10 px-1.5 py-0.5 rounded text-sm font-mono text-pink-600" {...props} />,
-  code_block: (props: any) => (
-    <pre className="bg-slate-900 text-slate-100 p-4 rounded-xl my-4 overflow-x-auto text-left font-mono text-sm w-full block">
-      <code>{props.value}</code>
-    </pre>
-  ),
-  
-  // Naše vlastní kreativní inline elementy:
-  ColorText: (props: any) => (
-    <span style={{ color: props.color || "inherit" }}>
-      {props.text}
-    </span>
-  ),
-  HighlightText: (props: any) => (
-    <span 
-      style={{ 
-        backgroundColor: props.bgColor || "#fef08a", 
-        color: props.textColor || "inherit" 
-      }} 
-      className="px-1 py-0.5 rounded-md font-medium mx-0.5"
+// 1. Komponenta pro barvu písma
+const ColorText = (props: { text: string; color?: string }) => {
+  return <span style={{ color: props.color || "inherit" }}>{props.text}</span>;
+};
+
+// 2. Komponenta pro zvýraznění textu
+const HighlightText = (props: { text: string; bgColor?: string; textColor?: string }) => {
+  return (
+    <span
+      style={{
+        backgroundColor: props.bgColor || "#yellow",
+        color: props.textColor || "inherit",
+        padding: "0.2em 0.4em",
+        borderRadius: "3px",
+      }}
     >
       {props.text}
     </span>
-  ),
+  );
 };
 
-export function PageComponents(props: any) {
-  const { data } = useTina({
-    query: props.query,
-    variables: props.variables,
-    data: props.data,
-  });
+// Registrace šablon pro TinaMarkdown
+const markdownComponents = {
+  ColorText: ColorText,
+  HighlightText: HighlightText,
+};
 
-  const page = data.page;
-
-  const getCustomStyles = (block: any) => {
-    const isCustom = block.align === "custom";
-    return {
-      color: block.textColor || "inherit",
-      fontSize: block.fontSize ? `${block.fontSize}px` : "inherit",
-      fontWeight: block.fontWeight || "inherit",
-      textAlign: isCustom ? "left" : (block.align as any) || "left",
-      paddingTop: block.pt ? `${block.pt}px` : "0px",
-      paddingBottom: block.pb ? `${block.pb}px` : "0px",
-      paddingLeft: block.pl ? `${block.pl}px` : "0px",
-      paddingRight: block.pr ? `${block.pr}px` : "0px",
-      marginTop: block.mt ? `${block.mt}px` : "0px",
-      marginBottom: block.mb ? `${block.mb}px` : "0px",
-      marginLeft: isCustom ? `${block.ml || 0}px` : (block.align === "center" ? "auto" : "0px"),
-      marginRight: isCustom ? `${block.mr || 0}px` : (block.align === "center" ? "auto" : "0px"),
-    };
+// Pomocná funkce pro vygenerování inline stylů z konfigurace okrajů a barev
+const getBlockStyles = (block: any) => {
+  return {
+    textAlign: block.align && block.align !== "custom" ? (block.align as any) : undefined,
+    color: block.textColor || undefined,
+    fontSize: block.fontSize ? `${block.fontSize}px` : undefined,
+    fontWeight: block.fontWeight || undefined,
+    // Vnitřní okraje (Padding)
+    paddingTop: block.pt ? `${block.pt}px` : undefined,
+    paddingBottom: block.pb ? `${block.pb}px` : undefined,
+    paddingLeft: block.pl ? `${block.pl}px` : undefined,
+    paddingRight: block.pr ? `${block.pr}px` : undefined,
+    // Vnější okraje (Margin)
+    marginTop: block.mt ? `${block.mt}px` : undefined,
+    marginBottom: block.mb ? `${block.mb}px` : undefined,
+    marginLeft: block.ml ? `${block.ml}px` : undefined,
+    marginRight: block.mr ? `${block.mr}px` : undefined,
   };
+};
 
-  const getFlexJustify = (align: string) => {
-    if (align === "left") return "justify-start";
-    if (align === "right") return "justify-end";
-    return "justify-center";
-  };
+export default function PageComp({ data }: { data: any }) {
+  const blocks = data?.page?.blocks || [];
+  const outerBgColor = data?.page?.outerBgColor || "transparent";
 
   return (
-    <div style={{ backgroundColor: page.outerBgColor || "#ffffff", minHeight: "100vh" }} className="w-full transition-colors duration-300">
-      <main className="w-full flex flex-col overflow-x-hidden">
-        {page.blocks?.map((block: any, i: number) => {
-          if (!block) return null;
-          const styles = getCustomStyles(block);
+    <div style={{ backgroundColor: outerBgColor, minHeight: "100vh" }}>
+      {blocks.map((block: any, index: number) => {
+        const styles = getBlockStyles(block);
 
-          switch (block.__typename) {
-            case "PageBlocksNavbar":
-              return (
-                <div key={i} data-tina-field={tinaField(block)} className="w-full bg-white/10 backdrop-blur border-b border-black/5">
-                  <nav className="max-w-6xl mx-auto w-full flex justify-between items-center p-6">
-                    <span data-tina-field={tinaField(block, "logoText")} className="font-black text-2xl text-slate-900 flex items-center">
-                      {block.logoText ? <TinaMarkdown components={markdownComponents} content={block.logoText} /> : "Logo"}
-                    </span>
-                    <ul className="flex gap-6 items-center">
-                      {block.links?.map((link:any, idx:number) => (
-                        <li key={idx} data-tina-field={tinaField(link)} className="flex items-center">
-                          <Link href={link.url || "#"} className="font-medium text-slate-700 hover:text-black transition-colors">
-                            {link.label ? <TinaMarkdown components={markdownComponents} content={link.label} /> : "Odkaz"}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </nav>
+        switch (block.__typename) {
+          // 1. NAVBAR
+          case "PageBlocksNavbar":
+            return (
+              <nav key={index} style={{ padding: "1rem", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <div className="logo">
+                  <TinaMarkdown content={block.logoText} components={markdownComponents} />
                 </div>
-              );
-
-            case "PageBlocksHero":
-              return (
-                <section key={i} data-tina-field={tinaField(block)} style={styles as any} className="max-w-6xl w-full mx-auto px-4">
-                  {block.heading && (
-                    <div data-tina-field={tinaField(block, "heading")} className="text-6xl font-black tracking-tight max-w-none mb-4">
-                      <TinaMarkdown components={markdownComponents} content={block.heading} />
-                    </div>
-                  )}
-                  {block.subheading && (
-                    <div data-tina-field={tinaField(block, "subheading")} className="text-xl opacity-80 mt-4 leading-relaxed max-w-none mb-4">
-                      <TinaMarkdown components={markdownComponents} content={block.subheading} />
-                    </div>
-                  )}
-                  {block.body && (
-                    <div data-tina-field={tinaField(block, "body")} className="mt-6 max-w-none">
-                      <TinaMarkdown components={markdownComponents} content={block.body} />
-                    </div>
-                  )}
-                </section>
-              );
-
-            case "PageBlocksHeading":
-              return (
-                <div key={i} data-tina-field={tinaField(block)} style={styles as any} className="max-w-4xl w-full mx-auto px-4">
-                  {block.text && (
-                    <div data-tina-field={tinaField(block, "text")} className="text-4xl font-bold tracking-tight max-w-none">
-                      <TinaMarkdown components={markdownComponents} content={block.text} />
-                    </div>
-                  )}
+                <div style={{ display: "flex", gap: "1rem" }}>
+                  {block.links?.map((link: any, i: number) => (
+                    <a key={i} href={link.url} style={{ textDecoration: "none" }}>
+                      <TinaMarkdown content={link.label} components={markdownComponents} />
+                    </a>
+                  ))}
                 </div>
-              );
+              </nav>
+            );
 
-            case "PageBlocksContent":
-              return (
-                <div key={i} data-tina-field={tinaField(block)} style={styles as any} className="max-w-4xl w-full mx-auto px-4 text-lg leading-relaxed">
-                   <div data-tina-field={tinaField(block, "body")}>
-                     {block.body && <TinaMarkdown components={markdownComponents} content={block.body} />}
-                   </div>
-                </div>
-              );
+          // 2. HERO BLOK
+          case "PageBlocksHero":
+            return (
+              <section key={index} style={{ ...styles, display: "flex", flexDirection: "column", gap: "1rem" }}>
+                {block.heading && (
+                  <div style={{ fontSize: "2em" }}>
+                    <TinaMarkdown content={block.heading} components={markdownComponents} />
+                  </div>
+                )}
+                {block.subheading && (
+                  <div style={{ fontSize: "1.5em", opacity: 0.8 }}>
+                    <TinaMarkdown content={block.subheading} components={markdownComponents} />
+                  </div>
+                )}
+                {block.body && <TinaMarkdown content={block.body} components={markdownComponents} />}
+              </section>
+            );
 
-            case "PageBlocksImage":
-              return (
-                <div 
-                  key={i} 
-                  data-tina-field={tinaField(block)} 
-                  style={{ 
-                    marginTop: styles.marginTop, 
-                    marginBottom: styles.marginBottom,
-                    paddingLeft: block.pl ? `${block.pl}px` : "0px",
-                    paddingRight: block.pr ? `${block.pr}px` : "0px"
-                  }} 
-                  className="w-full max-w-4xl mx-auto flex flex-col items-center px-4"
-                >
-                  <figure className={`flex flex-col max-w-full ${getFlexJustify(block.align || "center")}`}>
-                    {block.url ? (
-                      <img 
-                        data-tina-field={tinaField(block, "url")}
-                        src={block.url} 
-                        alt={block.caption || "Obrázek z webu"}
-                        style={{ borderRadius: block.borderRadius ? `${block.borderRadius}px` : "0px" }}
-                        className="shadow-xl max-w-full h-auto object-contain mx-auto" 
-                      />
-                    ) : (
-                      <div className="w-[600px] max-w-full h-64 bg-slate-100 border border-dashed border-slate-300 rounded-xl flex items-center justify-center text-slate-400 font-medium text-sm mx-auto">
-                        Klikni sem a nahraj obrázek v bočním panelu
-                      </div>
-                    )}
-                    {block.caption && (
-                      <figcaption data-tina-field={tinaField(block, "caption")} className="italic mt-3 text-sm text-slate-500 text-center">
-                        {block.caption}
-                      </figcaption>
-                    )}
-                  </figure>
-                  {block.body && (
-                    <div data-tina-field={tinaField(block, "body")} className="mt-4 w-full max-w-none">
-                      <TinaMarkdown components={markdownComponents} content={block.body} />
-                    </div>
-                  )}
-                </div>
-              );
+          // 3. HEADING BLOK (H2)
+          case "PageBlocksHeading":
+            return (
+              <h2 key={index} style={styles}>
+                <TinaMarkdown content={block.text} components={markdownComponents} />
+              </h2>
+            );
 
-            case "PageBlocksCta":
-              return (
-                <div 
-                  key={i} 
-                  data-tina-field={tinaField(block)} 
+          // 4. CONTENT BLOK
+          case "PageBlocksContent":
+            return (
+              <div key={index} style={styles}>
+                <TinaMarkdown content={block.body} components={markdownComponents} />
+              </div>
+            );
+
+          // 5. CTA TLAČÍTKO
+          case "PageBlocksCta":
+            return (
+              <div key={index} style={{ textAlign: block.align && block.align !== "custom" ? (block.align as any) : "center", marginTop: block.mt ? `${block.mt}px` : undefined, marginBottom: block.mb ? `${block.mb}px` : undefined }}>
+                <a
+                  href={block.link}
                   style={{
-                    marginTop: styles.marginTop, 
-                    marginBottom: styles.marginBottom,
-                    marginLeft: styles.marginLeft,
-                    marginRight: styles.marginRight,
-                    textAlign: styles.textAlign as any
-                  }} 
-                  className="w-full max-w-4xl mx-auto px-4 flex flex-col items-center justify-center"
+                    display: "inline-block",
+                    backgroundColor: block.btnBgColor || "#2563eb",
+                    color: block.btnTextColor || "#ffffff",
+                    fontSize: block.fontSize ? `${block.fontSize}px` : "16px",
+                    fontWeight: block.fontWeight || "700",
+                    paddingTop: block.pt ? `${block.pt}px` : "14px",
+                    paddingBottom: block.pb ? `${block.pb}px` : "14px",
+                    paddingLeft: block.pl ? `${block.pl}px` : "28px",
+                    paddingRight: block.pr ? `${block.pr}px` : "28px",
+                    borderRadius: "6px",
+                    textDecoration: "none",
+                  }}
                 >
-                  <Link 
-                    data-tina-field={tinaField(block, "title")}
-                    href={block.link || "#"} 
-                    style={{
-                      backgroundColor: block.btnBgColor || "#2563eb",
-                      color: block.btnTextColor || "#ffffff",
-                      paddingTop: styles.paddingTop || "16px",
-                      paddingBottom: styles.paddingBottom || "16px",
-                      paddingLeft: styles.paddingLeft || "32px",
-                      paddingRight: styles.paddingRight || "32px",
-                      fontSize: styles.fontSize,
-                      fontWeight: styles.fontWeight,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      borderRadius: "12px"
-                    }}
-                    className="shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all duration-150"
-                  >
-                    {block.title ? <TinaMarkdown components={markdownComponents} content={block.title} /> : "Tlačítko"}
-                  </Link>
-                </div>
-              );
+                  <TinaMarkdown content={block.title} components={markdownComponents} />
+                </a>
+              </div>
+            );
 
-            default: return null;
-          }
-        })}
-      </main>
+          // 6. OBRÁZEK
+          case "PageBlocksImage":
+            return (
+              <div key={index} style={{ textAlign: block.align && block.align !== "custom" ? (block.align as any) : "center", marginTop: block.mt ? `${block.mt}px` : undefined, marginBottom: block.mb ? `${block.mb}px` : undefined }}>
+                {block.url && (
+                  <img
+                    src={block.url}
+                    alt={block.caption || ""}
+                    style={{
+                      maxWidth: "100%",
+                      height: "auto",
+                      borderRadius: block.borderRadius ? `${block.borderRadius}px` : "0px",
+                      paddingLeft: block.pl ? `${block.pl}px` : undefined,
+                      paddingRight: block.pr ? `${block.pr}px` : undefined,
+                    }}
+                  />
+                )}
+                {block.caption && <p style={{ fontStyle: "italic", fontSize: "0.9em", marginTop: "0.5rem" }}>{block.caption}</p>}
+                {block.body && (
+                  <div style={{ marginTop: "1rem" }}>
+                    <TinaMarkdown content={block.body} components={markdownComponents} />
+                  </div>
+                )}
+              </div>
+            );
+
+          default:
+            return null;
+        }
+      })}
     </div>
   );
 }
