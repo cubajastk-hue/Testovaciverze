@@ -22,10 +22,11 @@ const highlightTextTemplate = {
   ]
 };
 
-function createRichTextField(config: any): any {
+// OPRAVENÁ FUNKCE: Správně typuje návratový objekt jako rich-text pole pro Tinu
+function createRichTextField(config: { name: string; label: string; ui?: { toolbar: string[] } }): any {
   return {
-    type: "rich-text",
-    parser: { type: "markdown" },
+    type: "rich-text" as const, // Tady muselo být explicitně "as const"
+    parser: { type: "markdown" as const }, // I zde "as const"
     templates: [colorTextTemplate, highlightTextTemplate],
     ...config,
   };
@@ -121,7 +122,7 @@ export default defineConfig({
                   { type: "number" as const, name: "mt", label: "Vnější horní odsazení (Margin Top)" },
                   { type: "number" as const, name: "mb", label: "Vnější dolní odsazení (Margin Bottom)" },
                   { type: "number" as const, name: "ml", label: "Vnější levé odsazení (Margin Left)" },
-                  { type: "number" as const, name: "mr", mr: 0, label: "Vnější pravé odsazení (Margin Right)" }
+                  { type: "number" as const, name: "mr", label: "Vnější pravé odsazení (Margin Right)" }
                 ]
               },
               // 3. HEADING BLOK
