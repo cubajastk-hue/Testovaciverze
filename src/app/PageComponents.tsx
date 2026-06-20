@@ -1,3 +1,5 @@
+"use client"; // 🌟 TENTO ŘÁDEK TADY CHYBĚL A OPRAVÍ BUILD!
+
 import React from "react";
 import { TinaMarkdown } from "tinacms/dist/rich-text";
 import { useTina } from "tinacms/dist/react";
