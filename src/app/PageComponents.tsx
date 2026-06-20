@@ -1,5 +1,6 @@
 import React from "react";
 import { TinaMarkdown } from "tinacms/dist/rich-text";
+import { useTina } from "tinacms/dist/react";
 
 // 1. Komponenta pro barvu písma
 const ColorText = (props: { text: string; color?: string }) => {
@@ -11,7 +12,7 @@ const HighlightText = (props: { text: string; bgColor?: string; textColor?: stri
   return (
     <span
       style={{
-        backgroundColor: props.bgColor || "#yellow",
+        backgroundColor: props.bgColor || "yellow",
         color: props.textColor || "inherit",
         padding: "0.2em 0.4em",
         borderRadius: "3px",
@@ -48,7 +49,20 @@ const getBlockStyles = (block: any) => {
   };
 };
 
-export function PageComp({ data }: { data: any }) {
+interface PageCompProps {
+  data: any;
+  query: string;
+  variables: any;
+}
+
+export function PageComp(props: PageCompProps) {
+  // Hook useTina se stará o to, aby se změny v adminu okamžitě projevovaly na webu
+  const { data } = useTina({
+    query: props.query,
+    variables: props.variables,
+    data: props.data,
+  });
+
   const blocks = data?.page?.blocks || [];
   const outerBgColor = data?.page?.outerBgColor || "transparent";
 
@@ -61,7 +75,11 @@ export function PageComp({ data }: { data: any }) {
           // 1. NAVBAR
           case "PageBlocksNavbar":
             return (
-              <nav key={index} style={{ padding: "1rem", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <nav 
+                key={index} 
+                data-tina-field={block} 
+                style={{ padding: "1rem", display: "flex", justifyContent: "space-between", alignItems: "center" }}
+              >
                 <div className="logo">
                   <TinaMarkdown content={block.logoText} components={markdownComponents} />
                 </div>
@@ -78,7 +96,11 @@ export function PageComp({ data }: { data: any }) {
           // 2. HERO BLOK
           case "PageBlocksHero":
             return (
-              <section key={index} style={{ ...styles, display: "flex", flexDirection: "column", gap: "1rem" }}>
+              <section 
+                key={index} 
+                data-tina-field={block} 
+                style={{ ...styles, display: "flex", flexDirection: "column", gap: "1rem" }}
+              >
                 {block.heading && (
                   <div style={{ fontSize: "2em" }}>
                     <TinaMarkdown content={block.heading} components={markdownComponents} />
@@ -96,7 +118,7 @@ export function PageComp({ data }: { data: any }) {
           // 3. HEADING BLOK (H2)
           case "PageBlocksHeading":
             return (
-              <h2 key={index} style={styles}>
+              <h2 key={index} data-tina-field={block} style={styles}>
                 <TinaMarkdown content={block.text} components={markdownComponents} />
               </h2>
             );
@@ -104,7 +126,7 @@ export function PageComp({ data }: { data: any }) {
           // 4. CONTENT BLOK
           case "PageBlocksContent":
             return (
-              <div key={index} style={styles}>
+              <div key={index} data-tina-field={block} style={styles}>
                 <TinaMarkdown content={block.body} components={markdownComponents} />
               </div>
             );
@@ -112,7 +134,11 @@ export function PageComp({ data }: { data: any }) {
           // 5. CTA TLAČÍTKO
           case "PageBlocksCta":
             return (
-              <div key={index} style={{ textAlign: block.align && block.align !== "custom" ? (block.align as any) : "center", marginTop: block.mt ? `${block.mt}px` : undefined, marginBottom: block.mb ? `${block.mb}px` : undefined }}>
+              <div 
+                key={index} 
+                data-tina-field={block} 
+                style={{ textAlign: block.align && block.align !== "custom" ? (block.align as any) : "center", marginTop: block.mt ? `${block.mt}px` : undefined, marginBottom: block.mb ? `${block.mb}px` : undefined }}
+              >
                 <a
                   href={block.link}
                   style={{
@@ -137,7 +163,11 @@ export function PageComp({ data }: { data: any }) {
           // 6. OBRÁZEK
           case "PageBlocksImage":
             return (
-              <div key={index} style={{ textAlign: block.align && block.align !== "custom" ? (block.align as any) : "center", marginTop: block.mt ? `${block.mt}px` : undefined, marginBottom: block.mb ? `${block.mb}px` : undefined }}>
+              <div 
+                key={index} 
+                data-tina-field={block} 
+                style={{ textAlign: block.align && block.align !== "custom" ? (block.align as any) : "center", marginTop: block.mt ? `${block.mt}px` : undefined, marginBottom: block.mb ? `${block.mb}px` : undefined }}
+              >
                 {block.url && (
                   <img
                     src={block.url}

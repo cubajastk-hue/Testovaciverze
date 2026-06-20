@@ -7,11 +7,13 @@ interface PageProps {
 
 export default async function Page({ params }: PageProps) {
   const { slug } = await params;
-
-  // Načtení dat podle aktuálního slug (např. o-nas.mdx)
   const res = await client.queries.page({ relativePath: `${slug}.mdx` });
 
   return (
-    <PageComp data={JSON.parse(JSON.stringify(res.data))} />
+    <PageComp 
+      data={JSON.parse(JSON.stringify(res.data))} 
+      query={res.query} 
+      variables={res.variables} 
+    />
   );
 }
