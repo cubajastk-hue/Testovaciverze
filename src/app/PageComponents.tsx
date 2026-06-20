@@ -4,15 +4,42 @@ import { useTina, tinaField } from "tinacms/dist/react";
 import { TinaMarkdown } from "tinacms/dist/rich-text";
 import Link from "next/link";
 
-// Globální definice pro správné formátování Rich Text nadpisů uvnitř bloků
+// Registrace vlastních HTML elementů pro Tina Markdown (včetně Inline barev a zvýrazňovačů)
 const markdownComponents = {
-  h1: (props: any) => <h1 className="text-5xl font-black tracking-tight mb-4" {...props} />,
-  h2: (props: any) => <h2 className="text-4xl font-bold tracking-tight mb-3" {...props} />,
-  h3: (props: any) => <h3 className="text-3xl font-bold tracking-tight mb-2" {...props} />,
-  h4: (props: any) => <h4 className="text-2xl font-semibold tracking-tight mb-2" {...props} />,
-  h5: (props: any) => <h5 className="text-xl font-semibold mb-1" {...props} />,
-  h6: (props: any) => <h6 className="text-lg font-medium mb-1" {...props} />,
-  p: (props: any) => <p className="leading-relaxed mb-4" {...props} />,
+  h1: (props: any) => <h1 className="text-5xl font-black tracking-tight mb-4 inline-block w-full" {...props} />,
+  h2: (props: any) => <h2 className="text-4xl font-bold tracking-tight mb-3 inline-block w-full" {...props} />,
+  h3: (props: any) => <h3 className="text-3xl font-bold tracking-tight mb-2 inline-block w-full" {...props} />,
+  h4: (props: any) => <h4 className="text-2xl font-semibold tracking-tight mb-2 inline-block w-full" {...props} />,
+  h5: (props: any) => <h5 className="text-xl font-semibold mb-1 inline-block w-full" {...props} />,
+  h6: (props: any) => <h6 className="text-lg font-medium mb-1 inline-block w-full" {...props} />,
+  p: (props: any) => <p className="leading-relaxed mb-4 inline" {...props} />,
+  bold: (props: any) => <strong className="font-bold" {...props} />,
+  italic: (props: any) => <em className="italic" {...props} />,
+  strikethrough: (props: any) => <span className="line-through" {...props} />,
+  code: (props: any) => <code className="bg-black/5 dark:bg-white/10 px-1.5 py-0.5 rounded text-sm font-mono text-pink-600" {...props} />,
+  code_block: (props: any) => (
+    <pre className="bg-slate-900 text-slate-100 p-4 rounded-xl my-4 overflow-x-auto text-left font-mono text-sm w-full block">
+      <code>{props.value}</code>
+    </pre>
+  ),
+  
+  // Naše vlastní kreativní inline elementy:
+  ColorText: (props: any) => (
+    <span style={{ color: props.color || "inherit" }}>
+      {props.text}
+    </span>
+  ),
+  HighlightText: (props: any) => (
+    <span 
+      style={{ 
+        backgroundColor: props.bgColor || "#fef08a", 
+        color: props.textColor || "inherit" 
+      }} 
+      className="px-1 py-0.5 rounded-md font-medium mx-0.5"
+    >
+      {props.text}
+    </span>
+  ),
 };
 
 export function PageComponents(props: any) {
@@ -60,12 +87,12 @@ export function PageComponents(props: any) {
               return (
                 <div key={i} data-tina-field={tinaField(block)} className="w-full bg-white/10 backdrop-blur border-b border-black/5">
                   <nav className="max-w-6xl mx-auto w-full flex justify-between items-center p-6">
-                    <span data-tina-field={tinaField(block, "logoText")} className="font-black text-2xl text-slate-900">
+                    <span data-tina-field={tinaField(block, "logoText")} className="font-black text-2xl text-slate-900 flex items-center">
                       {block.logoText ? <TinaMarkdown components={markdownComponents} content={block.logoText} /> : "Logo"}
                     </span>
-                    <ul className="flex gap-6">
+                    <ul className="flex gap-6 items-center">
                       {block.links?.map((link:any, idx:number) => (
-                        <li key={idx} data-tina-field={tinaField(link)}>
+                        <li key={idx} data-tina-field={tinaField(link)} className="flex items-center">
                           <Link href={link.url || "#"} className="font-medium text-slate-700 hover:text-black transition-colors">
                             {link.label ? <TinaMarkdown components={markdownComponents} content={link.label} /> : "Odkaz"}
                           </Link>
@@ -80,12 +107,12 @@ export function PageComponents(props: any) {
               return (
                 <section key={i} data-tina-field={tinaField(block)} style={styles as any} className="max-w-6xl w-full mx-auto px-4">
                   {block.heading && (
-                    <div data-tina-field={tinaField(block, "heading")} className="text-6xl font-black tracking-tight max-w-none">
+                    <div data-tina-field={tinaField(block, "heading")} className="text-6xl font-black tracking-tight max-w-none mb-4">
                       <TinaMarkdown components={markdownComponents} content={block.heading} />
                     </div>
                   )}
                   {block.subheading && (
-                    <div data-tina-field={tinaField(block, "subheading")} className="text-xl opacity-80 mt-4 leading-relaxed max-w-none">
+                    <div data-tina-field={tinaField(block, "subheading")} className="text-xl opacity-80 mt-4 leading-relaxed max-w-none mb-4">
                       <TinaMarkdown components={markdownComponents} content={block.subheading} />
                     </div>
                   )}
@@ -110,7 +137,7 @@ export function PageComponents(props: any) {
 
             case "PageBlocksContent":
               return (
-                <div key={i} data-tina-field={tinaField(block)} style={styles as any} className="max-w-4xl w-full mx-auto px-4 prose-slate prose-lg">
+                <div key={i} data-tina-field={tinaField(block)} style={styles as any} className="max-w-4xl w-full mx-auto px-4 text-lg leading-relaxed">
                    <div data-tina-field={tinaField(block, "body")}>
                      {block.body && <TinaMarkdown components={markdownComponents} content={block.body} />}
                    </div>
@@ -184,7 +211,9 @@ export function PageComponents(props: any) {
                       paddingRight: styles.paddingRight || "32px",
                       fontSize: styles.fontSize,
                       fontWeight: styles.fontWeight,
-                      display: "inline-block",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
                       borderRadius: "12px"
                     }}
                     className="shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all duration-150"
