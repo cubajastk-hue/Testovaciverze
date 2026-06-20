@@ -48,7 +48,7 @@ const getBlockStyles = (block: any) => {
   };
 };
 
-export default function PageComp({ data }: { data: any }) {
+export function PageComp({ data }: { data: any }) {
   const blocks = data?.page?.blocks || [];
   const outerBgColor = data?.page?.outerBgColor || "transparent";
 
