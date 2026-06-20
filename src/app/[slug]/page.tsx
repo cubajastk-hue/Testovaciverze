@@ -1,23 +1,17 @@
-import { client } from "../../../tina/__generated__/client"; // pozor na správný počet "../" podle hloubky složky
-import { PageComponents } from "../PageComponents"; // uprav cestu, aby správně importovala PageComponents
+import { client } from "../../../tina/__generated__/client";
+import { PageComp } from "../PageComponents";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
-export default async function DynamicPage({ params }: PageProps) {
-  // Počkáme na vytažení slug (názvu stránky, např. "o-nas") z URL
+export default async function Page({ params }: PageProps) {
   const { slug } = await params;
 
-  // Dynamicky načteme mdx soubor podle toho, co je v URL
+  // Načtení dat podle aktuálního slug (např. o-nas.mdx)
   const res = await client.queries.page({ relativePath: `${slug}.mdx` });
 
-  // Vykreslíme úplně stejné plátno, ale s daty pro tuto konkrétní stránku
   return (
-    <PageComponents
-      data={JSON.parse(JSON.stringify(res.data))}
-      query={res.query}
-      variables={res.variables}
-    />
+    <PageComp data={JSON.parse(JSON.stringify(res.data))} />
   );
 }
