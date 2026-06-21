@@ -1,5 +1,9 @@
 import React from "react";
 import { defineConfig } from "tinacms";
+import SimpleMDE from "react-simplemde-editor";
+
+// @ts-ignore - Tímto TypeScriptu zakážeme kontrolu typů pro CSS soubor a build hladce projde
+import "easymde/dist/easymde.min.css";
 
 export default defineConfig({
   branch: process.env.NEXT_PUBLIC_TINA_BRANCH || "main",
@@ -8,28 +12,23 @@ export default defineConfig({
   build: { outputFolder: "admin", publicFolder: "public" },
   media: { tina: { mediaRoot: "uploads", publicFolder: "public" } },
   
-  // 💡 Tady zaregistrujeme komponentu do administračního rozhraní Tiny
+  // Syntakticky čistá a okamžitá registrace editoru bez čekání na promisy
   cmsCallback: (cms) => {
-    import("react-simplemde-editor").then((SimpleMDEModule) => {
-      import("easymde/dist/easymde.min.css" as any);
-      const SimpleMDE = SimpleMDEModule.default;
-
-      cms.plugins.add({
-        __typename: "FieldPlugin",
-        name: "simplemde",
-        Component: ({ field, input, meta }: any) => {
-          return React.createElement(SimpleMDE, {
-            value: input.value || "",
-            onChange: input.onChange,
-            options: {
-              autofocus: false,
-              spellChecker: false,
-              status: false,
-              toolbar: ["bold", "italic", "heading", "|", "quote", "unordered-list", "ordered-list", "|", "preview"],
-            },
-          });
-        },
-      });
+    cms.plugins.add({
+      __typename: "FieldPlugin",
+      name: "simplemde",
+      Component: ({ input }: any) => {
+        return React.createElement(SimpleMDE, {
+          value: input.value || "",
+          onChange: input.onChange,
+          options: {
+            autofocus: false,
+            spellChecker: false,
+            status: false,
+            toolbar: ["bold", "italic", "heading", "|", "quote", "unordered-list", "ordered-list", "|", "preview"],
+          },
+        });
+      },
     });
     return cms;
   },
@@ -64,7 +63,7 @@ export default defineConfig({
                     type: "string",
                     name: "logoText",
                     label: "Text loga",
-                    ui: { component: "simplemde" } // 🚀 Voláme přes registrovaný název
+                    ui: { component: "simplemde" }
                   },
                   {
                     type: "object",
