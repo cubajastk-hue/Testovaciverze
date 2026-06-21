@@ -1,5 +1,40 @@
 ---
-title: Návod
-titleAlignment: center
 adminLabel: Domovská stránka
+outerBgColor: '#ffffff'
+blocks:
+  - adminLabel: Horní menu
+    logoText: '**MojeLogo**'
+    links:
+      - label: Domů
+        url: /
+      - label: O nás
+        url: /o-nas
+    __typename: PageBlocksNavbar
+  - adminLabel: Úvodní sekce
+    heading: '# Vítejte na našem novém webu!'
+    subheading: 'Tento web běží na Next.js a TinaCMS bez otravných toolbarů.'
+    body: >
+      Tohle je čistý **markdown obsah**. Můžeš zde psát texty úplně v klidu a
+      všechno se správně vykreslí.
+    align: center
+    textColor: '#111111'
+    fontSize: 16
+    fontWeight: '400'
+    pt: 40
+    pb: 40
+  - adminLabel: Hlavní nadpis obsahu
+    text: '## Co všechno umíme?'
+    align: left
+    textColor: '#222222'
+    fontSize: 28
+    mt: 20
+    mb: 20
+  - adminLabel: Textový blok
+    body: >
+      Díky této úpravě máš v administraci **čistá textová pole**. Žádná velká
+      lišta s ikonami ti už nebude překážet ani rozbíjet TypeScript build.
+    align: left
+    textColor: '#333333'
+    fontSize: 16
+    __typename: PageBlocksContent
 ---

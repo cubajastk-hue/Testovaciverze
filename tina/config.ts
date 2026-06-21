@@ -26,7 +26,7 @@ export default defineConfig({
             label: "Pohyblivé bloky stránky",
             ui: { visualSelector: true },
             templates: [
-              // 1. NAVBAR
+              // NAVBAR BLOCK
               {
                 name: "navbar",
                 label: "NAVBAR (Menu)",
@@ -36,8 +36,7 @@ export default defineConfig({
                     type: "rich-text",
                     name: "logoText",
                     label: "Text loga",
-                    // Takhle Tinu donutíme ukázat jen Bold, Italic a Link:
-                    toolbarOverride: ["bold", "italic", "link"],
+                    ui: { component: "markdown" } // 📝 Čisté pole, žádný hnusný toolbar
                   },
                   {
                     type: "object",
@@ -48,23 +47,23 @@ export default defineConfig({
                       { 
                         type: "rich-text", 
                         name: "label", 
-                        label: "Název odkazu",
-                        toolbarOverride: ["bold", "italic"] 
+                        label: "Název odkazu", 
+                        ui: { component: "markdown" } // 📝 Čisté pole
                       },
                       { type: "string", name: "url", label: "Adresa" }
                     ]
                   }
                 ]
               },
-              // 2. HERO
+              // HERO BLOCK
               {
                 name: "hero",
                 label: "VELKÝ HERO",
                 fields: [
                   { type: "string", name: "adminLabel", label: "Interní název bloku" },
-                  { type: "rich-text", name: "heading", label: "Hlavní nadpis (H1)", toolbarOverride: ["bold", "italic"] },
-                  { type: "rich-text", name: "subheading", label: "Podnadpis", toolbarOverride: ["bold", "italic"] },
-                  { type: "rich-text", name: "body", label: "Obsah sekce" }, // Tady necháme plný editor
+                  { type: "rich-text", name: "heading", label: "Hlavní nadpis (H1)", ui: { component: "markdown" } },
+                  { type: "rich-text", name: "subheading", label: "Podnadpis", ui: { component: "markdown" } },
+                  { type: "rich-text", name: "body", label: "Obsah sekce", ui: { component: "markdown" } },
                   { type: "string", name: "align", label: "Zarovnání", options: [{ value: "left", label: "Vlevo" }, { value: "center", label: "Střed" }, { value: "right", label: "Vpravo" }] },
                   { type: "string", name: "textColor", label: "Barva textu", ui: { component: "color" } },
                   { type: "number", name: "fontSize", label: "Velikost písma (px)" },
@@ -73,13 +72,13 @@ export default defineConfig({
                   { type: "number", name: "pb", label: "Padding Bottom" }
                 ]
               },
-              // 3. HEADING
+              // HEADING BLOCK
               {
                 name: "heading",
                 label: "NADPIS (H2)",
                 fields: [
                   { type: "string", name: "adminLabel", label: "Interní název bloku" },
-                  { type: "rich-text", name: "text", label: "Text nadpisu", toolbarOverride: ["bold", "italic"] },
+                  { type: "rich-text", name: "text", label: "Text nadpisu", ui: { component: "markdown" } },
                   { type: "string", name: "align", label: "Zarovnání", options: [{ value: "left", label: "Vlevo" }, { value: "center", label: "Střed" }, { value: "right", label: "Vpravo" }] },
                   { type: "string", name: "textColor", label: "Barva textu", ui: { component: "color" } },
                   { type: "number", name: "fontSize", label: "Velikost písma (px)" },
@@ -87,22 +86,22 @@ export default defineConfig({
                   { type: "number", name: "mb", label: "Margin Bottom" }
                 ]
               },
-              // 4. CONTENT
+              // CONTENT BLOCK
               {
                 name: "content",
                 label: "TEXTOVÝ OBSAH",
                 fields: [
                   { type: "string", name: "adminLabel", label: "Interní název bloku" },
-                  { type: "rich-text", name: "body", label: "Obsah" },
+                  { type: "rich-text", name: "body", label: "Obsah", ui: { component: "markdown" } },
                   { type: "string", name: "align", label: "Zarovnání", options: [{ value: "left", label: "Vlevo" }, { value: "center", label: "Střed" }, { value: "right", label: "Vpravo" }] },
                   { type: "string", name: "textColor", label: "Barva textu", ui: { component: "color" } },
                   { type: "number", name: "fontSize", label: "Velikost písma (px)" }
                 ]
               }
-            ]
-          }
-        ]
-      }
-    ]
-  }
+            ],
+          },
+        ],
+      },
+    ],
+  },
 });
