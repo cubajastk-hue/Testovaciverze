@@ -26,18 +26,17 @@ var config_default = defineConfig({
             label: "Pohybliv\xE9 bloky str\xE1nky",
             ui: { visualSelector: true },
             templates: [
-              // NAVBAR BLOCK
+              // NAVBAR
               {
                 name: "navbar",
                 label: "NAVBAR (Menu)",
                 fields: [
                   { type: "string", name: "adminLabel", label: "Intern\xED n\xE1zev bloku" },
                   {
-                    type: "rich-text",
+                    type: "string",
                     name: "logoText",
                     label: "Text loga",
                     ui: { component: "markdown" }
-                    // 📝 Čisté pole, žádný hnusný toolbar
                   },
                   {
                     type: "object",
@@ -46,26 +45,25 @@ var config_default = defineConfig({
                     label: "Odkazy v menu",
                     fields: [
                       {
-                        type: "rich-text",
+                        type: "string",
                         name: "label",
                         label: "N\xE1zev odkazu",
                         ui: { component: "markdown" }
-                        // 📝 Čisté pole
                       },
                       { type: "string", name: "url", label: "Adresa" }
                     ]
                   }
                 ]
               },
-              // HERO BLOCK
+              // HERO
               {
                 name: "hero",
                 label: "VELK\xDD HERO",
                 fields: [
                   { type: "string", name: "adminLabel", label: "Intern\xED n\xE1zev bloku" },
-                  { type: "rich-text", name: "heading", label: "Hlavn\xED nadpis (H1)", ui: { component: "markdown" } },
-                  { type: "rich-text", name: "subheading", label: "Podnadpis", ui: { component: "markdown" } },
-                  { type: "rich-text", name: "body", label: "Obsah sekce", ui: { component: "markdown" } },
+                  { type: "string", name: "heading", label: "Hlavn\xED nadpis (H1)", ui: { component: "markdown" } },
+                  { type: "string", name: "subheading", label: "Podnadpis", ui: { component: "markdown" } },
+                  { type: "string", name: "body", label: "Obsah sekce", ui: { component: "markdown" } },
                   { type: "string", name: "align", label: "Zarovn\xE1n\xED", options: [{ value: "left", label: "Vlevo" }, { value: "center", label: "St\u0159ed" }, { value: "right", label: "Vpravo" }] },
                   { type: "string", name: "textColor", label: "Barva textu", ui: { component: "color" } },
                   { type: "number", name: "fontSize", label: "Velikost p\xEDsma (px)" },
@@ -74,13 +72,13 @@ var config_default = defineConfig({
                   { type: "number", name: "pb", label: "Padding Bottom" }
                 ]
               },
-              // HEADING BLOCK
+              // HEADING
               {
                 name: "heading",
                 label: "NADPIS (H2)",
                 fields: [
                   { type: "string", name: "adminLabel", label: "Intern\xED n\xE1zev bloku" },
-                  { type: "rich-text", name: "text", label: "Text nadpisu", ui: { component: "markdown" } },
+                  { type: "string", name: "text", label: "Text nadpisu", ui: { component: "markdown" } },
                   { type: "string", name: "align", label: "Zarovn\xE1n\xED", options: [{ value: "left", label: "Vlevo" }, { value: "center", label: "St\u0159ed" }, { value: "right", label: "Vpravo" }] },
                   { type: "string", name: "textColor", label: "Barva textu", ui: { component: "color" } },
                   { type: "number", name: "fontSize", label: "Velikost p\xEDsma (px)" },
@@ -88,13 +86,13 @@ var config_default = defineConfig({
                   { type: "number", name: "mb", label: "Margin Bottom" }
                 ]
               },
-              // CONTENT BLOCK
+              // CONTENT
               {
                 name: "content",
                 label: "TEXTOV\xDD OBSAH",
                 fields: [
                   { type: "string", name: "adminLabel", label: "Intern\xED n\xE1zev bloku" },
-                  { type: "rich-text", name: "body", label: "Obsah", ui: { component: "markdown" } },
+                  { type: "string", name: "body", label: "Obsah", ui: { component: "markdown" } },
                   { type: "string", name: "align", label: "Zarovn\xE1n\xED", options: [{ value: "left", label: "Vlevo" }, { value: "center", label: "St\u0159ed" }, { value: "right", label: "Vpravo" }] },
                   { type: "string", name: "textColor", label: "Barva textu", ui: { component: "color" } },
                   { type: "number", name: "fontSize", label: "Velikost p\xEDsma (px)" }

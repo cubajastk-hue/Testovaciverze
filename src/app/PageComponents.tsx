@@ -13,7 +13,8 @@ interface PageCompProps {
 // Pomocná komponenta pro převod textu na HTML
 const CustomMarkdown = ({ content, style }: { content: string; style?: React.CSSProperties }) => {
   if (!content) return null;
-  const rawHtml = marked.parseSync(content) as string;
+  // Volání marked přímo jako funkce funguje vždy a všude
+  const rawHtml = typeof marked === "function" ? marked(content) : (marked as any).parse(content);
   return <div style={style} dangerouslySetInnerHTML={{ __html: rawHtml }} />;
 };
 

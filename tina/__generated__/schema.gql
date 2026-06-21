@@ -88,21 +88,21 @@ type Collection {
 union DocumentNode = Page | Folder
 
 type PageBlocksNavbarLinks {
-  label: JSON
+  label: String
   url: String
 }
 
 type PageBlocksNavbar {
   adminLabel: String
-  logoText: JSON
+  logoText: String
   links: [PageBlocksNavbarLinks]
 }
 
 type PageBlocksHero {
   adminLabel: String
-  heading: JSON
-  subheading: JSON
-  body: JSON
+  heading: String
+  subheading: String
+  body: String
   align: String
   textColor: String
   fontSize: Float
@@ -113,7 +113,7 @@ type PageBlocksHero {
 
 type PageBlocksHeading {
   adminLabel: String
-  text: JSON
+  text: String
   align: String
   textColor: String
   fontSize: Float
@@ -123,7 +123,7 @@ type PageBlocksHeading {
 
 type PageBlocksContent {
   adminLabel: String
-  body: JSON
+  body: String
   align: String
   textColor: String
   fontSize: Float
@@ -147,20 +147,14 @@ input StringFilter {
   in: [String]
 }
 
-input RichTextFilter {
-  startsWith: String
-  eq: String
-  exists: Boolean
-}
-
 input PageBlocksNavbarLinksFilter {
-  label: RichTextFilter
+  label: StringFilter
   url: StringFilter
 }
 
 input PageBlocksNavbarFilter {
   adminLabel: StringFilter
-  logoText: RichTextFilter
+  logoText: StringFilter
   links: PageBlocksNavbarLinksFilter
 }
 
@@ -176,9 +170,9 @@ input NumberFilter {
 
 input PageBlocksHeroFilter {
   adminLabel: StringFilter
-  heading: RichTextFilter
-  subheading: RichTextFilter
-  body: RichTextFilter
+  heading: StringFilter
+  subheading: StringFilter
+  body: StringFilter
   align: StringFilter
   textColor: StringFilter
   fontSize: NumberFilter
@@ -189,7 +183,7 @@ input PageBlocksHeroFilter {
 
 input PageBlocksHeadingFilter {
   adminLabel: StringFilter
-  text: RichTextFilter
+  text: StringFilter
   align: StringFilter
   textColor: StringFilter
   fontSize: NumberFilter
@@ -199,7 +193,7 @@ input PageBlocksHeadingFilter {
 
 input PageBlocksContentFilter {
   adminLabel: StringFilter
-  body: RichTextFilter
+  body: StringFilter
   align: StringFilter
   textColor: StringFilter
   fontSize: NumberFilter
@@ -249,21 +243,21 @@ input DocumentMutation {
 }
 
 input PageBlocksNavbarLinksMutation {
-  label: JSON
+  label: String
   url: String
 }
 
 input PageBlocksNavbarMutation {
   adminLabel: String
-  logoText: JSON
+  logoText: String
   links: [PageBlocksNavbarLinksMutation]
 }
 
 input PageBlocksHeroMutation {
   adminLabel: String
-  heading: JSON
-  subheading: JSON
-  body: JSON
+  heading: String
+  subheading: String
+  body: String
   align: String
   textColor: String
   fontSize: Float
@@ -274,7 +268,7 @@ input PageBlocksHeroMutation {
 
 input PageBlocksHeadingMutation {
   adminLabel: String
-  text: JSON
+  text: String
   align: String
   textColor: String
   fontSize: Float
@@ -284,7 +278,7 @@ input PageBlocksHeadingMutation {
 
 input PageBlocksContentMutation {
   adminLabel: String
-  body: JSON
+  body: String
   align: String
   textColor: String
   fontSize: Float
