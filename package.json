@@ -13,6 +13,7 @@
     "@udecode/plate-dnd": "48.0.0",
     "@vercel/speed-insights": "^2.0.0",
     "fs-extra": "^11.3.4",
+    "marked": "^18.0.5",
     "next": "16.1.6",
     "react": "19.2.3",
     "react-dnd": "16.0.1",

@@ -24,10 +24,6 @@ fragment PageParts on Page {
       fontWeight
       pt
       pb
-      pl
-      pr
-      mt
-      mb
     }
     ... on PageBlocksHeading {
       adminLabel
@@ -35,7 +31,6 @@ fragment PageParts on Page {
       align
       textColor
       fontSize
-      fontWeight
       mt
       mb
     }
@@ -45,23 +40,6 @@ fragment PageParts on Page {
       align
       textColor
       fontSize
-      mt
-      mb
-    }
-    ... on PageBlocksCta {
-      adminLabel
-      title
-      link
-      align
-      btnBgColor
-      btnTextColor
-    }
-    ... on PageBlocksImage {
-      adminLabel
-      url
-      caption
-      body
-      align
     }
   }
 }

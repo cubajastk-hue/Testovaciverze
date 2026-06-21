@@ -32,10 +32,6 @@ export const PagePartsFragmentDoc = gql`
       fontWeight
       pt
       pb
-      pl
-      pr
-      mt
-      mb
     }
     ... on PageBlocksHeading {
       adminLabel
@@ -43,7 +39,6 @@ export const PagePartsFragmentDoc = gql`
       align
       textColor
       fontSize
-      fontWeight
       mt
       mb
     }
@@ -53,23 +48,6 @@ export const PagePartsFragmentDoc = gql`
       align
       textColor
       fontSize
-      mt
-      mb
-    }
-    ... on PageBlocksCta {
-      adminLabel
-      title
-      link
-      align
-      btnBgColor
-      btnTextColor
-    }
-    ... on PageBlocksImage {
-      adminLabel
-      url
-      caption
-      body
-      align
     }
   }
 }
