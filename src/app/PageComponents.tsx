@@ -2,13 +2,20 @@
 
 import React from "react";
 import { useTina } from "tinacms/dist/react";
-import { TinaMarkdown } from "tinacms/dist/rich-text";
+import { marked } from "marked"; // Teď už to Next.js po reinstalu najde!
 
 interface PageCompProps {
   data: any;
   query: string;
   variables: any;
 }
+
+// Pomocná komponenta pro převod textu na HTML
+const CustomMarkdown = ({ content, style }: { content: string; style?: React.CSSProperties }) => {
+  if (!content) return null;
+  const rawHtml = marked.parseSync(content) as string;
+  return <div style={style} dangerouslySetInnerHTML={{ __html: rawHtml }} />;
+};
 
 const getBlockStyles = (block: any) => {
   return {
@@ -44,12 +51,12 @@ export function PageComp(props: PageCompProps) {
             return (
               <nav key={index} data-tina-field={block} style={{ padding: "1rem", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 <div className="logo">
-                  <TinaMarkdown content={block.logoText} />
+                  <CustomMarkdown content={block.logoText} />
                 </div>
                 <div style={{ display: "flex", gap: "1rem" }}>
                   {block.links?.map((link: any, i: number) => (
                     <a key={i} href={link.url} style={{ textDecoration: "none" }}>
-                      <TinaMarkdown content={link.label} />
+                      <CustomMarkdown content={link.label} />
                     </a>
                   ))}
                 </div>
@@ -61,29 +68,29 @@ export function PageComp(props: PageCompProps) {
               <section key={index} data-tina-field={block} style={{ ...styles, display: "flex", flexDirection: "column", gap: "1rem" }}>
                 {block.heading && (
                   <h1 style={{ fontSize: "2.5em", margin: 0 }}>
-                    <TinaMarkdown content={block.heading} />
+                    <CustomMarkdown content={block.heading} />
                   </h1>
                 )}
                 {block.subheading && (
                   <div style={{ fontSize: "1.5em", opacity: 0.8 }}>
-                    <TinaMarkdown content={block.subheading} />
+                    <CustomMarkdown content={block.subheading} />
                   </div>
                 )}
-                {block.body && <TinaMarkdown content={block.body} />}
+                {block.body && <CustomMarkdown content={block.body} />}
               </section>
             );
 
           case "heading":
             return (
               <h2 key={index} data-tina-field={block} style={{ ...styles, margin: 0 }}>
-                <TinaMarkdown content={block.text} />
+                <CustomMarkdown content={block.text} />
               </h2>
             );
 
           case "content":
             return (
               <div key={index} data-tina-field={block} style={styles}>
-                <TinaMarkdown content={block.body} />
+                <CustomMarkdown content={block.body} />
               </div>
             );
 
