@@ -1,5 +1,5 @@
 import { client } from "../../../tina/__generated__/client";
-import { PageComp } from "../PageComponents";
+import { PageComponents } from "../PageComponents";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -10,10 +10,10 @@ export default async function Page({ params }: PageProps) {
   const res = await client.queries.page({ relativePath: `${slug}.mdx` });
 
   return (
-    <PageComp 
-      data={JSON.parse(JSON.stringify(res.data))} 
-      query={res.query} 
-      variables={res.variables} 
+    <PageComponents
+      data={JSON.parse(JSON.stringify(res.data))}
+      query={res.query}
+      variables={res.variables}
     />
   );
 }
