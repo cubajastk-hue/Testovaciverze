@@ -9,19 +9,19 @@ export default defineConfig({
   media: { tina: { mediaRoot: "uploads", publicFolder: "public" } },
   
   cmsCallback: (cms) => {
-    // 🚀 Ochrana pro serverový build: Pokud neběžíme v prohlížeči, editor vůbec neregistrujeme
+    // Bezpečnostní pojistka: Na serveru (při buildu) tento kód neproběhne, spustí se až v prohlížeči uživatele
     if (typeof window === "undefined") return cms;
 
-    // Bezpečný dynamic import za běhu v prohlížeči
     Promise.all([
       import("react-simplemde-editor"),
       import("easymde/dist/easymde.min.css" as any)
     ]).then(([SimpleMDEModule]) => {
       const SimpleMDE = SimpleMDEModule.default;
 
+      // Zaregistrujeme vizuální klikací editor pod názvem "klikaci-markdown"
       cms.plugins.add({
         __typename: "FieldPlugin",
-        name: "simplemde",
+        name: "klikaci-markdown",
         Component: ({ input }: any) => {
           return React.createElement(SimpleMDE, {
             value: input.value || "",
@@ -30,7 +30,8 @@ export default defineConfig({
               autofocus: false,
               spellChecker: false,
               status: false,
-              toolbar: ["bold", "italic", "heading", "|", "quote", "unordered-list", "ordered-list", "|", "preview"],
+              // Nastavení tlačítek, která chceš mít v horní liště
+              toolbar: ["bold", "italic", "heading", "|", "quote", "unordered-list", "ordered-list", "|", "link"],
             },
           });
         },
@@ -52,25 +53,23 @@ export default defineConfig({
         },
         fields: [
           { type: "string", name: "adminLabel", label: "Interní název", isTitle: true, required: true },
-          { type: "string", name: "outerBgColor", label: "Barva pozadí stránky", ui: { component: "color" } },
           {
             type: "object",
             list: true,
             name: "blocks",
-            label: "Pohyblivé blocks stránky",
-            ui: { visualSelector: true },
+            label: "Bloky stránky (Přesouvejte pořadí zde)",
             templates: [
-              // 1. NAVBAR
+              // --- HLAVIČKA (NAVBAR) ---
               {
                 name: "navbar",
-                label: "NAVBAR (Menu)",
+                label: "HLAVIČKA (Menu)",
                 fields: [
                   { type: "string", name: "adminLabel", label: "Interní název bloku" },
                   {
-                    type: "string",
+                    type: "string", // Pro Tinu a Vercel naprosto bezpečný string
                     name: "logoText",
-                    label: "Text loga",
-                    ui: { component: "simplemde" }
+                    label: "Text loga (Podporuje formátování)",
+                    ui: { component: "klikaci-markdown" } // Zde mu vnutíte ten klikací editor
                   },
                   {
                     type: "object",
@@ -82,54 +81,25 @@ export default defineConfig({
                         type: "string", 
                         name: "label", 
                         label: "Název odkazu", 
-                        ui: { component: "simplemde" } 
+                        ui: { component: "klikaci-markdown" } 
                       },
-                      { type: "string", name: "url", label: "Adresa" }
+                      { type: "string", name: "url", label: "Kam odkaz vede (URL)" }
                     ]
                   }
                 ]
               },
-              // 2. HERO
-              {
-                name: "hero",
-                label: "VELKÝ HERO",
-                fields: [
-                  { type: "string", name: "adminLabel", label: "Interní název bloku" },
-                  { type: "string", name: "heading", label: "Hlavní nadpis (H1)", ui: { component: "simplemde" } },
-                  { type: "string", name: "subheading", label: "Podnadpis", ui: { component: "simplemde" } },
-                  { type: "string", name: "body", label: "Obsah sekce", ui: { component: "simplemde" } },
-                  { type: "string", name: "align", label: "Zarovnání", options: [{ value: "left", label: "Vlevo" }, { value: "center", label: "Střed" }, { value: "right", label: "Vpravo" }] },
-                  { type: "string", name: "textColor", label: "Barva textu", ui: { component: "color" } },
-                  { type: "number", name: "fontSize", label: "Velikost písma (px)" },
-                  { type: "string", name: "fontWeight", label: "Tloušťka", options: [{ value: "400", label: "Normální" }, { value: "700", label: "Tučné" }] },
-                  { type: "number", name: "pt", label: "Padding Top" },
-                  { type: "number", name: "pb", label: "Padding Bottom" }
-                ]
-              },
-              // 3. HEADING
-              {
-                name: "heading",
-                label: "NADPIS (H2)",
-                fields: [
-                  { type: "string", name: "adminLabel", label: "Interní název bloku" },
-                  { type: "string", name: "text", label: "Text nadpisu", ui: { component: "simplemde" } },
-                  { type: "string", name: "align", label: "Zarovnání", options: [{ value: "left", label: "Vlevo" }, { value: "center", label: "Střed" }, { value: "right", label: "Vpravo" }] },
-                  { type: "string", name: "textColor", label: "Barva textu", ui: { component: "color" } },
-                  { type: "number", name: "fontSize", label: "Velikost písma (px)" },
-                  { type: "number", name: "mt", label: "Margin Top" },
-                  { type: "number", name: "mb", label: "Margin Bottom" }
-                ]
-              },
-              // 4. CONTENT
+              // --- TEXTOVÝ OBSAH ---
               {
                 name: "content",
                 label: "TEXTOVÝ OBSAH",
                 fields: [
                   { type: "string", name: "adminLabel", label: "Interní název bloku" },
-                  { type: "string", name: "body", label: "Obsah", ui: { component: "simplemde" } },
-                  { type: "string", name: "align", label: "Zarovnání", options: [{ value: "left", label: "Vlevo" }, { value: "center", label: "Střed" }, { value: "right", label: "Vpravo" }] },
-                  { type: "string", name: "textColor", label: "Barva textu", ui: { component: "color" } },
-                  { type: "number", name: "fontSize", label: "Velikost písma (px)" }
+                  { 
+                    type: "string", 
+                    name: "body", 
+                    label: "Obsah stránky", 
+                    ui: { component: "klikaci-markdown" } 
+                  }
                 ]
               }
             ]

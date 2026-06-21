@@ -66,6 +66,9 @@ importers:
       '@tinacms/cli':
         specifier: ^2.1.9
         version: 2.4.0(@codemirror/language@6.0.0)(@types/node@20.19.41)(@types/react-dom@19.2.3(@types/react@19.2.15))(@types/react@19.2.15)(abstract-level@1.0.4)(immer@10.2.0)(lightningcss@1.32.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(rollup@3.30.0)(scheduler@0.27.0)(slate-dom@0.123.0(slate@0.123.0))(slate@0.123.0)(use-sync-external-store@1.6.0(react@19.2.3))(yaml@2.9.0)
+      '@types/marked':
+        specifier: ^6.0.0
+        version: 6.0.0
       '@types/node':
         specifier: ^20.19.35
         version: 20.19.41
@@ -2123,6 +2126,10 @@ packages:
 
   '@types/marked@4.3.2':
     resolution: {integrity: sha512-a79Yc3TOk6dGdituy8hmTTJXjOkZ7zsFYV10L337ttq/rec8lRMDBpV7fL3uLx6TgbFCa5DU/h8FmIBQPSbU0w==}
+
+  '@types/marked@6.0.0':
+    resolution: {integrity: sha512-jmjpa4BwUsmhxcfsgUit/7A9KbrC48Q0q8KvnY107ogcjGgTFDlIL3RpihNpx2Mu1hM4mdFQjoVc4O6JoGKHsA==}
+    deprecated: This is a stub types definition. marked provides its own type definitions, so you do not need this installed.
 
   '@types/mdast@3.0.15':
     resolution: {integrity: sha512-LnwD+mUEfxWMa1QpDraczIn6k0Ee3SMicuYSSzS6ZYl2gKS09EClnJYGd8Du6rfc5r/GZEk5o1mRb8TaTj03sQ==}
@@ -8476,6 +8483,10 @@ snapshots:
   '@types/json5@0.0.29': {}
 
   '@types/marked@4.3.2': {}
+
+  '@types/marked@6.0.0':
+    dependencies:
+      marked: 18.0.5
 
   '@types/mdast@3.0.15':
     dependencies:

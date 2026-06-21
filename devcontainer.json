@@ -1,0 +1,5 @@
+{
+  "name": "Můj stabilní Codespace",
+  // 🚀 Tímto řekneme Codespace, co má udělat po startu místo automatického npm install:
+  "onCreateCommand": "corepack enable && pnpm install"
+}
