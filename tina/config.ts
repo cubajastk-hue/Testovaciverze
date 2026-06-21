@@ -1,9 +1,5 @@
 import React from "react";
 import { defineConfig } from "tinacms";
-import SimpleMDE from "react-simplemde-editor";
-
-// @ts-ignore - Tímto TypeScriptu zakážeme kontrolu typů pro CSS soubor a build hladce projde
-import "easymde/dist/easymde.min.css";
 
 export default defineConfig({
   branch: process.env.NEXT_PUBLIC_TINA_BRANCH || "main",
@@ -12,24 +8,35 @@ export default defineConfig({
   build: { outputFolder: "admin", publicFolder: "public" },
   media: { tina: { mediaRoot: "uploads", publicFolder: "public" } },
   
-  // Syntakticky čistá a okamžitá registrace editoru bez čekání na promisy
   cmsCallback: (cms) => {
-    cms.plugins.add({
-      __typename: "FieldPlugin",
-      name: "simplemde",
-      Component: ({ input }: any) => {
-        return React.createElement(SimpleMDE, {
-          value: input.value || "",
-          onChange: input.onChange,
-          options: {
-            autofocus: false,
-            spellChecker: false,
-            status: false,
-            toolbar: ["bold", "italic", "heading", "|", "quote", "unordered-list", "ordered-list", "|", "preview"],
-          },
-        });
-      },
+    // 🚀 Ochrana pro serverový build: Pokud neběžíme v prohlížeči, editor vůbec neregistrujeme
+    if (typeof window === "undefined") return cms;
+
+    // Bezpečný dynamic import za běhu v prohlížeči
+    Promise.all([
+      import("react-simplemde-editor"),
+      import("easymde/dist/easymde.min.css" as any)
+    ]).then(([SimpleMDEModule]) => {
+      const SimpleMDE = SimpleMDEModule.default;
+
+      cms.plugins.add({
+        __typename: "FieldPlugin",
+        name: "simplemde",
+        Component: ({ input }: any) => {
+          return React.createElement(SimpleMDE, {
+            value: input.value || "",
+            onChange: input.onChange,
+            options: {
+              autofocus: false,
+              spellChecker: false,
+              status: false,
+              toolbar: ["bold", "italic", "heading", "|", "quote", "unordered-list", "ordered-list", "|", "preview"],
+            },
+          });
+        },
+      });
     });
+
     return cms;
   },
 
@@ -50,7 +57,7 @@ export default defineConfig({
             type: "object",
             list: true,
             name: "blocks",
-            label: "Pohyblivé bloky stránky",
+            label: "Pohyblivé blocks stránky",
             ui: { visualSelector: true },
             templates: [
               // 1. NAVBAR
