@@ -1,4 +1,27 @@
+import React from "react";
 import { defineConfig } from "tinacms";
+import SimpleMDE from "react-simplemde-editor";
+import "easymde/dist/easymde.min.css"; // DŮLEŽITÉ: Načte styly pro ikonky a editor
+
+// Vlastní komponenta, která nahradí nudnou textareu za krásný editor
+const CustomMarkdownEditor = React.lazy(() =>
+  Promise.resolve({
+    default: ({ input }: any) => (
+      <div style={{ paddingTop: "0.5rem", marginBottom: "1rem" }}>
+        <SimpleMDE
+          value={input.value || ""}
+          onChange={input.onChange}
+          options={{
+            autofocus: false,
+            spellChecker: false,
+            status: false, // Schová spodní lištu s počtem slov (čistší vzhled)
+            toolbar: ["bold", "italic", "heading", "|", "quote", "unordered-list", "ordered-list", "|", "preview"], // Jen užitečné ikony
+          }}
+        />
+      </div>
+    ),
+  })
+);
 
 export default defineConfig({
   branch: process.env.NEXT_PUBLIC_TINA_BRANCH || "main",
@@ -36,7 +59,7 @@ export default defineConfig({
                     type: "string",
                     name: "logoText",
                     label: "Text loga",
-                    ui: { component: "textarea" }
+                    ui: { component: CustomMarkdownEditor } // 🚀 Náš nový editor
                   },
                   {
                     type: "object",
@@ -48,7 +71,7 @@ export default defineConfig({
                         type: "string", 
                         name: "label", 
                         label: "Název odkazu", 
-                        ui: { component: "textarea" } 
+                        ui: { component: CustomMarkdownEditor } // 🚀 Náš nový editor
                       },
                       { type: "string", name: "url", label: "Adresa" }
                     ]
@@ -61,9 +84,9 @@ export default defineConfig({
                 label: "VELKÝ HERO",
                 fields: [
                   { type: "string", name: "adminLabel", label: "Interní název bloku" },
-                  { type: "string", name: "heading", label: "Hlavní nadpis (H1)", ui: { component: "textarea" } },
-                  { type: "string", name: "subheading", label: "Podnadpis", ui: { component: "textarea" } },
-                  { type: "string", name: "body", label: "Obsah sekce", ui: { component: "textarea" } },
+                  { type: "string", name: "heading", label: "Hlavní nadpis (H1)", ui: { component: CustomMarkdownEditor } },
+                  { type: "string", name: "subheading", label: "Podnadpis", ui: { component: CustomMarkdownEditor } },
+                  { type: "string", name: "body", label: "Obsah sekce", ui: { component: CustomMarkdownEditor } },
                   { type: "string", name: "align", label: "Zarovnání", options: [{ value: "left", label: "Vlevo" }, { value: "center", label: "Střed" }, { value: "right", label: "Vpravo" }] },
                   { type: "string", name: "textColor", label: "Barva textu", ui: { component: "color" } },
                   { type: "number", name: "fontSize", label: "Velikost písma (px)" },
@@ -78,7 +101,7 @@ export default defineConfig({
                 label: "NADPIS (H2)",
                 fields: [
                   { type: "string", name: "adminLabel", label: "Interní název bloku" },
-                  { type: "string", name: "text", label: "Text nadpisu", ui: { component: "textarea" } },
+                  { type: "string", name: "text", label: "Text nadpisu", ui: { component: CustomMarkdownEditor } },
                   { type: "string", name: "align", label: "Zarovnání", options: [{ value: "left", label: "Vlevo" }, { value: "center", label: "Střed" }, { value: "right", label: "Vpravo" }] },
                   { type: "string", name: "textColor", label: "Barva textu", ui: { component: "color" } },
                   { type: "number", name: "fontSize", label: "Velikost písma (px)" },
@@ -92,7 +115,7 @@ export default defineConfig({
                 label: "TEXTOVÝ OBSAH",
                 fields: [
                   { type: "string", name: "adminLabel", label: "Interní název bloku" },
-                  { type: "string", name: "body", label: "Obsah", ui: { component: "textarea" } },
+                  { type: "string", name: "body", label: "Obsah", ui: { component: CustomMarkdownEditor } },
                   { type: "string", name: "align", label: "Zarovnání", options: [{ value: "left", label: "Vlevo" }, { value: "center", label: "Střed" }, { value: "right", label: "Vpravo" }] },
                   { type: "string", name: "textColor", label: "Barva textu", ui: { component: "color" } },
                   { type: "number", name: "fontSize", label: "Velikost písma (px)" }
