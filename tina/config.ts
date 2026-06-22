@@ -1,8 +1,15 @@
 import React from "react";
 import { defineConfig } from "tinacms";
 
-// 1. Tady je naše komponenta hezky venku, takže má stabilní referenci 
-// a nebude se při každém písmenku ničit a znovu načítat!
+// 1. Tady je to kouzlo! Nastavení vytáhneme VEN z komponenty.
+// React ho teď vidí jako jednu stabilní konstantu a nepřekresluje editor.
+const mdeOptions = {
+  autofocus: false,
+  spellChecker: false,
+  status: false,
+  toolbar: ["bold", "italic", "heading", "|", "quote", "|", "link"],
+};
+
 const KlikaciMarkdownField = ({ input }: any) => {
   const [Editor, setEditor] = React.useState<any>(null);
 
@@ -18,6 +25,11 @@ const KlikaciMarkdownField = ({ input }: any) => {
     }
   }, []);
 
+  // 2. Bezpečné předání změny textu (zabrání zbytečným renderům)
+  const handleChange = React.useCallback((value: string) => {
+    input.onChange(value);
+  }, [input.onChange]);
+
   if (!Editor) {
     return React.createElement("textarea", {
       ...input,
@@ -29,13 +41,8 @@ const KlikaciMarkdownField = ({ input }: any) => {
 
   return React.createElement(Editor, {
     value: input.value || "",
-    onChange: input.onChange,
-    options: {
-      autofocus: false,
-      spellChecker: false,
-      status: false,
-      toolbar: ["bold", "italic", "heading", "|", "quote", "unordered-list", "ordered-list", "|", "link"],
-    },
+    onChange: handleChange,
+    options: mdeOptions, // Odkaz na stabilní konstantu
   });
 };
 
@@ -47,7 +54,6 @@ export default defineConfig({
   media: { tina: { mediaRoot: "uploads", publicFolder: "public" } },
   
   cmsCallback: (cms) => {
-    // 2. Tady už jen bezpečně odkážeme na tu stabilní komponentu nahoře
     cms.fields.add({
       name: "klikaci-markdown",
       Component: KlikaciMarkdownField,
