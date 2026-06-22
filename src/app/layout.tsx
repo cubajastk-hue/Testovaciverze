@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css"; 
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import "easymde/dist/easymde.min.css";
 
 // To co je úplně tahoře v tabu //
 export const metadata: Metadata = {

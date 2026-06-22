@@ -1,5 +1,6 @@
 import React from "react";
 import { defineConfig } from "tinacms";
+import SimpleMDE from "react-simplemde-editor";
 
 export default defineConfig({
   branch: process.env.NEXT_PUBLIC_TINA_BRANCH || "main",
@@ -9,31 +10,31 @@ export default defineConfig({
   media: { tina: { mediaRoot: "uploads", publicFolder: "public" } },
   
   cmsCallback: (cms) => {
-    if (typeof window === "undefined") return cms;
-
-    // Dynamicky načteme editor až v prohlížeči, aby nespadl Vercel build
-    Promise.all([
-      import("react-simplemde-editor"),
-      import("easymde/dist/easymde.min.css" as any)
-    ]).then(([SimpleMDEModule]) => {
-      const SimpleMDE = SimpleMDEModule.default;
-
-      cms.plugins.add({
-        __typename: "FieldPlugin",
-        name: "klikaci-markdown",
-        Component: ({ input }: any) => {
-          return React.createElement(SimpleMDE, {
-            value: input.value || "",
-            onChange: input.onChange,
-            options: {
-              autofocus: false,
-              spellChecker: false,
-              status: false,
-              toolbar: ["bold", "italic", "heading", "|", "quote", "unordered-list", "ordered-list", "|", "link"],
-            },
+    // Registrace klikacího markdownu jako globálního komponentu formuláře
+    cms.fields.add({
+      name: "klikaci-markdown",
+      Component: ({ input }: any) => {
+        // Ochrana před SSR: Pokud kód běží na serveru (při buildu na Vercelu),
+        // vykreslíme jen obyčejné textové pole, aby build nespadl.
+        if (typeof window === "undefined") {
+          return React.createElement("textarea", {
+            ...input,
+            className: "w-full p-2 border rounded",
           });
-        },
-      });
+        }
+
+        // V prohlížeči (v adminu) se vykreslí plnohodnotný klikací SimpleMDE editor
+        return React.createElement(SimpleMDE, {
+          value: input.value || "",
+          onChange: input.onChange,
+          options: {
+            autofocus: false,
+            spellChecker: false,
+            status: false,
+            toolbar: ["bold", "italic", "heading", "|", "quote", "unordered-list", "ordered-list", "|", "link"],
+          },
+        });
+      },
     });
 
     return cms;
@@ -67,7 +68,7 @@ export default defineConfig({
                     type: "string",
                     name: "logoText",
                     label: "Text loga",
-                    ui: { component: "klikaci-markdown" }
+                    ui: { component: "klikaci-markdown" } // 🚀 Správně navázáno na synchronní field plugin
                   },
                   {
                     type: "object",
