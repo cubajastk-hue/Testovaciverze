@@ -1,15 +1,15 @@
 import React from "react";
 import { defineConfig } from "tinacms";
 
-// 1. Tady je to kouzlo! Nastavení vytáhneme VEN z komponenty.
-// React ho teď vidí jako jednu stabilní konstantu a nepřekresluje editor.
+// 1. Stabilní konfigurace lišty editoru mimo komponentu
 const mdeOptions = {
   autofocus: false,
   spellChecker: false,
   status: false,
-  toolbar: ["bold", "italic", "heading", "|", "quote", "|", "link"],
+  toolbar: ["bold", "italic", "heading", "|", "quote", "unordered-list", "ordered-list", "|", "link"],
 };
 
+// 2. Stabilní komponenta editoru (žádné uskakování kurzoru)
 const KlikaciMarkdownField = ({ input }: any) => {
   const [Editor, setEditor] = React.useState<any>(null);
 
@@ -25,7 +25,6 @@ const KlikaciMarkdownField = ({ input }: any) => {
     }
   }, []);
 
-  // 2. Bezpečné předání změny textu (zabrání zbytečným renderům)
   const handleChange = React.useCallback((value: string) => {
     input.onChange(value);
   }, [input.onChange]);
@@ -42,7 +41,7 @@ const KlikaciMarkdownField = ({ input }: any) => {
   return React.createElement(Editor, {
     value: input.value || "",
     onChange: handleChange,
-    options: mdeOptions, // Odkaz na stabilní konstantu
+    options: mdeOptions,
   });
 };
 
@@ -69,6 +68,7 @@ export default defineConfig({
         path: "content/pages",
         format: "mdx",
         ui: {
+          // Nová verze Tiny používá k nasměrování Live Preview čistě tento router
           router: ({ document }) => (document._sys.filename === "home" ? "/" : `/${document._sys.filename}`),
         },
         fields: [
