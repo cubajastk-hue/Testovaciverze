@@ -13,17 +13,22 @@ export default defineConfig({
     cms.fields.add({
       name: "klikaci-markdown",
       Component: ({ input }: any) => {
-        // Vytvoříme si stav pro uložení načteného editoru
         const [Editor, setEditor] = React.useState<any>(null);
 
         React.useEffect(() => {
-          // Jakmile se komponent vykreslí v prohlížeči, bezpečně naimportujeme SimpleMDE
           if (typeof window !== "undefined") {
-            import("react-simplemde-editor").then((module) => {
+            // 🚀 Tady načteme editor i jeho styly naráz, až v prohlížeči!
+            Promise.all([
+              import("react-simplemde-editor"),
+              // @ts-ignore - tímhle řekneme TS, ať drží pusu a ignoruje chybějící typy pro CSS
+              import("easymde/dist/easymde.min.css")
+            ]).then(([module]) => {
               setEditor(() => module.default);
             });
           }
         }, []);
+
+        // Zbytek kódu (if (!Editor) atd.) zůstává úplně stejný...
 
         // Na serveru (při buildu na Vercelu) nebo dokud se editor nenačte, 
         // ukážeme bezpečné textové pole, které neshodí build
