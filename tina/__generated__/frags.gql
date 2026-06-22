@@ -1,0 +1,20 @@
+fragment PageParts on Page {
+  __typename
+  adminLabel
+  blocks {
+    __typename
+    ... on PageBlocksNavbar {
+      adminLabel
+      logoText
+      links {
+        __typename
+        label
+        url
+      }
+    }
+    ... on PageBlocksContent {
+      adminLabel
+      body
+    }
+  }
+}
