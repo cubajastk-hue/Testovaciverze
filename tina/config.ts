@@ -1,6 +1,5 @@
 import React from "react";
 import { defineConfig } from "tinacms";
-import SimpleMDE from "react-simplemde-editor";
 
 export default defineConfig({
   branch: process.env.NEXT_PUBLIC_TINA_BRANCH || "main",
@@ -10,21 +9,35 @@ export default defineConfig({
   media: { tina: { mediaRoot: "uploads", publicFolder: "public" } },
   
   cmsCallback: (cms) => {
-    // Registrace klikacího markdownu jako globálního komponentu formuláře
+    // Registrujeme field plugin hned na začátku
     cms.fields.add({
       name: "klikaci-markdown",
       Component: ({ input }: any) => {
-        // Ochrana před SSR: Pokud kód běží na serveru (při buildu na Vercelu),
-        // vykreslíme jen obyčejné textové pole, aby build nespadl.
-        if (typeof window === "undefined") {
+        // Vytvoříme si stav pro uložení načteného editoru
+        const [Editor, setEditor] = React.useState<any>(null);
+
+        React.useEffect(() => {
+          // Jakmile se komponent vykreslí v prohlížeči, bezpečně naimportujeme SimpleMDE
+          if (typeof window !== "undefined") {
+            import("react-simplemde-editor").then((module) => {
+              setEditor(() => module.default);
+            });
+          }
+        }, []);
+
+        // Na serveru (při buildu na Vercelu) nebo dokud se editor nenačte, 
+        // ukážeme bezpečné textové pole, které neshodí build
+        if (!Editor) {
           return React.createElement("textarea", {
             ...input,
+            value: input.value || "",
             className: "w-full p-2 border rounded",
+            style: { width: "100%", minHeight: "150px", padding: "10px" }
           });
         }
 
-        // V prohlížeči (v adminu) se vykreslí plnohodnotný klikací SimpleMDE editor
-        return React.createElement(SimpleMDE, {
+        // V adminu po načtení vykreslíme plnohodnotný klikací editor
+        return React.createElement(Editor, {
           value: input.value || "",
           onChange: input.onChange,
           options: {
@@ -68,7 +81,7 @@ export default defineConfig({
                     type: "string",
                     name: "logoText",
                     label: "Text loga",
-                    ui: { component: "klikaci-markdown" } // 🚀 Správně navázáno na synchronní field plugin
+                    ui: { component: "klikaci-markdown" }
                   },
                   {
                     type: "object",
