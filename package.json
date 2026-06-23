@@ -10,6 +10,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@tiptap/extension-link": "^3.27.1",
+    "@tiptap/pm": "^3.27.1",
+    "@tiptap/react": "^3.27.1",
+    "@tiptap/starter-kit": "^3.27.1",
     "@udecode/plate-dnd": "48.0.0",
     "@vercel/speed-insights": "^2.0.0",
     "easymde": "^2.21.0",

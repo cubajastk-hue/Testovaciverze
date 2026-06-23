@@ -1,26 +1,23 @@
 "use client";
 import React from "react";
-import { marked } from "marked";
 import { useTina } from "tinacms/dist/react";
 
-// Komponenta pro vykreslení Markdownu se správnými velikostmi nadpisů
-const RenderMarkdown = ({ text }: { text: string }) => {
-  if (!text) return null;
-  const rawHtml = marked(text) as string;
-  
+// Jednoduchý renderer čistého HTML z TipTapu
+const RenderHTML = ({ html }: { html: string }) => {
+  if (!html) return null;
   return (
-    <span className="prose-markdown">
-      {/* 🚀 TENTO BLOK STYLŮ ZAJISTÍ, ŽE NADPISY BUDOU KONEČNĚ VELKÉ A HEZKÉ */}
+    <span className="prose-html">
       <style>{`
-        .prose-markdown h1 { font-size: 2.25rem; font-weight: 800; margin-top: 1.5rem; margin-bottom: 1rem; line-height: 1.2; color: inherit; }
-        .prose-markdown h2 { font-size: 1.75rem; font-weight: 700; margin-top: 1.5rem; margin-bottom: 0.75rem; line-height: 1.3; color: inherit; }
-        .prose-markdown h3 { font-size: 1.35rem; font-weight: 600; margin-top: 1.25rem; margin-bottom: 0.5rem; line-height: 1.4; color: inherit; }
-        .prose-markdown p { margin-bottom: 1rem; line-height: 1.7; }
-        .prose-markdown strong { font-weight: 700; }
-        .prose-markdown ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1rem; }
-        .prose-markdown ol { list-style-type: decimal; padding-left: 1.5rem; margin-bottom: 1rem; }
+        .prose-html h2 { font-size: 1.75rem; font-weight: 700; margin-top: 1.5rem; margin-bottom: 0.75rem; line-height: 1.3; color: inherit; }
+        .prose-html p { margin-bottom: 1rem; line-height: 1.7; }
+        .prose-html strong { font-weight: 700; }
+        .prose-html em { font-style: italic; }
+        .prose-html ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1rem; }
+        .prose-html blockquote { border-left: 4px solid #ccc; padding-left: 1rem; color: #555; font-style: italic; }
+        /* Skrytí okrajů u loga a odkazů */
+        .prose-html p:last-child { margin-bottom: 0; }
       `}</style>
-      <span dangerouslySetInnerHTML={{ __html: rawHtml }} />
+      <span dangerouslySetInnerHTML={{ __html: html }} />
     </span>
   );
 };
@@ -46,12 +43,12 @@ export function PageComponents(props: { data: any; query: string; variables: any
             return (
               <nav key={i} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "20px 40px", background: "#f8f9fa", borderBottom: "1px solid #e9ecef" }}>
                 <div style={{ fontSize: "24px", fontWeight: "bold" }}>
-                  <RenderMarkdown text={block.logoText} />
+                  <RenderHTML html={block.logoText} />
                 </div>
-                <div style={{ display: "flex", gap: "25px" }}>
+                <div style={{ display: "flex", gap: "25px", alignItems: "center" }}>
                   {block.links?.map((link: any, idx: number) => (
                     <a key={idx} href={link.url || "#"} style={{ textDecoration: "none", color: "#0066cc", fontWeight: 500 }}>
-                      <RenderMarkdown text={link.label} />
+                      <RenderHTML html={link.label} />
                     </a>
                   ))}
                 </div>
@@ -61,7 +58,7 @@ export function PageComponents(props: { data: any; query: string; variables: any
           case "content":
             return (
               <div key={i} style={{ padding: "60px 40px", maxWidth: "800px", margin: "0 auto" }}>
-                <RenderMarkdown text={block.body} />
+                <RenderHTML html={block.body} />
               </div>
             );
 
