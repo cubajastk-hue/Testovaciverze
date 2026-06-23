@@ -2,7 +2,7 @@
 import React from "react";
 import { useTina } from "tinacms/dist/react";
 
-// Jednoduchý renderer čistého HTML z TipTapu
+// 🚀 RENDERER ČISTÉHO HTML Z TIPTAPU S PODPOROU BAREV A FIXY
 const RenderHTML = ({ html }: { html: string }) => {
   if (!html) return null;
   return (
@@ -13,8 +13,15 @@ const RenderHTML = ({ html }: { html: string }) => {
         .prose-html strong { font-weight: 700; }
         .prose-html em { font-style: italic; }
         .prose-html ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1rem; }
-        .prose-html blockquote { border-left: 4px solid #ccc; padding-left: 1rem; color: #555; font-style: italic; }
-        /* Skrytí okrajů u loga a odkazů */
+        .prose-html blockquote { border-left: 4px solid #cbd5e1; padding-left: 1rem; color: #64748b; font-style: italic; }
+        
+        /* 🖌️ STYL PRO FIXU (HIGHLIGHT) NA WEBU */
+        .prose-html mark { padding: 2px 6px; border-radius: 4px; color: inherit; }
+        
+        /* Zajištění, že barva textu z inline stylů bude fungovat správně */
+        .prose-html span[style*="color"] { color: inherit; } 
+
+        /* Skrytí spodního okraje u posledního elementu, aby to nerozbíjelo menu */
         .prose-html p:last-child { margin-bottom: 0; }
       `}</style>
       <span dangerouslySetInnerHTML={{ __html: html }} />
