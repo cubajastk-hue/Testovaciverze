@@ -1,78 +1,64 @@
-"use client";
 import React from "react";
-import { useTina } from "tinacms/dist/react";
 
-// 🚀 RENDERER ČISTÉHO HTML Z TIPTAPU S PODPOROU BAREV A FIXY
-const RenderHTML = ({ html }: { html: string }) => {
-  if (!html) return null;
+// Komponenta pro jeden konkrétní textový blok
+export const TextContentBlock = ({ data }: any) => {
+  if (!data) return null;
+
+  // Dynamické sestavení inline stylů pro padding a margin z administrace
+  const blockStyle = {
+    paddingTop: `${data.padding?.top || 0}px`,
+    paddingRight: `${data.padding?.right || 0}px`,
+    paddingBottom: `${data.padding?.bottom || 0}px`,
+    paddingLeft: `${data.padding?.left || 0}px`,
+    
+    marginTop: `${data.margin?.top || 0}px`,
+    marginRight: `${data.margin?.right || 0}px`,
+    marginBottom: `${data.margin?.bottom || 0}px`,
+    marginLeft: `${data.margin?.left || 0}px`,
+  };
+
   return (
-    <span className="prose-html">
-      <style>{`
-        .prose-html h2 { font-size: 1.75rem; font-weight: 700; margin-top: 1.5rem; margin-bottom: 0.75rem; line-height: 1.3; color: inherit; }
-        .prose-html p { margin-bottom: 1rem; line-height: 1.7; }
-        .prose-html strong { font-weight: 700; }
-        .prose-html em { font-style: italic; }
-        .prose-html ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1rem; }
-        .prose-html blockquote { border-left: 4px solid #cbd5e1; padding-left: 1rem; color: #64748b; font-style: italic; }
-        
-        /* 🖌️ STYL PRO FIXU (HIGHLIGHT) NA WEBU */
-        .prose-html mark { padding: 2px 6px; border-radius: 4px; color: inherit; }
-        
-        /* Zajištění, že barva textu z inline stylů bude fungovat správně */
-        .prose-html span[style*="color"] { color: inherit; } 
-
-        /* Skrytí spodního okraje u posledního elementu, aby to nerozbíjelo menu */
-        .prose-html p:last-child { margin-bottom: 0; }
+    <div style={blockStyle} className="w-full mx-auto max-w-4xl px-4">
+      {/* Vykreslení čistého HTML obsahu včetně barev textu a fixy */}
+      <div 
+        className="rich-text-output"
+        dangerouslySetInnerHTML={{ __html: data.body || "" }} 
+      />
+      
+      {/* Globální CSS styly pro frontend, aby nadpisy vypadaly přesně jako v editoru */}
+      <style jsx global>{`
+        .rich-text-output h1 { font-size: 2.5rem; font-weight: 800; margin-top: 1.5rem; margin-bottom: 1rem; line-height: 1.2; }
+        .rich-text-output h2 { font-size: 2rem; font-weight: 700; margin-top: 1.5rem; margin-bottom: 0.875rem; line-height: 1.3; }
+        .rich-text-output h3 { font-size: 1.5rem; font-weight: 600; margin-top: 1.25rem; margin-bottom: 0.75rem; }
+        .rich-text-output h4 { font-size: 1.25rem; font-weight: 600; margin-top: 1rem; margin-bottom: 0.5rem; }
+        .rich-text-output h5 { font-size: 1.1rem; font-weight: 600; margin-top: 1rem; margin-bottom: 0.5rem; }
+        .rich-text-output h6 { font-size: 1rem; font-weight: 600; margin-top: 1rem; margin-bottom: 0.5rem; }
+        .rich-text-output p { margin-bottom: 1rem; line-height: 1.65; color: #334155; }
+        .rich-text-output mark { padding: 2px 4px; border-radius: 4px; }
+        .rich-text-output ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1rem; }
+        .rich-text-output ol { list-style-type: decimal; padding-left: 1.5rem; margin-bottom: 1rem; }
+        .rich-text-output blockquote { border-left: 4px solid #cbd5e1; padding-left: 1rem; font-style: italic; margin: 1rem 0; color: #475569; }
+        .rich-text-output span[style*="font-size"] { display: inline-block; }
       `}</style>
-      <span dangerouslySetInnerHTML={{ __html: html }} />
-    </span>
+    </div>
   );
 };
 
-export function PageComponents(props: { data: any; query: string; variables: any }) {
-  const { data } = useTina({
-    query: props.query,
-    variables: props.variables,
-    data: props.data,
-  });
-
-  if (!data || !data.page || !data.page.blocks) {
-    return <div style={{ padding: "20px", color: "red" }}>Data nebyla nalezena.</div>;
-  }
+// Hlavní komponenta stránky, která mapuje pole bloků z Tiny
+export default function PageComponents({ data }: any) {
+  const blocks = data?.page?.blocks || [];
 
   return (
-    <div style={{ minHeight: "100vh", background: "#ffffff", color: "#000000", fontFamily: "sans-serif" }}>
-      {data.page.blocks?.map((block: any, i: number) => {
-        const blockType = block.__typename?.replace("PageBlocks", "").toLowerCase();
-
-        switch (blockType) {
-          case "navbar":
-            return (
-              <nav key={i} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "20px 40px", background: "#f8f9fa", borderBottom: "1px solid #e9ecef" }}>
-                <div style={{ fontSize: "24px", fontWeight: "bold" }}>
-                  <RenderHTML html={block.logoText} />
-                </div>
-                <div style={{ display: "flex", gap: "25px", alignItems: "center" }}>
-                  {block.links?.map((link: any, idx: number) => (
-                    <a key={idx} href={link.url || "#"} style={{ textDecoration: "none", color: "#0066cc", fontWeight: 500 }}>
-                      <RenderHTML html={link.label} />
-                    </a>
-                  ))}
-                </div>
-              </nav>
-            );
-
-          case "content":
-            return (
-              <div key={i} style={{ padding: "60px 40px", maxWidth: "800px", margin: "0 auto" }}>
-                <RenderHTML html={block.body} />
-              </div>
-            );
-
+    <main className="w-full min-h-screen bg-white py-4">
+      {blocks.map((block: any, index: number) => {
+        // Kontrola typu bloku podle schématu TinyCMS
+        switch (block.__typename) {
+          case "PageBlocksTextContent":
+            return <TextContentBlock key={index} data={block} />;
           default:
             return null;
         }
       })}
-    </div>
+    </main>
   );
 }

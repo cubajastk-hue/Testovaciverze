@@ -1,87 +1,94 @@
 import { defineConfig } from "tinacms";
-import { TipTapEditor } from "./TipTapEditor"; // 🚀 Tímto naimportujeme čistý stažený editor
+import { TipTapEditor } from "./TipTapEditor";
+import { PositionPicker } from "./PositionPicker";
 
 export default defineConfig({
-  branch: process.env.NEXT_PUBLIC_TINA_BRANCH || "main",
-  clientId: process.env.NEXT_PUBLIC_TINA_CLIENT_ID,
-  token: process.env.TINA_TOKEN,
-  build: { outputFolder: "admin", publicFolder: "public" },
-  media: { tina: { mediaRoot: "uploads", publicFolder: "public" } },
-
+  branch: process.env.VERCEL_GIT_COMMIT_REF || "main",
+  clientId: process.env.TINA_CLIENT_ID || "",
+  token: process.env.TINA_TOKEN || "",
+  build: {
+    outputFolder: "admin",
+    publicFolder: "public",
+  },
+  media: {
+    tina: {
+      mediaRoot: "uploads",
+      publicFolder: "public",
+    },
+  },
   schema: {
     collections: [
       {
         name: "page",
         label: "Stránky",
         path: "content/pages",
-        format: "mdx",
-        ui: {
-          router: ({ document }) => (document._sys.filename === "home" ? "/" : `/${document._sys.filename}`),
-        },
+        format: "json",
         fields: [
-          { type: "string", name: "adminLabel", label: "Interní název", isTitle: true, required: true },
           {
             type: "object",
             list: true,
             name: "blocks",
-            label: "Bloky stránky",
-            templates: [
-              // HLAVIČKA (NAVBAR)
-              {
-                name: "navbar",
-                label: "HLAVIČKA (Menu)",
-                fields: [
-                  { type: "string", name: "adminLabel", label: "Interní název bloku" },
-                  ({
-                    type: "string",
-                    name: "logoText",
-                    label: "Text loga",
-                    ui: { 
-                      component: TipTapEditor,
-                      toolbar: ["bold", "italic"] 
-                    }
-                  } as any),
-                  {
-                    type: "object",
-                    list: true,
-                    name: "links",
-                    label: "Odkazy v menu",
-                    fields: [
-                      ({ 
-                        type: "string", 
-                        name: "label", 
-                        label: "Název odkazu", 
-                        ui: { 
-                          component: TipTapEditor,
-                          toolbar: ["bold", "italic"]
-                        } 
-                      } as any),
-                      { type: "string", name: "url", label: "URL" }
-                    ]
-                  }
-                ]
+            label: "Sekce stránky",
+            // 🚀 FIX PRO OBRÁZEK image_a70f8b.png: 'as any' umlčí TS validaci u itemProps
+            ui: {
+              itemProps: (item: any) => {
+                return { label: item?.internalName || "TEXTOVÝ OBSAH" };
               },
-              // TEXTOVÝ OBSAH
+            } as any,
+            templates: [
               {
-                name: "content",
+                name: "textContent",
                 label: "TEXTOVÝ OBSAH",
                 fields: [
-                  { type: "string", name: "adminLabel", label: "Interní název bloku" },
-                  ({ 
-                    type: "string", 
-                    name: "body", 
-                    label: "Obsah", 
-                    ui: { 
+                  {
+                    type: "string",
+                    name: "internalName",
+                    label: "Interní název bloku",
+                  },
+                  {
+                    type: "string",
+                    name: "body",
+                    label: "Obsah",
+                    // 🚀 FIX PRO OBRÁZEK image_a8ea8e.png: 'as any' schová chybu s neznámým toolbarem
+                    ui: {
                       component: TipTapEditor,
-                      toolbar: ["heading", "bold", "italic", "quote", "bulletList"]
-                    } 
-                  } as any)
-                ]
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  }
+                      toolbar: ["heading", "bold", "italic", "quote", "bulletList", "textColor", "highlight"]
+                    } as any
+                  },
+                  {
+                    type: "object",
+                    name: "padding",
+                    label: "Vnitřní odsazení (padding - px)",
+                    ui: {
+                      component: PositionPicker
+                    },
+                    fields: [
+                      { type: "string", name: "top" },
+                      { type: "string", name: "right" },
+                      { type: "string", name: "bottom" },
+                      { type: "string", name: "left" },
+                    ]
+                  },
+                  {
+                    type: "object",
+                    name: "margin",
+                    label: "Vnější odsazení (margin - px)",
+                    ui: {
+                      component: PositionPicker
+                    },
+                    fields: [
+                      { type: "string", name: "top" },
+                      { type: "string", name: "right" },
+                      { type: "string", name: "bottom" },
+                      { type: "string", name: "left" },
+                    ]
+                  }
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
 });
