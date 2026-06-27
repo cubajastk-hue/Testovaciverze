@@ -6,7 +6,6 @@ import React from "react";
 export const TextContentBlock = ({ data }: any) => {
   if (!data) return null;
 
-  // Dynamické sestavení inline stylů pro padding a margin z administrace
   const blockStyle = {
     paddingTop: `${data.padding?.top || 0}px`,
     paddingRight: `${data.padding?.right || 0}px`,
@@ -21,13 +20,11 @@ export const TextContentBlock = ({ data }: any) => {
 
   return (
     <div style={blockStyle} className="w-full mx-auto max-w-4xl px-4">
-      {/* Vykreslení čistého HTML obsahu včetně barev textu a fixy */}
       <div 
         className="rich-text-output"
         dangerouslySetInnerHTML={{ __html: data.body || "" }} 
       />
       
-      {/* Globální CSS styly pro frontend, aby nadpisy vypadaly přesně jako v editoru */}
       <style jsx global>{`
         .rich-text-output h1 { font-size: 2.5rem; font-weight: 800; margin-top: 1.5rem; margin-bottom: 1rem; line-height: 1.2; }
         .rich-text-output h2 { font-size: 2rem; font-weight: 700; margin-top: 1.5rem; margin-bottom: 0.875rem; line-height: 1.3; }
@@ -46,20 +43,23 @@ export const TextContentBlock = ({ data }: any) => {
   );
 };
 
-// Hlavní komponenta stránky, která mapuje pole bloků z Tiny
-export default function PageComponents({ data }: any) {
+// Hlavní komponenta stránky, která dynamicky mapuje bloky
+export function PageComponents({ data }: any) {
+  // Bezpečné vytáhnutí bloků, pokud data nebo page neexistují
   const blocks = data?.page?.blocks || [];
 
   return (
     <main className="w-full min-h-screen bg-white py-4">
       {blocks.map((block: any, index: number) => {
-        // Kontrola typu bloku podle schématu TinyCMS
-        switch (block.__typename) {
-          case "PageBlocksTextContent":
-            return <TextContentBlock key={index} data={block} />;
-          default:
-            return null;
+        // Převedeme na string, abychom předešli chybám neexistujících GraphQL typů během prerenderingu
+        const typeName = String(block?.__typename || "");
+
+        // Pokud se název typu shoduje (nebo obsahuje) náš textový obsah, vyrenderujeme ho
+        if (typeName === "PageBlocksTextContent" || typeName.includes("TextContent")) {
+          return <TextContentBlock key={index} data={block} />;
         }
+        
+        return null;
       })}
     </main>
   );

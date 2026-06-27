@@ -1,5 +1,5 @@
 import { client } from "../../../tina/__generated__/client";
-import PageComponents from "../PageComponents";
+import { PageComponents } from "../PageComponents";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
