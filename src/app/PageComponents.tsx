@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 
 // Komponenta pro jeden konkrétní textový blok
