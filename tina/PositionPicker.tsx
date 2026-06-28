@@ -1,18 +1,14 @@
 import React from "react";
 
 export const PositionPicker = ({ input, field }: any) => {
-  // Načteme aktuální uložené hodnoty nebo nastavíme výchozí nuly
   const value = input.value || { top: "0", right: "0", bottom: "0", left: "0" };
 
   const handleChange = (side: string, val: string) => {
-    // Povolíme pouze čísla, aby uživatel nezadával texty
     const cleanVal = val.replace(/[^0-9]/g, "");
-    
     const newValue = {
       ...value,
       [side]: cleanVal || "0",
     };
-    
     input.onChange(newValue);
   };
 
@@ -22,7 +18,6 @@ export const PositionPicker = ({ input, field }: any) => {
         {field.label || "Pozice (px)"}
       </label>
       
-      {/* Hlavní šedý kontejner podle tvého návrhu */}
       <div style={{
         position: "relative",
         width: "100%",
@@ -37,7 +32,6 @@ export const PositionPicker = ({ input, field }: any) => {
         boxSizing: "border-box"
       }}>
         
-        {/* Nápis POSITION v levém horním rohu */}
         <span style={{ position: "absolute", top: "8px", left: "12px", fontSize: "11px", fontWeight: "bold", color: "#94a3b8", letterSpacing: "0.5px" }}>
           POSITION
         </span>

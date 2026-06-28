@@ -23,13 +23,21 @@ export default defineConfig({
         label: "Stránky",
         path: "content/pages",
         format: "mdx",
+        // 🚀 TOTO ZAPNE VIZUÁLNÍ LIVE EDITING NA ROZDĚLENÉ OBRAZOVCE!
+        ui: {
+          router: ({ document }) => {
+            if (document._sys.filename === "home") {
+              return "/";
+            }
+            return `/${document._sys.filename}`;
+          },
+        },
         fields: [
           {
             type: "object",
             list: true,
             name: "blocks",
             label: "Sekce stránky",
-            // 🚀 FIX PRO OBRÁZEK image_a70f8b.png: 'as any' umlčí TS validaci u itemProps
             ui: {
               itemProps: (item: any) => {
                 return { label: item?.internalName || "TEXTOVÝ OBSAH" };
@@ -49,7 +57,6 @@ export default defineConfig({
                     type: "string",
                     name: "body",
                     label: "Obsah",
-                    // 🚀 FIX PRO OBRÁZEK image_a8ea8e.png: 'as any' schová chybu s neznámým toolbarem
                     ui: {
                       component: TipTapEditor,
                       toolbar: ["heading", "bold", "italic", "quote", "bulletList", "textColor", "highlight"]

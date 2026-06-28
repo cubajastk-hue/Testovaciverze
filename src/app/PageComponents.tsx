@@ -2,7 +2,6 @@
 
 import React from "react";
 
-// Komponenta pro jeden konkrétní textový blok
 export const TextContentBlock = ({ data }: any) => {
   if (!data) return null;
 
@@ -43,23 +42,18 @@ export const TextContentBlock = ({ data }: any) => {
   );
 };
 
-// Hlavní komponenta stránky, která dynamicky mapuje bloky
 export function PageComponents({ data }: any) {
-  // Bezpečné vytáhnutí bloků, pokud data nebo page neexistují
   const blocks = data?.page?.blocks || [];
 
   return (
     <main className="w-full min-h-screen bg-white py-4">
       {blocks.map((block: any, index: number) => {
-        // Převedeme na string, abychom předešli chybám neexistujících GraphQL typů během prerenderingu
-        const typeName = String(block?.__typename || "");
-
-        // Pokud se název typu shoduje (nebo obsahuje) náš textový obsah, vyrenderujeme ho
-        if (typeName === "PageBlocksTextContent" || typeName.includes("TextContent")) {
-          return <TextContentBlock key={index} data={block} />;
+        switch (block.__typename) {
+          case "PageBlocksTextContent":
+            return <TextContentBlock key={index} data={block} />;
+          default:
+            return null;
         }
-        
-        return null;
       })}
     </main>
   );

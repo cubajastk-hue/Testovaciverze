@@ -7,13 +7,11 @@ import { Color } from "@tiptap/extension-color";
 import { Highlight } from "@tiptap/extension-highlight";
 
 export const TipTapEditor = ({ input, field }: any) => {
-  const povolenyToolbar = field.ui?.toolbar || [];
-
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
         heading: {
-          levels: [1, 2, 3, 4, 5, 6], // Povolíme všechny úrovně H1-H6
+          levels: [1, 2, 3, 4, 5, 6],
         },
       }),
       Link.configure({ openOnClick: false, HTMLAttributes: { target: "_blank" } }),
@@ -29,10 +27,8 @@ export const TipTapEditor = ({ input, field }: any) => {
 
   if (!editor) return null;
 
-// Pomocná funkce pro změnu velikosti písma
   const setFontSize = (size: string) => {
     if (size === "normal") {
-      // 🚀 SPRÁVNÝ FIX: Místo unsetStyle() použijeme přímo odstranění konkrétního marku textStyle
       editor.chain().focus().unsetMark("textStyle").run();
     } else {
       editor.chain().focus().setMark("textStyle", { fontSize: size }).run();
@@ -41,10 +37,10 @@ export const TipTapEditor = ({ input, field }: any) => {
 
   return (
     <div style={{ border: "1px solid #cbd5e1", borderRadius: "6px", overflow: "hidden", background: "#ffffff" }}>
-      {/* HLAVIČKA EDITORU (TOOLBAR) */}
+      {/* TOOLBAR */}
       <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", alignItems: "center", padding: "8px", background: "#f8fafc", borderBottom: "1px solid #cbd5e1" }}>
         
-        {/* DROPDOWN PRO NADPISY (P až H6) */}
+        {/* DROPDOWN PRO NADPISY */}
         <select
           onChange={(e) => {
             const val = e.target.value;
@@ -86,7 +82,7 @@ export const TipTapEditor = ({ input, field }: any) => {
 
         <div style={{ width: "1px", height: "20px", background: "#cbd5e1", margin: "0 4px" }} />
 
-        {/* ZÁKLADNÍ FORMÁTOVÁNÍ */}
+        {/* BOLD / ITALIC */}
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleBold().run()}
@@ -104,7 +100,7 @@ export const TipTapEditor = ({ input, field }: any) => {
 
         <div style={{ width: "1px", height: "20px", background: "#cbd5e1", margin: "0 4px" }} />
 
-        {/* VÝBĚR BARVY TEXTU */}
+        {/* BARVA TEXTU */}
         <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
           <span style={{ fontSize: "11px", color: "#64748b" }}>Text:</span>
           <input
@@ -115,7 +111,7 @@ export const TipTapEditor = ({ input, field }: any) => {
           />
         </div>
 
-        {/* VÝBĚR BARVY FIXY (ZVYRAZNĚNÍ) */}
+        {/* FIXA / HIGHLIGHT */}
         <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
           <span style={{ fontSize: "11px", color: "#64748b" }}>Fixa:</span>
           <input
@@ -134,7 +130,7 @@ export const TipTapEditor = ({ input, field }: any) => {
 
       </div>
 
-      {/* SAMOTNÁ TEXTOVÁ PLOCHA */}
+      {/* TEXT AREA */}
       <div style={{ padding: "12px", minHeight: "150px" }}>
         <EditorContent editor={editor} />
       </div>
