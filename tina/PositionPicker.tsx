@@ -13,7 +13,8 @@ export const PositionPicker = ({ input, field }: any) => {
   };
 
   return (
-    <div style={{ marginBottom: "16px" }}>
+    // 🚀 FIX: display block a width 100% to zarovná pěkně pod sebe!
+    <div style={{ display: "block", width: "100%", marginBottom: "24px" }}>
       <label style={{ display: "block", fontSize: "13px", fontWeight: 600, color: "#334155", marginBottom: "6px" }}>
         {field.label || "Pozice (px)"}
       </label>
@@ -36,7 +37,7 @@ export const PositionPicker = ({ input, field }: any) => {
           POSITION
         </span>
 
-        {/* TOP INPUT */}
+        {/* TOP */}
         <div style={{ position: "absolute", top: "10px", left: "50%", transform: "translateX(-50%)", display: "flex", alignItems: "center", gap: "2px" }}>
           <input
             type="text"
@@ -48,7 +49,7 @@ export const PositionPicker = ({ input, field }: any) => {
           <span style={{ fontSize: "11px", color: "#64748b" }}>px</span>
         </div>
 
-        {/* LEFT INPUT */}
+        {/* LEFT */}
         <div style={{ position: "absolute", left: "12px", top: "50%", transform: "translateY(-50%)", display: "flex", alignItems: "center", gap: "2px" }}>
           <input
             type="text"
@@ -60,7 +61,7 @@ export const PositionPicker = ({ input, field }: any) => {
           <span style={{ fontSize: "11px", color: "#64748b" }}>px</span>
         </div>
 
-        {/* STŘEDOVÝ ČERVENÝ BLOK */}
+        {/* STŘEDOVÝ BLOK */}
         <div style={{
           width: "110px",
           height: "40px",
@@ -76,7 +77,7 @@ export const PositionPicker = ({ input, field }: any) => {
           </span>
         </div>
 
-        {/* RIGHT INPUT */}
+        {/* RIGHT */}
         <div style={{ position: "absolute", right: "12px", top: "50%", transform: "translateY(-50%)", display: "flex", alignItems: "center", gap: "2px" }}>
           <input
             type="text"
@@ -88,7 +89,7 @@ export const PositionPicker = ({ input, field }: any) => {
           <span style={{ fontSize: "11px", color: "#64748b" }}>px</span>
         </div>
 
-        {/* BOTTOM INPUT */}
+        {/* BOTTOM */}
         <div style={{ position: "absolute", bottom: "10px", left: "50%", transform: "translateX(-50%)", display: "flex", alignItems: "center", gap: "2px" }}>
           <input
             type="text"

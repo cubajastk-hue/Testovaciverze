@@ -5,19 +5,42 @@ import { Link } from "@tiptap/extension-link";
 import { TextStyle } from "@tiptap/extension-text-style";
 import { Color } from "@tiptap/extension-color";
 import { Highlight } from "@tiptap/extension-highlight";
+import { Extension } from "@tiptap/core";
+
+// 🚀 FIX: Vlastní rozšíření, aby se velikost písma správně propsala do HTML a fungovala na webu
+const FontSize = Extension.create({
+  name: "fontSize",
+  addOptions() { return { types: ["textStyle"] } },
+  addGlobalAttributes() {
+    return [
+      {
+        types: this.options.types,
+        attributes: {
+          fontSize: {
+            default: null,
+            parseHTML: element => element.style.fontSize || null,
+            renderHTML: attributes => {
+              if (!attributes.fontSize) return {};
+              return { style: `font-size: ${attributes.fontSize}` };
+            },
+          },
+        },
+      },
+    ];
+  },
+});
 
 export const TipTapEditor = ({ input, field }: any) => {
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
-        heading: {
-          levels: [1, 2, 3, 4, 5, 6],
-        },
+        heading: { levels: [1, 2, 3, 4, 5, 6] },
       }),
       Link.configure({ openOnClick: false, HTMLAttributes: { target: "_blank" } }),
       TextStyle,
       Color,
       Highlight.configure({ multicolor: true }),
+      FontSize, // 🚀 Přidáno rozšíření
     ],
     content: input.value || "",
     onUpdate: ({ editor }) => {
@@ -28,10 +51,19 @@ export const TipTapEditor = ({ input, field }: any) => {
   if (!editor) return null;
 
   const setFontSize = (size: string) => {
+    // Zjistíme aktuální barvu textu, abychom o ni nepřišli
+    const currentColor = editor.getAttributes("textStyle").color;
+
     if (size === "normal") {
-      editor.chain().focus().unsetMark("textStyle").run();
+      // 🚀 FIX: Pokud odebíráme velikost, vrátíme tam zpátky barvu
+      if (currentColor) {
+        editor.chain().focus().setMark("textStyle", { fontSize: null, color: currentColor }).run();
+      } else {
+        editor.chain().focus().unsetMark("textStyle").run();
+      }
     } else {
-      editor.chain().focus().setMark("textStyle", { fontSize: size }).run();
+      // 🚀 Nastavíme velikost a zachováme stávající barvu
+      editor.chain().focus().setMark("textStyle", { fontSize: size, color: currentColor || null }).run();
     }
   };
 
