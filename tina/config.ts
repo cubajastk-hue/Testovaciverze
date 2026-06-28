@@ -23,7 +23,7 @@ export default defineConfig({
         label: "Stránky",
         path: "content/pages",
         format: "mdx",
-        // 🚀 TOTO ZAPNE VIZUÁLNÍ LIVE EDITING NA ROZDĚLENÉ OBRAZOVCE!
+        // 🚀 FIX: Přesný router, který opraví 404 v Live Editing iframe!
         ui: {
           router: ({ document }) => {
             if (document._sys.filename === "home") {
