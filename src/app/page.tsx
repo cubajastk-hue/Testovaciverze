@@ -5,8 +5,8 @@ export const dynamic = "force-dynamic";
 
 export default async function Home() {
   try {
-    // 🚀 FIX: Změněno z home.mdx na home.json
-    const res = await client.queries.page({ relativePath: "home.json" });
+    // 🚀 FIX: Zpět na home.mdx
+    const res = await client.queries.page({ relativePath: "home.mdx" });
     return <PageComponents data={res.data} />;
   } catch (error) {
     console.error("Tina Cloud chyba na Homepage, podhazuji fallback:", error);

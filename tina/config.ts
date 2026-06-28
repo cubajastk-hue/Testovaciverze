@@ -22,7 +22,7 @@ export default defineConfig({
         name: "page",
         label: "Stránky",
         path: "content/pages",
-        format: "json",
+        format: "mdx",
         fields: [
           {
             type: "object",
