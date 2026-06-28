@@ -1,6 +1,8 @@
 "use client";
 
 import React from "react";
+// 🚀 TENTO IMPORT JE KLÍČOVÝ PRO LEVÝ PANEL
+import { useTina } from "tinacms/dist/react"; 
 
 export const TextContentBlock = ({ data }: any) => {
   if (!data) return null;
@@ -42,7 +44,15 @@ export const TextContentBlock = ({ data }: any) => {
   );
 };
 
-export function PageComponents({ data }: any) {
+// 🚀 Zde už nepřijímáme jen 'data', ale celé 'props'
+export function PageComponents(props: any) {
+  // 🚀 MAGIE LIVE EDITINGU: useTina propojí web s levým panelem a pošle do něj fieldy!
+  const { data } = useTina({
+    query: props.query,
+    variables: props.variables,
+    data: props.data,
+  });
+
   const blocks = data?.page?.blocks || [];
 
   return (
