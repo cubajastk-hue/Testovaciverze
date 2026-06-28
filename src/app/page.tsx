@@ -8,8 +8,7 @@ export default async function Home() {
     const res = await client.queries.page({ relativePath: "home.mdx" });
     return <PageComponents data={res.data} />;
   } catch (error) {
-    console.error("Tina Cloud chyba na Homepage, podhazuji fallback:", error);
-    const fallbackData = { page: { blocks: [] } };
-    return <PageComponents data={fallbackData} />;
+    console.error("Tina Cloud chyba na Homepage:", error);
+    return <PageComponents data={{ page: { blocks: [] } }} />;
   }
 }

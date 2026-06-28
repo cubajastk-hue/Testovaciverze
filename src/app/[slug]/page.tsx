@@ -8,8 +8,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
     const res = await client.queries.page({ relativePath: `${params.slug}.mdx` });
     return <PageComponents data={res.data} />;
   } catch (error) {
-    console.error(`Tina Cloud chyba na podstránce ${params.slug}, podhazuji fallback:`, error);
-    const fallbackData = { page: { blocks: [] } };
-    return <PageComponents data={fallbackData} />;
+    console.error(`Tina Cloud chyba na podstránce ${params.slug}:`, error);
+    return <PageComponents data={{ page: { blocks: [] } }} />;
   }
 }

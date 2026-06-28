@@ -87,26 +87,30 @@ type Collection {
 
 union DocumentNode = Page | Folder
 
-type PageBlocksNavbarLinks {
-  label: String
-  url: String
+type PageBlocksTextContentPadding {
+  top: String
+  right: String
+  bottom: String
+  left: String
 }
 
-type PageBlocksNavbar {
-  adminLabel: String
-  logoText: String
-  links: [PageBlocksNavbarLinks]
+type PageBlocksTextContentMargin {
+  top: String
+  right: String
+  bottom: String
+  left: String
 }
 
-type PageBlocksContent {
-  adminLabel: String
+type PageBlocksTextContent {
+  internalName: String
   body: String
+  padding: PageBlocksTextContentPadding
+  margin: PageBlocksTextContentMargin
 }
 
-union PageBlocks = PageBlocksNavbar | PageBlocksContent
+union PageBlocks = PageBlocksTextContent
 
 type Page implements Node & Document {
-  adminLabel: String!
   blocks: [PageBlocks]
   id: ID!
   _sys: SystemInfo!
@@ -120,29 +124,32 @@ input StringFilter {
   in: [String]
 }
 
-input PageBlocksNavbarLinksFilter {
-  label: StringFilter
-  url: StringFilter
+input PageBlocksTextContentPaddingFilter {
+  top: StringFilter
+  right: StringFilter
+  bottom: StringFilter
+  left: StringFilter
 }
 
-input PageBlocksNavbarFilter {
-  adminLabel: StringFilter
-  logoText: StringFilter
-  links: PageBlocksNavbarLinksFilter
+input PageBlocksTextContentMarginFilter {
+  top: StringFilter
+  right: StringFilter
+  bottom: StringFilter
+  left: StringFilter
 }
 
-input PageBlocksContentFilter {
-  adminLabel: StringFilter
+input PageBlocksTextContentFilter {
+  internalName: StringFilter
   body: StringFilter
+  padding: PageBlocksTextContentPaddingFilter
+  margin: PageBlocksTextContentMarginFilter
 }
 
 input PageBlocksFilter {
-  navbar: PageBlocksNavbarFilter
-  content: PageBlocksContentFilter
+  textContent: PageBlocksTextContentFilter
 }
 
 input PageFilter {
-  adminLabel: StringFilter
   blocks: PageBlocksFilter
 }
 
@@ -176,29 +183,32 @@ input DocumentMutation {
   page: PageMutation
 }
 
-input PageBlocksNavbarLinksMutation {
-  label: String
-  url: String
+input PageBlocksTextContentPaddingMutation {
+  top: String
+  right: String
+  bottom: String
+  left: String
 }
 
-input PageBlocksNavbarMutation {
-  adminLabel: String
-  logoText: String
-  links: [PageBlocksNavbarLinksMutation]
+input PageBlocksTextContentMarginMutation {
+  top: String
+  right: String
+  bottom: String
+  left: String
 }
 
-input PageBlocksContentMutation {
-  adminLabel: String
+input PageBlocksTextContentMutation {
+  internalName: String
   body: String
+  padding: PageBlocksTextContentPaddingMutation
+  margin: PageBlocksTextContentMarginMutation
 }
 
 input PageBlocksMutation {
-  navbar: PageBlocksNavbarMutation
-  content: PageBlocksContentMutation
+  textContent: PageBlocksTextContentMutation
 }
 
 input PageMutation {
-  adminLabel: String
   blocks: [PageBlocksMutation]
 }
 

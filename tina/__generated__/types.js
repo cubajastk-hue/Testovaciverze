@@ -8,21 +8,25 @@ export function gql(strings, ...args) {
 export const PagePartsFragmentDoc = gql`
     fragment PageParts on Page {
   __typename
-  adminLabel
   blocks {
     __typename
-    ... on PageBlocksNavbar {
-      adminLabel
-      logoText
-      links {
-        __typename
-        label
-        url
-      }
-    }
-    ... on PageBlocksContent {
-      adminLabel
+    ... on PageBlocksTextContent {
+      internalName
       body
+      padding {
+        __typename
+        top
+        right
+        bottom
+        left
+      }
+      margin {
+        __typename
+        top
+        right
+        bottom
+        left
+      }
     }
   }
 }
