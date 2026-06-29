@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import { StarterKit } from "@tiptap/starter-kit";
 import { Link } from "@tiptap/extension-link";
@@ -7,7 +7,7 @@ import { Color } from "@tiptap/extension-color";
 import { Highlight } from "@tiptap/extension-highlight";
 import { Extension } from "@tiptap/core";
 
-// Vlastní rozšíření pro velikost písma (registruje se do textStyle)
+// 🚀 1. ČISTÉ ROZŠÍŘENÍ: Používáme nativní příkazy TipTapu
 const FontSize = Extension.create({
   name: "fontSize",
   addOptions() { return { types: ["textStyle"] } },
@@ -28,32 +28,23 @@ const FontSize = Extension.create({
       },
     ];
   },
+  // Přidáme příkazy přímo do jádra editoru
+  addCommands() {
+    return {
+      setFontSize: (fontSize: string) => ({ chain }: any) => {
+        return chain().setMark("textStyle", { fontSize }).run();
+      },
+      unsetFontSize: () => ({ chain }: any) => {
+        return chain().setMark("textStyle", { fontSize: null }).removeEmptyTextStyle().run();
+      },
+    };
+  },
 });
 
 export const TipTapEditor = ({ input, field }: any) => {
-  // Stavy pro stoprocentní synchronizaci lišty s kurzorem
   const [activeFontSize, setActiveFontSize] = useState("normal");
   const [activeColor, setActiveColor] = useState("#000000");
   const [activeHeading, setActiveHeading] = useState("p");
-
-  // Funkce, která vytáhne přesné styly z prvního znaku aktuálního výběru
-  const updateToolbarState = (ed: any) => {
-    const $from = ed.state.selection.$from;
-    const marks = $from.marks();
-    const textStyleMark = marks.find((m: any) => m.type.name === "textStyle");
-    const attrs = textStyleMark ? textStyleMark.attrs : {};
-
-    setActiveFontSize(attrs.fontSize || "normal");
-    setActiveColor(attrs.color || "#000000");
-
-    if (ed.isActive("heading", { level: 1 })) setActiveHeading("1");
-    else if (ed.isActive("heading", { level: 2 })) setActiveHeading("2");
-    else if (ed.isActive("heading", { level: 3 })) setActiveHeading("3");
-    else if (ed.isActive("heading", { level: 4 })) setActiveHeading("4");
-    else if (ed.isActive("heading", { level: 5 })) setActiveHeading("5");
-    else if (ed.isActive("heading", { level: 6 })) setActiveHeading("6");
-    else setActiveHeading("p");
-  };
 
   const editor = useEditor({
     extensions: [
@@ -70,61 +61,48 @@ export const TipTapEditor = ({ input, field }: any) => {
     onUpdate: ({ editor }) => {
       input.onChange(editor.getHTML());
     },
-    // Sledujeme jakýkoliv pohyb, kliknutí nebo změnu v editoru
-    onTransaction: ({ editor }) => {
-      updateToolbarState(editor);
-    },
-    onSelectionUpdate: ({ editor }) => {
-      updateToolbarState(editor);
-    }
   });
+
+  // 🚀 2. BEZPEČNÁ SYNCHRONIZACE: React hook, který se zaručeně aktualizuje
+  const updateToolbar = useCallback(() => {
+    if (!editor) return;
+    setActiveFontSize(editor.getAttributes("textStyle").fontSize || "normal");
+    setActiveColor(editor.getAttributes("textStyle").color || "#000000");
+
+    if (editor.isActive("heading", { level: 1 })) setActiveHeading("1");
+    else if (editor.isActive("heading", { level: 2 })) setActiveHeading("2");
+    else if (editor.isActive("heading", { level: 3 })) setActiveHeading("3");
+    else if (editor.isActive("heading", { level: 4 })) setActiveHeading("4");
+    else if (editor.isActive("heading", { level: 5 })) setActiveHeading("5");
+    else if (editor.isActive("heading", { level: 6 })) setActiveHeading("6");
+    else setActiveHeading("p");
+  }, [editor]);
+
+  // Zapneme sledování všech změn (kliknutí, označování, psaní)
+  useEffect(() => {
+    if (!editor) return;
+    editor.on("transaction", updateToolbar);
+    editor.on("selectionUpdate", updateToolbar);
+    return () => {
+      editor.off("transaction", updateToolbar);
+      editor.off("selectionUpdate", updateToolbar);
+    };
+  }, [editor, updateToolbar]);
 
   if (!editor) return null;
 
-  // 🚀 NEPRŮSTŘELNÝ MERGE STYLŮ: Projde výběr a změní pouze požadovaný atribut
-  const updateTextStyle = (attrsToAdd: Record<string, any>) => {
-    const { from, to, empty } = editor.state.selection;
-
-    // Pokud je výběr prázdný (jen blikající kurzor), upravíme styl pro budoucí psaní
-    if (empty) {
-      const $from = editor.state.selection.$from;
-      const textStyleMark = $from.marks().find((m: any) => m.type.name === "textStyle");
-      const currentAttrs = textStyleMark ? textStyleMark.attrs : {};
-      
-      const merged = { ...currentAttrs, ...attrsToAdd };
-      Object.keys(merged).forEach(k => { if (merged[k] === null) delete merged[k]; });
-
-      if (Object.keys(merged).length === 0) {
-        editor.chain().focus().unsetMark("textStyle").run();
-      } else {
-        editor.chain().focus().setMark("textStyle", merged).run();
-      }
-      return;
+  // 🚀 3. OVLÁDÁNÍ: Nativní spouštění bez hackování
+  const handleFontSizeChange = (e: any) => {
+    const val = e.target.value;
+    if (val === "normal") {
+      (editor.commands as any).unsetFontSize();
+    } else {
+      (editor.commands as any).setFontSize(val);
     }
+  };
 
-    // Pokud uživatel označil text, projdeme uzly segment po segmentu a sloučíme styly
-    const { tr } = editor.state;
-    editor.state.doc.nodesBetween(from, to, (node: any, pos: number) => {
-      if (!node.isText) return;
-      const start = Math.max(from, pos);
-      const end = Math.min(to, pos + node.nodeSize);
-
-      const textStyleMark = node.marks.find((m: any) => m.type.name === "textStyle");
-      const existingAttrs = textStyleMark ? textStyleMark.attrs : {};
-
-      const mergedAttrs = { ...existingAttrs, ...attrsToAdd };
-      // Vymažeme atributy, které chceme resetovat (např. fontSize: null při "normal")
-      Object.keys(mergedAttrs).forEach(k => { if (mergedAttrs[k] === null) delete mergedAttrs[k]; });
-
-      tr.removeMark(start, end, editor.state.schema.marks.textStyle);
-      if (Object.keys(mergedAttrs).length > 0) {
-        tr.addMark(start, end, editor.state.schema.marks.textStyle.create(mergedAttrs));
-      }
-    });
-
-    editor.view.dispatch(tr);
-    editor.view.focus();
-    updateToolbarState(editor);
+  const handleColorChange = (e: any) => {
+    editor.chain().focus().setColor(e.target.value).run();
   };
 
   return (
@@ -153,7 +131,7 @@ export const TipTapEditor = ({ input, field }: any) => {
 
         {/* DROPDOWN PRO VELIKOST PÍSMA */}
         <select
-          onChange={(e) => updateTextStyle({ fontSize: e.target.value === "normal" ? null : e.target.value })}
+          onChange={handleFontSizeChange}
           value={activeFontSize}
           style={{ padding: "4px 8px", fontSize: "12px", border: "1px solid #cbd5e1", borderRadius: "4px", background: "#fff", cursor: "pointer" }}
         >
@@ -190,7 +168,7 @@ export const TipTapEditor = ({ input, field }: any) => {
           <span style={{ fontSize: "11px", color: "#64748b" }}>Text:</span>
           <input
             type="color"
-            onInput={(e: any) => updateTextStyle({ color: e.target.value })}
+            onInput={handleColorChange}
             value={activeColor}
             style={{ border: "none", padding: "0", width: "20px", height: "20px", cursor: "pointer", background: "transparent" }}
           />
