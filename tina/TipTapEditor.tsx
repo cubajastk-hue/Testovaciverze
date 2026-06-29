@@ -7,7 +7,7 @@ import { Color } from "@tiptap/extension-color";
 import { Highlight } from "@tiptap/extension-highlight";
 import { Extension } from "@tiptap/core";
 
-// 🚀 FIX: Vlastní rozšíření, aby se velikost písma správně propsala do HTML a fungovala na webu
+// Vlastní rozšíření, aby se velikost písma správně propsala do HTML a fungovala na webu
 const FontSize = Extension.create({
   name: "fontSize",
   addOptions() { return { types: ["textStyle"] } },
@@ -18,8 +18,8 @@ const FontSize = Extension.create({
         attributes: {
           fontSize: {
             default: null,
-            parseHTML: element => element.style.fontSize || null,
-            renderHTML: attributes => {
+            parseHTML: (element: any) => element.style.fontSize || null,
+            renderHTML: (attributes: any) => {
               if (!attributes.fontSize) return {};
               return { style: `font-size: ${attributes.fontSize}` };
             },
@@ -40,7 +40,7 @@ export const TipTapEditor = ({ input, field }: any) => {
       TextStyle,
       Color,
       Highlight.configure({ multicolor: true }),
-      FontSize, // 🚀 Přidáno rozšíření
+      FontSize,
     ],
     content: input.value || "",
     onUpdate: ({ editor }) => {
@@ -51,18 +51,15 @@ export const TipTapEditor = ({ input, field }: any) => {
   if (!editor) return null;
 
   const setFontSize = (size: string) => {
-    // Zjistíme aktuální barvu textu, abychom o ni nepřišli
     const currentColor = editor.getAttributes("textStyle").color;
 
     if (size === "normal") {
-      // 🚀 FIX: Pokud odebíráme velikost, vrátíme tam zpátky barvu
       if (currentColor) {
         editor.chain().focus().setMark("textStyle", { fontSize: null, color: currentColor }).run();
       } else {
         editor.chain().focus().unsetMark("textStyle").run();
       }
     } else {
-      // 🚀 Nastavíme velikost a zachováme stávající barvu
       editor.chain().focus().setMark("textStyle", { fontSize: size, color: currentColor || null }).run();
     }
   };
@@ -102,6 +99,8 @@ export const TipTapEditor = ({ input, field }: any) => {
         {/* DROPDOWN PRO VELIKOST PÍSMA */}
         <select
           onChange={(e) => setFontSize(e.target.value)}
+          // 🚀 SPRÁVNÝ FIX: Teď se hodnota mění dynamicky podle toho, kde zrovna stojíš kurzorem!
+          value={editor.getAttributes("textStyle").fontSize || "normal"}
           style={{ padding: "4px 8px", fontSize: "12px", border: "1px solid #cbd5e1", borderRadius: "4px", background: "#fff", cursor: "pointer" }}
         >
           <option value="normal">Normální velikost</option>
