@@ -7,6 +7,7 @@ import { Color } from "@tiptap/extension-color";
 import { Highlight } from "@tiptap/extension-highlight";
 import { Extension } from "@tiptap/core";
 
+// Vlastní rozšíření pro velikost písma (registruje se do textStyle)
 const FontSize = Extension.create({
   name: "fontSize",
   addOptions() { return { types: ["textStyle"] } },
@@ -30,25 +31,29 @@ const FontSize = Extension.create({
 });
 
 export const TipTapEditor = ({ input, field }: any) => {
+  // Stavy pro stoprocentní synchronizaci lišty s kurzorem
   const [activeFontSize, setActiveFontSize] = useState("normal");
   const [activeColor, setActiveColor] = useState("#000000");
   const [activeHeading, setActiveHeading] = useState("p");
 
-  // Vytvoříme funkci pro sjednocenou aktualizaci stavů, aby to bylo čitelnější
+  // Funkce, která vytáhne přesné styly z prvního znaku aktuálního výběru
   const updateToolbarState = (ed: any) => {
-      // getAttributes vrací objekt s aktuálními atributy
-      const attrs = ed.getAttributes("textStyle");
-      setActiveFontSize(attrs.fontSize || "normal");
-      setActiveColor(attrs.color || "#000000");
+    const $from = ed.state.selection.$from;
+    const marks = $from.marks();
+    const textStyleMark = marks.find((m: any) => m.type.name === "textStyle");
+    const attrs = textStyleMark ? textStyleMark.attrs : {};
 
-      if (ed.isActive("heading", { level: 1 })) setActiveHeading("1");
-      else if (ed.isActive("heading", { level: 2 })) setActiveHeading("2");
-      else if (ed.isActive("heading", { level: 3 })) setActiveHeading("3");
-      else if (ed.isActive("heading", { level: 4 })) setActiveHeading("4");
-      else if (ed.isActive("heading", { level: 5 })) setActiveHeading("5");
-      else if (ed.isActive("heading", { level: 6 })) setActiveHeading("6");
-      else setActiveHeading("p");
-  }
+    setActiveFontSize(attrs.fontSize || "normal");
+    setActiveColor(attrs.color || "#000000");
+
+    if (ed.isActive("heading", { level: 1 })) setActiveHeading("1");
+    else if (ed.isActive("heading", { level: 2 })) setActiveHeading("2");
+    else if (ed.isActive("heading", { level: 3 })) setActiveHeading("3");
+    else if (ed.isActive("heading", { level: 4 })) setActiveHeading("4");
+    else if (ed.isActive("heading", { level: 5 })) setActiveHeading("5");
+    else if (ed.isActive("heading", { level: 6 })) setActiveHeading("6");
+    else setActiveHeading("p");
+  };
 
   const editor = useEditor({
     extensions: [
@@ -65,39 +70,60 @@ export const TipTapEditor = ({ input, field }: any) => {
     onUpdate: ({ editor }) => {
       input.onChange(editor.getHTML());
     },
-    // Hlídáme jakoukoliv transakci (třeba i psaní textu)
+    // Sledujeme jakýkoliv pohyb, kliknutí nebo změnu v editoru
     onTransaction: ({ editor }) => {
-        updateToolbarState(editor);
+      updateToolbarState(editor);
     },
-    // Hlídáme specificky výběr textu myší/klávesnicí
     onSelectionUpdate: ({ editor }) => {
-        updateToolbarState(editor);
+      updateToolbarState(editor);
     }
   });
 
   if (!editor) return null;
 
-  const setFontSize = (size: string) => {
-    const currentAttrs = editor.getAttributes("textStyle");
-    if (size === "normal") {
-      const newAttrs = { ...currentAttrs };
-      delete newAttrs.fontSize;
-      if (!newAttrs.color) {
+  // 🚀 NEPRŮSTŘELNÝ MERGE STYLŮ: Projde výběr a změní pouze požadovaný atribut
+  const updateTextStyle = (attrsToAdd: Record<string, any>) => {
+    const { from, to, empty } = editor.state.selection;
+
+    // Pokud je výběr prázdný (jen blikající kurzor), upravíme styl pro budoucí psaní
+    if (empty) {
+      const $from = editor.state.selection.$from;
+      const textStyleMark = $from.marks().find((m: any) => m.type.name === "textStyle");
+      const currentAttrs = textStyleMark ? textStyleMark.attrs : {};
+      
+      const merged = { ...currentAttrs, ...attrsToAdd };
+      Object.keys(merged).forEach(k => { if (merged[k] === null) delete merged[k]; });
+
+      if (Object.keys(merged).length === 0) {
         editor.chain().focus().unsetMark("textStyle").run();
       } else {
-        editor.chain().focus().setMark("textStyle", newAttrs).run();
+        editor.chain().focus().setMark("textStyle", merged).run();
       }
-    } else {
-      editor.chain().focus().setMark("textStyle", { ...currentAttrs, fontSize: size }).run();
+      return;
     }
-    // Vynutíme si update stavu hned po kliknutí
-    updateToolbarState(editor);
-  };
 
-  const setTextColor = (color: string) => {
-    const currentAttrs = editor.getAttributes("textStyle");
-    editor.chain().focus().setMark("textStyle", { ...currentAttrs, color }).run();
-    // Vynutíme si update stavu hned po kliknutí
+    // Pokud uživatel označil text, projdeme uzly segment po segmentu a sloučíme styly
+    const { tr } = editor.state;
+    editor.state.doc.nodesBetween(from, to, (node: any, pos: number) => {
+      if (!node.isText) return;
+      const start = Math.max(from, pos);
+      const end = Math.min(to, pos + node.nodeSize);
+
+      const textStyleMark = node.marks.find((m: any) => m.type.name === "textStyle");
+      const existingAttrs = textStyleMark ? textStyleMark.attrs : {};
+
+      const mergedAttrs = { ...existingAttrs, ...attrsToAdd };
+      // Vymažeme atributy, které chceme resetovat (např. fontSize: null při "normal")
+      Object.keys(mergedAttrs).forEach(k => { if (mergedAttrs[k] === null) delete mergedAttrs[k]; });
+
+      tr.removeMark(start, end, editor.state.schema.marks.textStyle);
+      if (Object.keys(mergedAttrs).length > 0) {
+        tr.addMark(start, end, editor.state.schema.marks.textStyle.create(mergedAttrs));
+      }
+    });
+
+    editor.view.dispatch(tr);
+    editor.view.focus();
     updateToolbarState(editor);
   };
 
@@ -127,7 +153,7 @@ export const TipTapEditor = ({ input, field }: any) => {
 
         {/* DROPDOWN PRO VELIKOST PÍSMA */}
         <select
-          onChange={(e) => setFontSize(e.target.value)}
+          onChange={(e) => updateTextStyle({ fontSize: e.target.value === "normal" ? null : e.target.value })}
           value={activeFontSize}
           style={{ padding: "4px 8px", fontSize: "12px", border: "1px solid #cbd5e1", borderRadius: "4px", background: "#fff", cursor: "pointer" }}
         >
@@ -164,7 +190,7 @@ export const TipTapEditor = ({ input, field }: any) => {
           <span style={{ fontSize: "11px", color: "#64748b" }}>Text:</span>
           <input
             type="color"
-            onInput={(e: any) => setTextColor(e.target.value)}
+            onInput={(e: any) => updateTextStyle({ color: e.target.value })}
             value={activeColor}
             style={{ border: "none", padding: "0", width: "20px", height: "20px", cursor: "pointer", background: "transparent" }}
           />
