@@ -7,7 +7,7 @@ import { Color } from "@tiptap/extension-color";
 import { Highlight } from "@tiptap/extension-highlight";
 import { Extension } from "@tiptap/core";
 
-// Vlastní rozšíření, aby se velikost písma správně propsala do HTML a fungovala na webu
+// Vlastní rozšíření pro velikost písma
 const FontSize = Extension.create({
   name: "fontSize",
   addOptions() { return { types: ["textStyle"] } },
@@ -50,19 +50,19 @@ export const TipTapEditor = ({ input, field }: any) => {
 
   if (!editor) return null;
 
+  // 🚀 ZDE JE TEN HLAVNÍ FIX PRO BARVY A ZASEKLOU VELIKOST
   const setFontSize = (size: string) => {
-    const currentColor = editor.getAttributes("textStyle").color;
-
     if (size === "normal") {
-      if (currentColor) {
-        editor.chain().focus().setMark("textStyle", { fontSize: null, color: currentColor }).run();
-      } else {
-        editor.chain().focus().unsetMark("textStyle").run();
-      }
+      // Smaže pouze velikost (fontSize: null) a vyčistí mrtvé tagy. Barva zůstane absolutně nedotčená!
+      editor.chain().focus().setMark("textStyle", { fontSize: null }).removeEmptyTextStyle().run();
     } else {
-      editor.chain().focus().setMark("textStyle", { fontSize: size, color: currentColor || null }).run();
+      // Přidá pouze velikost. TipTap ji automaticky a chytře sloučí s existující barvou.
+      editor.chain().focus().setMark("textStyle", { fontSize: size }).run();
     }
   };
+
+  // Vytáhneme si aktuální velikost přímo ze stavu kurzoru
+  const currentFontSize = editor.getAttributes("textStyle").fontSize || "normal";
 
   return (
     <div style={{ border: "1px solid #cbd5e1", borderRadius: "6px", overflow: "hidden", background: "#ffffff" }}>
@@ -99,8 +99,7 @@ export const TipTapEditor = ({ input, field }: any) => {
         {/* DROPDOWN PRO VELIKOST PÍSMA */}
         <select
           onChange={(e) => setFontSize(e.target.value)}
-          // 🚀 SPRÁVNÝ FIX: Teď se hodnota mění dynamicky podle toho, kde zrovna stojíš kurzorem!
-          value={editor.getAttributes("textStyle").fontSize || "normal"}
+          value={currentFontSize}
           style={{ padding: "4px 8px", fontSize: "12px", border: "1px solid #cbd5e1", borderRadius: "4px", background: "#fff", cursor: "pointer" }}
         >
           <option value="normal">Normální velikost</option>
