@@ -7,7 +7,6 @@ import { Color } from "@tiptap/extension-color";
 import { Highlight } from "@tiptap/extension-highlight";
 import { Extension } from "@tiptap/core";
 
-// Vlastní rozšíření pro velikost písma
 const FontSize = Extension.create({
   name: "fontSize",
   addOptions() { return { types: ["textStyle"] } },
@@ -31,10 +30,25 @@ const FontSize = Extension.create({
 });
 
 export const TipTapEditor = ({ input, field }: any) => {
-  // 🚀 TADY JE MAGIE: Vytvoříme stavy, které budou 100% zrcadlit kurzor
   const [activeFontSize, setActiveFontSize] = useState("normal");
   const [activeColor, setActiveColor] = useState("#000000");
   const [activeHeading, setActiveHeading] = useState("p");
+
+  // Vytvoříme funkci pro sjednocenou aktualizaci stavů, aby to bylo čitelnější
+  const updateToolbarState = (ed: any) => {
+      // getAttributes vrací objekt s aktuálními atributy
+      const attrs = ed.getAttributes("textStyle");
+      setActiveFontSize(attrs.fontSize || "normal");
+      setActiveColor(attrs.color || "#000000");
+
+      if (ed.isActive("heading", { level: 1 })) setActiveHeading("1");
+      else if (ed.isActive("heading", { level: 2 })) setActiveHeading("2");
+      else if (ed.isActive("heading", { level: 3 })) setActiveHeading("3");
+      else if (ed.isActive("heading", { level: 4 })) setActiveHeading("4");
+      else if (ed.isActive("heading", { level: 5 })) setActiveHeading("5");
+      else if (ed.isActive("heading", { level: 6 })) setActiveHeading("6");
+      else setActiveHeading("p");
+  }
 
   const editor = useEditor({
     extensions: [
@@ -51,45 +65,40 @@ export const TipTapEditor = ({ input, field }: any) => {
     onUpdate: ({ editor }) => {
       input.onChange(editor.getHTML());
     },
-    // 🚀 Při KAŽDÉM kliknutí nebo výběru aktualizujeme hodnoty v liště!
+    // Hlídáme jakoukoliv transakci (třeba i psaní textu)
     onTransaction: ({ editor }) => {
-      setActiveFontSize(editor.getAttributes("textStyle").fontSize || "normal");
-      setActiveColor(editor.getAttributes("textStyle").color || "#000000");
-
-      if (editor.isActive("heading", { level: 1 })) setActiveHeading("1");
-      else if (editor.isActive("heading", { level: 2 })) setActiveHeading("2");
-      else if (editor.isActive("heading", { level: 3 })) setActiveHeading("3");
-      else if (editor.isActive("heading", { level: 4 })) setActiveHeading("4");
-      else if (editor.isActive("heading", { level: 5 })) setActiveHeading("5");
-      else if (editor.isActive("heading", { level: 6 })) setActiveHeading("6");
-      else setActiveHeading("p");
+        updateToolbarState(editor);
+    },
+    // Hlídáme specificky výběr textu myší/klávesnicí
+    onSelectionUpdate: ({ editor }) => {
+        updateToolbarState(editor);
     }
   });
 
   if (!editor) return null;
 
-  // 🚀 BEZPEČNÁ ZMĚNA VELIKOSTI - nesmaže existující barvu
   const setFontSize = (size: string) => {
     const currentAttrs = editor.getAttributes("textStyle");
     if (size === "normal") {
       const newAttrs = { ...currentAttrs };
       delete newAttrs.fontSize;
-      // Pokud smažeme velikost a text už nemá ani barvu, vyčistíme to úplně
       if (!newAttrs.color) {
         editor.chain().focus().unsetMark("textStyle").run();
       } else {
         editor.chain().focus().setMark("textStyle", newAttrs).run();
       }
     } else {
-      // Sloučíme stávající barvu s novou velikostí
       editor.chain().focus().setMark("textStyle", { ...currentAttrs, fontSize: size }).run();
     }
+    // Vynutíme si update stavu hned po kliknutí
+    updateToolbarState(editor);
   };
 
-  // 🚀 BEZPEČNÁ ZMĚNA BARVY - nesmaže existující velikost
   const setTextColor = (color: string) => {
     const currentAttrs = editor.getAttributes("textStyle");
     editor.chain().focus().setMark("textStyle", { ...currentAttrs, color }).run();
+    // Vynutíme si update stavu hned po kliknutí
+    updateToolbarState(editor);
   };
 
   return (
