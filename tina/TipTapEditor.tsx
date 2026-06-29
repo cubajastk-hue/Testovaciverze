@@ -5,37 +5,38 @@ import { Link } from "@tiptap/extension-link";
 import { TextStyle } from "@tiptap/extension-text-style";
 import { Color } from "@tiptap/extension-color";
 import { Highlight } from "@tiptap/extension-highlight";
-import { Extension } from "@tiptap/core";
+// 🚀 FIX: Importujeme Mark a mergeAttributes z jádra
+import { Mark, mergeAttributes } from "@tiptap/core";
 
-// 🚀 1. ČISTÉ ROZŠÍŘENÍ: Používáme nativní příkazy TipTapu
-const FontSize = Extension.create({
+// 🚀 ZCELA NEZÁVISLÝ MARK PRO VELIKOST PÍSMA!
+// Už se nedělí s barvou, má svůj vlastní prostor. Lišta ho díky tomu POKAŽDÉ přečte.
+const FontSize = Mark.create({
   name: "fontSize",
-  addOptions() { return { types: ["textStyle"] } },
-  addGlobalAttributes() {
-    return [
-      {
-        types: this.options.types,
-        attributes: {
-          fontSize: {
-            default: null,
-            parseHTML: (element: any) => element.style.fontSize || null,
-            renderHTML: (attributes: any) => {
-              if (!attributes.fontSize) return {};
-              return { style: `font-size: ${attributes.fontSize}` };
-            },
-          },
+  addAttributes() {
+    return {
+      size: {
+        default: null,
+        parseHTML: (element) => element.style.fontSize || null,
+        renderHTML: (attributes) => {
+          if (!attributes.size) return {};
+          return { style: `font-size: ${attributes.size}` };
         },
       },
-    ];
+    };
   },
-  // Přidáme příkazy přímo do jádra editoru
+  parseHTML() {
+    return [{ style: "font-size" }];
+  },
+  renderHTML({ HTMLAttributes }) {
+    return ["span", mergeAttributes(HTMLAttributes), 0];
+  },
   addCommands() {
     return {
-      setFontSize: (fontSize: string) => ({ chain }: any) => {
-        return chain().setMark("textStyle", { fontSize }).run();
+      setFontSize: (size: string) => ({ commands }: any) => {
+        return commands.setMark("fontSize", { size });
       },
-      unsetFontSize: () => ({ chain }: any) => {
-        return chain().setMark("textStyle", { fontSize: null }).removeEmptyTextStyle().run();
+      unsetFontSize: () => ({ commands }: any) => {
+        return commands.unsetMark("fontSize");
       },
     };
   },
@@ -55,7 +56,7 @@ export const TipTapEditor = ({ input, field }: any) => {
       TextStyle,
       Color,
       Highlight.configure({ multicolor: true }),
-      FontSize,
+      FontSize, // 🚀 Přidali jsme náš nový čistý Mark
     ],
     content: input.value || "",
     onUpdate: ({ editor }) => {
@@ -63,10 +64,13 @@ export const TipTapEditor = ({ input, field }: any) => {
     },
   });
 
-  // 🚀 2. BEZPEČNÁ SYNCHRONIZACE: React hook, který se zaručeně aktualizuje
+  // 🚀 TADY TO ČTE NADORAZ: Sleduje přesně to, na co klikneš
   const updateToolbar = useCallback(() => {
     if (!editor) return;
-    setActiveFontSize(editor.getAttributes("textStyle").fontSize || "normal");
+    
+    // Čte velikost z našeho nového nezávislého Marku
+    setActiveFontSize(editor.getAttributes("fontSize").size || "normal");
+    // Čte barvu ze standardního TextStyle
     setActiveColor(editor.getAttributes("textStyle").color || "#000000");
 
     if (editor.isActive("heading", { level: 1 })) setActiveHeading("1");
@@ -78,7 +82,7 @@ export const TipTapEditor = ({ input, field }: any) => {
     else setActiveHeading("p");
   }, [editor]);
 
-  // Zapneme sledování všech změn (kliknutí, označování, psaní)
+  // Poslouchá absolutně všechny události editoru
   useEffect(() => {
     if (!editor) return;
     editor.on("transaction", updateToolbar);
@@ -91,7 +95,7 @@ export const TipTapEditor = ({ input, field }: any) => {
 
   if (!editor) return null;
 
-  // 🚀 3. OVLÁDÁNÍ: Nativní spouštění bez hackování
+  // Funkce pro přepínání velikosti
   const handleFontSizeChange = (e: any) => {
     const val = e.target.value;
     if (val === "normal") {
@@ -99,10 +103,6 @@ export const TipTapEditor = ({ input, field }: any) => {
     } else {
       (editor.commands as any).setFontSize(val);
     }
-  };
-
-  const handleColorChange = (e: any) => {
-    editor.chain().focus().setColor(e.target.value).run();
   };
 
   return (
@@ -168,7 +168,7 @@ export const TipTapEditor = ({ input, field }: any) => {
           <span style={{ fontSize: "11px", color: "#64748b" }}>Text:</span>
           <input
             type="color"
-            onInput={handleColorChange}
+            onInput={(e: any) => editor.chain().focus().setColor(e.target.value).run()}
             value={activeColor}
             style={{ border: "none", padding: "0", width: "20px", height: "20px", cursor: "pointer", background: "transparent" }}
           />
