@@ -111,19 +111,30 @@ export const TipTapEditor = ({ input }: any) => {
     <div style={{ border: "1px solid #cbd5e1", borderRadius: "6px", overflow: "hidden", background: "#ffffff" }}>
       <style>{`
         .ProseMirror:focus { outline: none !important; }
-        
-        /* 🚀 FIX: Zalamování dlouhých slov v editoru a sladěné odsazení */
         .ProseMirror { word-break: break-word; overflow-wrap: break-word; }
         .ProseMirror p { margin-top: 0; margin-bottom: 0.875rem; line-height: 1.6; }
-        .ProseMirror h1 { font-size: 2em; margin-top: 0.5rem; margin-bottom: 1rem; line-height: 1.2; font-weight: 800; }
-        .ProseMirror h2 { font-size: 1.5em; margin-top: 0.5rem; margin-bottom: 0.875rem; font-weight: 700; }
-        .ProseMirror h3 { font-size: 1.17em; margin-top: 0.5rem; margin-bottom: 0.75rem; font-weight: 600; }
+        
+        /* Odstranění horní mezery (margin-top: 0) u všech nadpisů v editoru */
+        .ProseMirror h1 { font-size: 2em; margin-top: 0; margin-bottom: 1rem; line-height: 1.2; font-weight: 800; }
+        .ProseMirror h2 { font-size: 1.5em; margin-top: 0; margin-bottom: 0.875rem; font-weight: 700; }
+        .ProseMirror h3 { font-size: 1.17em; margin-top: 0; margin-bottom: 0.75rem; font-weight: 600; }
+        .ProseMirror h4 { font-size: 1em; margin-top: 0; margin-bottom: 0.5rem; font-weight: 600; }
+        .ProseMirror h5 { font-size: 0.83em; margin-top: 0; margin-bottom: 0.5rem; font-weight: 600; }
+        .ProseMirror h6 { font-size: 0.67em; margin-top: 0; margin-bottom: 0.5rem; font-weight: 600; }
       `}</style>
       
       {/* TOOLBAR */}
       <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", alignItems: "center", padding: "8px", background: "#f8fafc", borderBottom: "1px solid #cbd5e1" }}>
         
-        <select onChange={(e) => { const val = e.target.value; if (val === "p") editor.chain().focus().setParagraph().run(); else editor.chain().focus().toggleHeading({ level: parseInt(val) as any }).run(); }} value={activeHeading} style={{ padding: "4px 8px", fontSize: "12px", border: "1px solid #cbd5e1", borderRadius: "4px", background: "#fff", cursor: "pointer" }}>
+        <select
+          onChange={(e) => {
+            const val = e.target.value;
+            if (val === "p") editor.chain().focus().setParagraph().run();
+            else editor.chain().focus().toggleHeading({ level: parseInt(val) as any }).run();
+          }}
+          value={activeHeading}
+          style={{ padding: "4px 8px", fontSize: "12px", border: "1px solid #cbd5e1", borderRadius: "4px", background: "#fff", cursor: "pointer" }}
+        >
           <option value="p">Odstavec (p)</option>
           <option value="1">Nadpis H1</option>
           <option value="2">Nadpis H2</option>
@@ -133,7 +144,11 @@ export const TipTapEditor = ({ input }: any) => {
           <option value="6">Nadpis H6</option>
         </select>
 
-        <select onChange={handleFontSizeChange} value={activeFontSize} style={{ padding: "4px 8px", fontSize: "12px", border: "1px solid #cbd5e1", borderRadius: "4px", background: "#fff", cursor: "pointer" }}>
+        <select
+          onChange={handleFontSizeChange}
+          value={activeFontSize}
+          style={{ padding: "4px 8px", fontSize: "12px", border: "1px solid #cbd5e1", borderRadius: "4px", background: "#fff", cursor: "pointer" }}
+        >
           <option value="normal">Normální velikost</option>
           <option value="12px">Malé (12px)</option>
           <option value="14px">Střední (14px)</option>
@@ -146,20 +161,48 @@ export const TipTapEditor = ({ input }: any) => {
 
         <div style={{ width: "1px", height: "20px", background: "#cbd5e1", margin: "0 4px" }} />
 
-        <button type="button" onClick={() => editor.chain().focus().toggleBold().run()} style={{ padding: "4px 8px", fontWeight: "bold", background: isBold ? "#e2e8f0" : "transparent", border: "none", borderRadius: "4px", cursor: "pointer" }}>B</button>
-        <button type="button" onClick={() => editor.chain().focus().toggleItalic().run()} style={{ padding: "4px 8px", fontStyle: "italic", background: isItalic ? "#e2e8f0" : "transparent", border: "none", borderRadius: "4px", cursor: "pointer" }}>I</button>
+        <button
+          type="button"
+          onClick={() => editor.chain().focus().toggleBold().run()}
+          style={{ padding: "4px 8px", fontWeight: "bold", background: isBold ? "#e2e8f0" : "transparent", border: "none", borderRadius: "4px", cursor: "pointer" }}
+        >
+          B
+        </button>
+        <button
+          type="button"
+          onClick={() => editor.chain().focus().toggleItalic().run()}
+          style={{ padding: "4px 8px", fontStyle: "italic", background: isItalic ? "#e2e8f0" : "transparent", border: "none", borderRadius: "4px", cursor: "pointer" }}
+        >
+          I
+        </button>
 
         <div style={{ width: "1px", height: "20px", background: "#cbd5e1", margin: "0 4px" }} />
 
         <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
           <span style={{ fontSize: "11px", color: "#64748b" }}>Text:</span>
-          <input type="color" onInput={(e: any) => editor.chain().focus().setColor(e.target.value).run()} value={activeColor} style={{ border: "none", padding: "0", width: "20px", height: "20px", cursor: "pointer", background: "transparent" }} />
+          <input
+            type="color"
+            onInput={(e: any) => editor.chain().focus().setColor(e.target.value).run()}
+            value={activeColor}
+            style={{ border: "none", padding: "0", width: "20px", height: "20px", cursor: "pointer", background: "transparent" }}
+          />
         </div>
 
         <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
           <span style={{ fontSize: "11px", color: "#64748b" }}>Fixa:</span>
-          <input type="color" onInput={(e: any) => editor.chain().focus().setHighlight({ color: e.target.value }).run()} value={activeHighlight} style={{ border: "none", padding: "0", width: "20px", height: "20px", cursor: "pointer", background: "transparent" }} />
-          <button type="button" onClick={() => editor.chain().focus().unsetHighlight().run()} style={{ fontSize: "10px", padding: "2px 4px", background: "#ef4444", color: "#fff", border: "none", borderRadius: "4px", cursor: "pointer" }}>X</button>
+          <input
+            type="color"
+            onInput={(e: any) => editor.chain().focus().setHighlight({ color: e.target.value }).run()}
+            value={activeHighlight}
+            style={{ border: "none", padding: "0", width: "20px", height: "20px", cursor: "pointer", background: "transparent" }}
+          />
+          <button
+            type="button"
+            onClick={() => editor.chain().focus().unsetHighlight().run()}
+            style={{ fontSize: "10px", padding: "2px 4px", background: "#ef4444", color: "#fff", border: "none", borderRadius: "4px", cursor: "pointer" }}
+          >
+            X
+          </button>
         </div>
 
       </div>
