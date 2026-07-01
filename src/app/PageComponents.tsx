@@ -1,8 +1,8 @@
 "use client";
 
 import React from "react";
-// 🚀 TENTO IMPORT JE KLÍČOVÝ PRO LEVÝ PANEL
-import { useTina } from "tinacms/dist/react"; 
+import { useTina } from "tinacms/dist/react";
+import { tinaField } from "tinacms/dist/react"; // 🚀 FIX: Import funkce pro vizuální editaci
 
 export const TextContentBlock = ({ data }: any) => {
   if (!data) return null;
@@ -20,7 +20,8 @@ export const TextContentBlock = ({ data }: any) => {
   };
 
   return (
-    <div style={blockStyle} className="w-full mx-auto max-w-4xl px-4">
+    // 🚀 FIX: tinaField() vytvoří ten rámeček a propojení
+    <div style={blockStyle} className="w-full mx-auto max-w-4xl px-4" data-tina-field={tinaField(data, "body")}>
       <div 
         className="rich-text-output"
         dangerouslySetInnerHTML={{ __html: data.body || "" }} 
@@ -33,7 +34,7 @@ export const TextContentBlock = ({ data }: any) => {
         .rich-text-output h4 { font-size: 1.25rem; font-weight: 600; margin-top: 1rem; margin-bottom: 0.5rem; }
         .rich-text-output h5 { font-size: 1.1rem; font-weight: 600; margin-top: 1rem; margin-bottom: 0.5rem; }
         .rich-text-output h6 { font-size: 1rem; font-weight: 600; margin-top: 1rem; margin-bottom: 0.5rem; }
-        .rich-text-output p { margin-bottom: 1rem; line-height: 1.65; color: #334155; }
+        .rich-text-output p { margin-bottom: 1rem; line-height: 1.6; color: #334155; }
         .rich-text-output mark { padding: 2px 4px; border-radius: 4px; }
         .rich-text-output ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1rem; }
         .rich-text-output ol { list-style-type: decimal; padding-left: 1.5rem; margin-bottom: 1rem; }
@@ -44,9 +45,7 @@ export const TextContentBlock = ({ data }: any) => {
   );
 };
 
-// 🚀 Zde už nepřijímáme jen 'data', ale celé 'props'
 export function PageComponents(props: any) {
-  // 🚀 MAGIE LIVE EDITINGU: useTina propojí web s levým panelem a pošle do něj fieldy!
   const { data } = useTina({
     query: props.query,
     variables: props.variables,

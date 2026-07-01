@@ -7,13 +7,10 @@ import { Color } from "@tiptap/extension-color";
 import { Highlight } from "@tiptap/extension-highlight";
 import { Mark, mergeAttributes } from "@tiptap/core";
 
-// 🚀 NEZÁVISLÝ MARK PRO VELIKOST PÍSMA: Bezpečně zapisuje style="font-size: XX" do HTML
 const FontSize = Mark.create({
   name: "fontSize",
   addOptions() {
-    return {
-      types: ["textStyle"],
-    };
+    return { types: ["textStyle"] };
   },
   addAttributes() {
     return {
@@ -45,11 +42,11 @@ const FontSize = Mark.create({
   },
 });
 
-export const TipTapEditor = ({ input, field }: any) => {
-  // Živé stavy pro synchronizaci lišty s kurzorem
+export const TipTapEditor = ({ input }: any) => {
   const [activeFontSize, setActiveFontSize] = useState("normal");
   const [activeColor, setActiveColor] = useState("#000000");
-  const [activeHighlight, setActiveHighlight] = useState("#ffff00");
+  // 🚀 FIX: Výchozí barva fixy je nyní bílá
+  const [activeHighlight, setActiveHighlight] = useState("#ffffff");
   const [activeHeading, setActiveHeading] = useState("p");
   const [isBold, setIsBold] = useState(false);
   const [isItalic, setIsItalic] = useState(false);
@@ -71,13 +68,13 @@ export const TipTapEditor = ({ input, field }: any) => {
     },
   });
 
-  // Čtení stavu nadoraz při každém kliknutí
   const updateToolbar = useCallback(() => {
     if (!editor) return;
     
     setActiveFontSize(editor.getAttributes("fontSize").size || "normal");
     setActiveColor(editor.getAttributes("textStyle").color || "#000000");
-    setActiveHighlight(editor.getAttributes("highlight").color || "#ffff00");
+    // Pokud text nemá zvýraznění, ukážeme bílou fixu
+    setActiveHighlight(editor.getAttributes("highlight").color || "#ffffff");
 
     setIsBold(editor.isActive("bold"));
     setIsItalic(editor.isActive("italic"));
@@ -114,19 +111,16 @@ export const TipTapEditor = ({ input, field }: any) => {
 
   return (
     <div style={{ border: "1px solid #cbd5e1", borderRadius: "6px", overflow: "hidden", background: "#ffffff" }}>
+      {/* 🚀 FIX: Tento globální styl odstraňuje ten černý rámeček z editoru */}
+      <style>{`
+        .ProseMirror:focus { outline: none !important; }
+        .ProseMirror p { margin-bottom: 0.75rem; line-height: 1.6; }
+      `}</style>
+      
       {/* TOOLBAR */}
       <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", alignItems: "center", padding: "8px", background: "#f8fafc", borderBottom: "1px solid #cbd5e1" }}>
         
-        {/* DROPDOWN PRO NADPISY */}
-        <select
-          onChange={(e) => {
-            const val = e.target.value;
-            if (val === "p") editor.chain().focus().setParagraph().run();
-            else editor.chain().focus().toggleHeading({ level: parseInt(val) as any }).run();
-          }}
-          value={activeHeading}
-          style={{ padding: "4px 8px", fontSize: "12px", border: "1px solid #cbd5e1", borderRadius: "4px", background: "#fff", cursor: "pointer" }}
-        >
+        <select onChange={(e) => { const val = e.target.value; if (val === "p") editor.chain().focus().setParagraph().run(); else editor.chain().focus().toggleHeading({ level: parseInt(val) as any }).run(); }} value={activeHeading} style={{ padding: "4px 8px", fontSize: "12px", border: "1px solid #cbd5e1", borderRadius: "4px", background: "#fff", cursor: "pointer" }}>
           <option value="p">Odstavec (p)</option>
           <option value="1">Nadpis H1</option>
           <option value="2">Nadpis H2</option>
@@ -136,16 +130,10 @@ export const TipTapEditor = ({ input, field }: any) => {
           <option value="6">Nadpis H6</option>
         </select>
 
-        {/* DROPDOWN PRO VELIKOST PÍSMA */}
-        <select
-          onChange={handleFontSizeChange}
-          value={activeFontSize}
-          style={{ padding: "4px 8px", fontSize: "12px", border: "1px solid #cbd5e1", borderRadius: "4px", background: "#fff", cursor: "pointer" }}
-        >
+        <select onChange={handleFontSizeChange} value={activeFontSize} style={{ padding: "4px 8px", fontSize: "12px", border: "1px solid #cbd5e1", borderRadius: "4px", background: "#fff", cursor: "pointer" }}>
           <option value="normal">Normální velikost</option>
           <option value="12px">Malé (12px)</option>
           <option value="14px">Střední (14px)</option>
-          {/* 🚀 NOVÉ VELIKOSTI APPLIKOVANÉ V ŽIVÉ PAMĚTI */}
           <option value="16px">Standardní (16px)</option>
           <option value="18px">Velké (18px)</option>
           <option value="20px">Větší (20px)</option>
@@ -155,56 +143,24 @@ export const TipTapEditor = ({ input, field }: any) => {
 
         <div style={{ width: "1px", height: "20px", background: "#cbd5e1", margin: "0 4px" }} />
 
-        {/* BOLD / ITALIC */}
-        <button
-          type="button"
-          onClick={() => editor.chain().focus().toggleBold().run()}
-          style={{ padding: "4px 8px", fontWeight: "bold", background: isBold ? "#e2e8f0" : "transparent", border: "none", borderRadius: "4px", cursor: "pointer" }}
-        >
-          B
-        </button>
-        <button
-          type="button"
-          onClick={() => editor.chain().focus().toggleItalic().run()}
-          style={{ padding: "4px 8px", fontStyle: "italic", background: isItalic ? "#e2e8f0" : "transparent", border: "none", borderRadius: "4px", cursor: "pointer" }}
-        >
-          I
-        </button>
+        <button type="button" onClick={() => editor.chain().focus().toggleBold().run()} style={{ padding: "4px 8px", fontWeight: "bold", background: isBold ? "#e2e8f0" : "transparent", border: "none", borderRadius: "4px", cursor: "pointer" }}>B</button>
+        <button type="button" onClick={() => editor.chain().focus().toggleItalic().run()} style={{ padding: "4px 8px", fontStyle: "italic", background: isItalic ? "#e2e8f0" : "transparent", border: "none", borderRadius: "4px", cursor: "pointer" }}>I</button>
 
         <div style={{ width: "1px", height: "20px", background: "#cbd5e1", margin: "0 4px" }} />
 
-        {/* BARVA TEXTU */}
         <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
           <span style={{ fontSize: "11px", color: "#64748b" }}>Text:</span>
-          <input
-            type="color"
-            onInput={(e: any) => editor.chain().focus().setColor(e.target.value).run()}
-            value={activeColor}
-            style={{ border: "none", padding: "0", width: "20px", height: "20px", cursor: "pointer", background: "transparent" }}
-          />
+          <input type="color" onInput={(e: any) => editor.chain().focus().setColor(e.target.value).run()} value={activeColor} style={{ border: "none", padding: "0", width: "20px", height: "20px", cursor: "pointer", background: "transparent" }} />
         </div>
 
-        {/* FIXA / HIGHLIGHT */}
         <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
           <span style={{ fontSize: "11px", color: "#64748b" }}>Fixa:</span>
-          <input
-            type="color"
-            onInput={(e: any) => editor.chain().focus().setHighlight({ color: e.target.value }).run()}
-            value={activeHighlight}
-            style={{ border: "none", padding: "0", width: "20px", height: "20px", cursor: "pointer", background: "transparent" }}
-          />
-          <button 
-            type="button" 
-            onClick={() => editor.chain().focus().unsetHighlight().run()}
-            style={{ fontSize: "10px", padding: "2px 4px", background: "#ef4444", color: "#fff", border: "none", borderRadius: "4px", cursor: "pointer" }}
-          >
-            X
-          </button>
+          <input type="color" onInput={(e: any) => editor.chain().focus().setHighlight({ color: e.target.value }).run()} value={activeHighlight} style={{ border: "none", padding: "0", width: "20px", height: "20px", cursor: "pointer", background: "transparent" }} />
+          <button type="button" onClick={() => editor.chain().focus().unsetHighlight().run()} style={{ fontSize: "10px", padding: "2px 4px", background: "#ef4444", color: "#fff", border: "none", borderRadius: "4px", cursor: "pointer" }}>X</button>
         </div>
 
       </div>
 
-      {/* TEXT AREA */}
       <div style={{ padding: "12px", minHeight: "150px" }}>
         <EditorContent editor={editor} />
       </div>

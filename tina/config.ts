@@ -23,7 +23,6 @@ export default defineConfig({
         label: "Stránky",
         path: "content/pages",
         format: "mdx",
-        // 🚀 FIX: Přesný router, který opraví 404 v Live Editing iframe!
         ui: {
           router: ({ document }) => {
             if (document._sys.filename === "home") {
@@ -38,15 +37,17 @@ export default defineConfig({
             list: true,
             name: "blocks",
             label: "Sekce stránky",
-            ui: {
-              itemProps: (item: any) => {
-                return { label: item?.internalName || "TEXTOVÝ OBSAH" };
-              },
-            } as any,
+            // 🚀 FIX: Zde jsme ui odstranili, protože u bloků patří až do templates!
             templates: [
               {
                 name: "textContent",
                 label: "TEXTOVÝ OBSAH",
+                ui: {
+                  // 🚀 FIX: Správné místo pro itemProps je tady uvnitř šablony.
+                  itemProps: (item) => {
+                    return { label: item?.internalName || "TEXTOVÝ OBSAH" };
+                  },
+                },
                 fields: [
                   {
                     type: "string",
@@ -58,17 +59,14 @@ export default defineConfig({
                     name: "body",
                     label: "Obsah",
                     ui: {
-                      component: TipTapEditor,
-                      toolbar: ["heading", "bold", "italic", "quote", "bulletList", "textColor", "highlight"]
+                      component: TipTapEditor
                     } as any
                   },
                   {
                     type: "object",
                     name: "padding",
                     label: "Vnitřní odsazení (padding - px)",
-                    ui: {
-                      component: PositionPicker
-                    },
+                    ui: { component: PositionPicker },
                     fields: [
                       { type: "string", name: "top" },
                       { type: "string", name: "right" },
@@ -80,9 +78,7 @@ export default defineConfig({
                     type: "object",
                     name: "margin",
                     label: "Vnější odsazení (margin - px)",
-                    ui: {
-                      component: PositionPicker
-                    },
+                    ui: { component: PositionPicker },
                     fields: [
                       { type: "string", name: "top" },
                       { type: "string", name: "right" },
