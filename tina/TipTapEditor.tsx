@@ -45,7 +45,6 @@ const FontSize = Mark.create({
 export const TipTapEditor = ({ input }: any) => {
   const [activeFontSize, setActiveFontSize] = useState("normal");
   const [activeColor, setActiveColor] = useState("#000000");
-  // 🚀 FIX: Výchozí barva fixy je nyní bílá
   const [activeHighlight, setActiveHighlight] = useState("#ffffff");
   const [activeHeading, setActiveHeading] = useState("p");
   const [isBold, setIsBold] = useState(false);
@@ -73,7 +72,6 @@ export const TipTapEditor = ({ input }: any) => {
     
     setActiveFontSize(editor.getAttributes("fontSize").size || "normal");
     setActiveColor(editor.getAttributes("textStyle").color || "#000000");
-    // Pokud text nemá zvýraznění, ukážeme bílou fixu
     setActiveHighlight(editor.getAttributes("highlight").color || "#ffffff");
 
     setIsBold(editor.isActive("bold"));
@@ -111,10 +109,15 @@ export const TipTapEditor = ({ input }: any) => {
 
   return (
     <div style={{ border: "1px solid #cbd5e1", borderRadius: "6px", overflow: "hidden", background: "#ffffff" }}>
-      {/* 🚀 FIX: Tento globální styl odstraňuje ten černý rámeček z editoru */}
       <style>{`
         .ProseMirror:focus { outline: none !important; }
-        .ProseMirror p { margin-bottom: 0.75rem; line-height: 1.6; }
+        
+        /* 🚀 FIX: Zalamování dlouhých slov v editoru a sladěné odsazení */
+        .ProseMirror { word-break: break-word; overflow-wrap: break-word; }
+        .ProseMirror p { margin-top: 0; margin-bottom: 0.875rem; line-height: 1.6; }
+        .ProseMirror h1 { font-size: 2em; margin-top: 0.5rem; margin-bottom: 1rem; line-height: 1.2; font-weight: 800; }
+        .ProseMirror h2 { font-size: 1.5em; margin-top: 0.5rem; margin-bottom: 0.875rem; font-weight: 700; }
+        .ProseMirror h3 { font-size: 1.17em; margin-top: 0.5rem; margin-bottom: 0.75rem; font-weight: 600; }
       `}</style>
       
       {/* TOOLBAR */}

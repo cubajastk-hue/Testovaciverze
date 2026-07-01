@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useTina } from "tinacms/dist/react";
-import { tinaField } from "tinacms/dist/react"; // 🚀 FIX: Import funkce pro vizuální editaci
+import { tinaField } from "tinacms/dist/react";
 
 export const TextContentBlock = ({ data }: any) => {
   if (!data) return null;
@@ -20,7 +20,6 @@ export const TextContentBlock = ({ data }: any) => {
   };
 
   return (
-    // 🚀 FIX: tinaField() vytvoří ten rámeček a propojení
     <div style={blockStyle} className="w-full mx-auto max-w-4xl px-4" data-tina-field={tinaField(data, "body")}>
       <div 
         className="rich-text-output"
@@ -28,13 +27,18 @@ export const TextContentBlock = ({ data }: any) => {
       />
       
       <style jsx global>{`
-        .rich-text-output h1 { font-size: 2.5rem; font-weight: 800; margin-top: 1.5rem; margin-bottom: 1rem; line-height: 1.2; }
-        .rich-text-output h2 { font-size: 2rem; font-weight: 700; margin-top: 1.5rem; margin-bottom: 0.875rem; line-height: 1.3; }
-        .rich-text-output h3 { font-size: 1.5rem; font-weight: 600; margin-top: 1.25rem; margin-bottom: 0.75rem; }
-        .rich-text-output h4 { font-size: 1.25rem; font-weight: 600; margin-top: 1rem; margin-bottom: 0.5rem; }
-        .rich-text-output h5 { font-size: 1.1rem; font-weight: 600; margin-top: 1rem; margin-bottom: 0.5rem; }
-        .rich-text-output h6 { font-size: 1rem; font-weight: 600; margin-top: 1rem; margin-bottom: 0.5rem; }
-        .rich-text-output p { margin-bottom: 1rem; line-height: 1.6; color: #334155; }
+        /* 🚀 FIX: Zalamování dlouhých slov bez mezer */
+        .rich-text-output { word-break: break-word; overflow-wrap: break-word; }
+        
+        /* 🚀 FIX: Snížený margin-top u nadpisů, aby tolik neodskakovaly */
+        .rich-text-output h1 { font-size: 2.5rem; font-weight: 800; margin-top: 0.5rem; margin-bottom: 1rem; line-height: 1.2; }
+        .rich-text-output h2 { font-size: 2rem; font-weight: 700; margin-top: 0.5rem; margin-bottom: 0.875rem; line-height: 1.3; }
+        .rich-text-output h3 { font-size: 1.5rem; font-weight: 600; margin-top: 0.5rem; margin-bottom: 0.75rem; }
+        .rich-text-output h4 { font-size: 1.25rem; font-weight: 600; margin-top: 0.5rem; margin-bottom: 0.5rem; }
+        .rich-text-output h5 { font-size: 1.1rem; font-weight: 600; margin-top: 0.5rem; margin-bottom: 0.5rem; }
+        .rich-text-output h6 { font-size: 1rem; font-weight: 600; margin-top: 0.5rem; margin-bottom: 0.5rem; }
+        
+        .rich-text-output p { margin-top: 0; margin-bottom: 1rem; line-height: 1.6; color: #334155; }
         .rich-text-output mark { padding: 2px 4px; border-radius: 4px; }
         .rich-text-output ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1rem; }
         .rich-text-output ol { list-style-type: decimal; padding-left: 1.5rem; margin-bottom: 1rem; }
