@@ -5,13 +5,16 @@ import { Link } from "@tiptap/extension-link";
 import { TextStyle } from "@tiptap/extension-text-style";
 import { Color } from "@tiptap/extension-color";
 import { Highlight } from "@tiptap/extension-highlight";
-// 🚀 FIX: Importujeme Mark a mergeAttributes z jádra
 import { Mark, mergeAttributes } from "@tiptap/core";
 
-// 🚀 ZCELA NEZÁVISLÝ MARK PRO VELIKOST PÍSMA!
-// Už se nedělí s barvou, má svůj vlastní prostor. Lišta ho díky tomu POKAŽDÉ přečte.
+// 🚀 NEZÁVISLÝ MARK PRO VELIKOST PÍSMA: Bezpečně zapisuje style="font-size: XX" do HTML
 const FontSize = Mark.create({
   name: "fontSize",
+  addOptions() {
+    return {
+      types: ["textStyle"],
+    };
+  },
   addAttributes() {
     return {
       size: {
@@ -43,9 +46,13 @@ const FontSize = Mark.create({
 });
 
 export const TipTapEditor = ({ input, field }: any) => {
+  // Živé stavy pro synchronizaci lišty s kurzorem
   const [activeFontSize, setActiveFontSize] = useState("normal");
   const [activeColor, setActiveColor] = useState("#000000");
+  const [activeHighlight, setActiveHighlight] = useState("#ffff00");
   const [activeHeading, setActiveHeading] = useState("p");
+  const [isBold, setIsBold] = useState(false);
+  const [isItalic, setIsItalic] = useState(false);
 
   const editor = useEditor({
     extensions: [
@@ -56,7 +63,7 @@ export const TipTapEditor = ({ input, field }: any) => {
       TextStyle,
       Color,
       Highlight.configure({ multicolor: true }),
-      FontSize, // 🚀 Přidali jsme náš nový čistý Mark
+      FontSize,
     ],
     content: input.value || "",
     onUpdate: ({ editor }) => {
@@ -64,14 +71,16 @@ export const TipTapEditor = ({ input, field }: any) => {
     },
   });
 
-  // 🚀 TADY TO ČTE NADORAZ: Sleduje přesně to, na co klikneš
+  // Čtení stavu nadoraz při každém kliknutí
   const updateToolbar = useCallback(() => {
     if (!editor) return;
     
-    // Čte velikost z našeho nového nezávislého Marku
     setActiveFontSize(editor.getAttributes("fontSize").size || "normal");
-    // Čte barvu ze standardního TextStyle
     setActiveColor(editor.getAttributes("textStyle").color || "#000000");
+    setActiveHighlight(editor.getAttributes("highlight").color || "#ffff00");
+
+    setIsBold(editor.isActive("bold"));
+    setIsItalic(editor.isActive("italic"));
 
     if (editor.isActive("heading", { level: 1 })) setActiveHeading("1");
     else if (editor.isActive("heading", { level: 2 })) setActiveHeading("2");
@@ -82,7 +91,6 @@ export const TipTapEditor = ({ input, field }: any) => {
     else setActiveHeading("p");
   }, [editor]);
 
-  // Poslouchá absolutně všechny události editoru
   useEffect(() => {
     if (!editor) return;
     editor.on("transaction", updateToolbar);
@@ -95,7 +103,6 @@ export const TipTapEditor = ({ input, field }: any) => {
 
   if (!editor) return null;
 
-  // Funkce pro přepínání velikosti
   const handleFontSizeChange = (e: any) => {
     const val = e.target.value;
     if (val === "normal") {
@@ -138,7 +145,10 @@ export const TipTapEditor = ({ input, field }: any) => {
           <option value="normal">Normální velikost</option>
           <option value="12px">Malé (12px)</option>
           <option value="14px">Střední (14px)</option>
+          {/* 🚀 NOVÉ VELIKOSTI APPLIKOVANÉ V ŽIVÉ PAMĚTI */}
+          <option value="16px">Standardní (16px)</option>
           <option value="18px">Velké (18px)</option>
+          <option value="20px">Větší (20px)</option>
           <option value="24px">Extra velké (24px)</option>
           <option value="32px">Obří (32px)</option>
         </select>
@@ -149,14 +159,14 @@ export const TipTapEditor = ({ input, field }: any) => {
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleBold().run()}
-          style={{ padding: "4px 8px", fontWeight: "bold", background: editor.isActive("bold") ? "#e2e8f0" : "transparent", border: "none", borderRadius: "4px", cursor: "pointer" }}
+          style={{ padding: "4px 8px", fontWeight: "bold", background: isBold ? "#e2e8f0" : "transparent", border: "none", borderRadius: "4px", cursor: "pointer" }}
         >
           B
         </button>
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleItalic().run()}
-          style={{ padding: "4px 8px", fontStyle: "italic", background: editor.isActive("italic") ? "#e2e8f0" : "transparent", border: "none", borderRadius: "4px", cursor: "pointer" }}
+          style={{ padding: "4px 8px", fontStyle: "italic", background: isItalic ? "#e2e8f0" : "transparent", border: "none", borderRadius: "4px", cursor: "pointer" }}
         >
           I
         </button>
@@ -180,6 +190,7 @@ export const TipTapEditor = ({ input, field }: any) => {
           <input
             type="color"
             onInput={(e: any) => editor.chain().focus().setHighlight({ color: e.target.value }).run()}
+            value={activeHighlight}
             style={{ border: "none", padding: "0", width: "20px", height: "20px", cursor: "pointer", background: "transparent" }}
           />
           <button 
