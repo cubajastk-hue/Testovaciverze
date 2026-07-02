@@ -29,7 +29,6 @@ export const TextContentBlock = ({ data }: any) => {
       <style jsx global>{`
         .rich-text-output { word-break: break-word; overflow-wrap: break-word; }
         
-        /* Odstranění horní mezery (margin-top: 0) u všech nadpisů na webu */
         .rich-text-output h1 { font-size: 2.5rem; font-weight: 800; margin-top: 0; margin-bottom: 1rem; line-height: 1.2; }
         .rich-text-output h2 { font-size: 2rem; font-weight: 700; margin-top: 0; margin-bottom: 0.875rem; line-height: 1.3; }
         .rich-text-output h3 { font-size: 1.5rem; font-weight: 600; margin-top: 0; margin-bottom: 0.75rem; }
@@ -43,6 +42,9 @@ export const TextContentBlock = ({ data }: any) => {
         .rich-text-output ol { list-style-type: decimal; padding-left: 1.5rem; margin-bottom: 1rem; }
         .rich-text-output blockquote { border-left: 4px solid #cbd5e1; padding-left: 1rem; font-style: italic; margin: 1rem 0; color: #475569; }
         .rich-text-output span[style*="font-size"] { display: inline-block; }
+
+        /* 🚀 FIX: Totální zrušení mezery pod posledním prvkem (odpovídá editoru) */
+        .rich-text-output > *:last-child { margin-bottom: 0 !important; }
       `}</style>
     </div>
   );
