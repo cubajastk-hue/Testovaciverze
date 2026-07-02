@@ -2,64 +2,67 @@ import React from "react";
 
 export const PositionPicker = ({ input, field }: any) => {
   const values = input.value || { top: "", right: "", bottom: "", left: "" };
-
   const handleChange = (pos: string, val: string) => {
     input.onChange({ ...values, [pos]: val });
   };
 
-  // 🚀 FIX: Rozpoznání Margin/Padding podle štítku (label), což funguje vždy
-  const isMargin = field?.label?.toLowerCase().includes("margin");
-  const title = isMargin ? "MARGIN" : "PADDING";
-  const bgColor = isMargin ? "#f59e0b" : "#ef4444"; // Oranžová vs Červená
+  // Rozpoznání Margin/Padding
+  const isMargin = field?.name === "margin";
+  const title = isMargin ? "MARGIN (Vnější okraje)" : "PADDING (Vnitřní odsazení)";
+  const accentColor = isMargin ? "#f59e0b" : "#ef4444";
 
-  // Společný styl pro malá, hezká políčka
   const inputStyle = {
-    width: "46px",
-    height: "28px",
+    width: "100%",
+    height: "30px",
     textAlign: "center" as const,
-    border: "1px solid #cbd5e1",
+    border: "1px solid #e2e8f0",
     borderRadius: "4px",
     fontSize: "12px",
-    outline: "none",
     color: "#334155",
+    outline: "none",
+  };
+
+  const labelStyle = {
+    fontSize: "9px",
+    color: "#94a3b8",
+    fontWeight: "bold" as const,
+    textAlign: "center" as const,
+    marginBottom: "2px"
   };
 
   return (
-    <div style={{ padding: "12px", background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: "8px", width: "100%", maxWidth: "220px", marginBottom: "8px", boxShadow: "inset 0 2px 4px 0 rgba(0, 0, 0, 0.02)" }}>
-      
-      {/* Hlavička */}
-      <div style={{ textAlign: "center", fontWeight: "bold", fontSize: "10px", color: "white", background: bgColor, padding: "4px", borderRadius: "4px", marginBottom: "12px", letterSpacing: "1px" }}>
-        {title}
+    <div style={{ width: "100%", border: "1px solid #e2e8f0", borderRadius: "6px", background: "#ffffff", overflow: "hidden", marginTop: "4px", marginBottom: "12px" }}>
+      {/* Záhlaví lícující s ostatními boxy */}
+      <div style={{ background: "#f8fafc", padding: "6px 12px", borderBottom: "1px solid #e2e8f0", display: "flex", alignItems: "center", gap: "8px" }}>
+        <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: accentColor }} />
+        <span style={{ fontSize: "11px", fontWeight: "bold", color: "#475569", letterSpacing: "0.5px" }}>{title}</span>
       </div>
 
-      {/* Kompaktní CSS Grid */}
-      <div style={{ display: "grid", gridTemplateColumns: "46px 46px 46px", gridTemplateRows: "28px 28px 28px", gap: "6px", justifyContent: "center", alignItems: "center" }}>
-        
-        {/* Top */}
-        <div style={{ gridColumn: "2", gridRow: "1" }}>
-          <input type="number" value={values.top} onChange={(e) => handleChange("top", e.target.value)} style={inputStyle} placeholder="top" />
+      {/* Grid ovladač */}
+      <div style={{ padding: "16px", display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "10px", alignItems: "center", maxWidth: "250px" }}>
+        <div />
+        <div>
+          <div style={labelStyle}>TOP</div>
+          <input type="number" value={values.top} onChange={(e) => handleChange("top", e.target.value)} style={inputStyle} placeholder="0" />
         </div>
-        
-        {/* Left */}
-        <div style={{ gridColumn: "1", gridRow: "2" }}>
-          <input type="number" value={values.left} onChange={(e) => handleChange("left", e.target.value)} style={inputStyle} placeholder="left" />
+        <div />
+
+        <div>
+          <div style={labelStyle}>LEFT</div>
+          <input type="number" value={values.left} onChange={(e) => handleChange("left", e.target.value)} style={inputStyle} placeholder="0" />
         </div>
-        
-        {/* Střed (Ikonka křížku/středu) */}
-        <div style={{ gridColumn: "2", gridRow: "2", textAlign: "center", fontSize: "16px", color: "#94a3b8", fontWeight: "bold" }}>
-          +
-        </div>
-        
-        {/* Right */}
-        <div style={{ gridColumn: "3", gridRow: "2" }}>
-          <input type="number" value={values.right} onChange={(e) => handleChange("right", e.target.value)} style={inputStyle} placeholder="right" />
-        </div>
-        
-        {/* Bottom */}
-        <div style={{ gridColumn: "2", gridRow: "3" }}>
-          <input type="number" value={values.bottom} onChange={(e) => handleChange("bottom", e.target.value)} style={inputStyle} placeholder="bot" />
+        <div style={{ textAlign: "center", color: "#e2e8f0", fontSize: "20px" }}>+</div>
+        <div>
+          <div style={labelStyle}>RIGHT</div>
+          <input type="number" value={values.right} onChange={(e) => handleChange("right", e.target.value)} style={inputStyle} placeholder="0" />
         </div>
 
+        <div />
+        <div>
+          <div style={labelStyle}>BOTTOM</div>
+          <input type="number" value={values.bottom} onChange={(e) => handleChange("bottom", e.target.value)} style={inputStyle} placeholder="0" />
+        </div>
+        <div />
       </div>
     </div>
   );
