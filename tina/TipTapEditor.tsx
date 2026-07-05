@@ -103,7 +103,7 @@ export const TipTapEditor = ({ input }: any) => {
         `}</style>
         
         {/* 🚀 Plovoucí "Pill" Menu inspirované Framerem */}
-        <div style={{ position: "absolute", top: "12px", left: "50%", transform: "translateX(-50%)", zIndex: 10, display: "flex", alignItems: "center", gap: "2px", padding: "4px 8px", background: "#ffffff", border: "1px solid #e2e8f0", borderRadius: "20px", boxShadow: "0 4px 12px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.02)" }}>
+        <div style={{ position: "absolute", top: "12px", left: "50%", transform: "translateX(-50%)", zIndex: 10, display: "flex", alignItems: "center", gap: "2px", padding: "4px 10px", background: "#ffffff", border: "1px solid #e2e8f0", borderRadius: "50px", boxShadow: "0 4px 12px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.02)" }}>
           
           <select onChange={(e) => { const val = e.target.value; if (val === "p") editor.chain().focus().setParagraph().run(); else editor.chain().focus().toggleHeading({ level: parseInt(val) as any }).run(); }} value={activeHeading} style={selectStyle}>
             <option value="p">Paragraph</option>
@@ -134,20 +134,20 @@ export const TipTapEditor = ({ input }: any) => {
 
           <div style={{ width: "1px", height: "16px", background: "#e2e8f0", margin: "0 4px" }} />
 
-          {/* Barva textu */}
-          <div style={{ position: "relative", width: "24px", height: "24px", borderRadius: "50%", overflow: "hidden", border: "1px solid #e2e8f0", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <span style={{ fontSize: "12px", fontWeight: "bold", zIndex: 1, pointerEvents: "none", color: activeColor === "#000000" ? "#fff" : "#000", mixBlendMode: "difference" }}>A</span>
-            <input type="color" onInput={(e: any) => editor.chain().focus().setColor(e.target.value).run()} value={activeColor} style={{ position: "absolute", top: "-5px", left: "-5px", width: "40px", height: "40px", border: "none", padding: "0", cursor: "pointer", background: "transparent" }} />
+          {/* 🎨 Barva textu - 'A' se vždy dynamicky zbarví a ukazuje pozadí! */}
+          <div style={{ position: "relative", width: "26px", height: "26px", borderRadius: "50%", overflow: "hidden", border: "1px solid #e2e8f0", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: activeColor || "#000000" }}>
+            <span style={{ fontSize: "13px", fontWeight: "bold", zIndex: 1, pointerEvents: "none", color: "#ffffff", mixBlendMode: "difference" }}>A</span>
+            <input type="color" onInput={(e: any) => editor.chain().focus().setColor(e.target.value).run()} value={activeColor || "#000000"} style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", opacity: 0, cursor: "pointer" }} />
           </div>
 
-          {/* Zvýrazňovač */}
-          <div style={{ position: "relative", width: "24px", height: "24px", borderRadius: "50%", overflow: "hidden", border: "1px solid #e2e8f0", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", marginLeft: "4px" }}>
-            <span style={{ fontSize: "12px", zIndex: 1, pointerEvents: "none" }}>🖍</span>
-            <input type="color" onInput={(e: any) => editor.chain().focus().setHighlight({ color: e.target.value }).run()} value={activeHighlight} style={{ position: "absolute", top: "-5px", left: "-5px", width: "40px", height: "40px", border: "none", padding: "0", cursor: "pointer", background: "transparent" }} />
+          {/* 🖍 Zvýrazňovač - Tužka dynamicky mění barvu na bílou/šedou podle pozadí! */}
+          <div style={{ position: "relative", width: "26px", height: "26px", borderRadius: "50%", overflow: "hidden", border: "1px solid #e2e8f0", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", marginLeft: "6px", backgroundColor: activeHighlight || "#ffffff" }}>
+            <span style={{ fontSize: "12px", zIndex: 1, pointerEvents: "none", transform: "rotate(-45deg)", color: activeHighlight !== "#ffffff" ? "#ffffff" : "#475569", mixBlendMode: activeHighlight !== "#ffffff" ? "difference" : "normal" }}>✏️</span>
+            <input type="color" onInput={(e: any) => editor.chain().focus().setHighlight({ color: e.target.value }).run()} value={activeHighlight || "#ffffff"} style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", opacity: 0, cursor: "pointer" }} />
           </div>
 
-          {/* Odstranit zvýraznění */}
-          <button type="button" onClick={() => editor.chain().focus().unsetHighlight().run()} style={{ fontSize: "12px", color: "#94a3b8", border: "none", background: "none", cursor: "pointer", marginLeft: "4px", padding: "4px" }}>✕</button>
+          {/* ✕ Odstranit zvýraznění */}
+          <button type="button" onClick={() => editor.chain().focus().unsetHighlight().run()} style={{ fontSize: "12px", color: "#94a3b8", border: "none", background: "none", cursor: "pointer", marginLeft: "2px", padding: "4px" }}>✕</button>
 
         </div>
 
