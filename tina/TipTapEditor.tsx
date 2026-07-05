@@ -82,23 +82,24 @@ export const TipTapEditor = ({ input }: any) => {
     else (editor.commands as any).setFontSize(val);
   };
 
-  const selectStyle = { padding: "4px 8px", fontSize: "12px", border: "none", background: "transparent", cursor: "pointer", color: "#334155", outline: "none", fontWeight: "500" };
-  const btnStyle = (active: boolean) => ({ padding: "4px 8px", fontSize: "14px", fontWeight: "bold", background: active ? "#f1f5f9" : "transparent", border: "none", borderRadius: "6px", cursor: "pointer", color: active ? "#0f172a" : "#475569", outline: "none", transition: "all 0.15s ease" });
+  const selectStyle = { padding: "4px 8px", fontSize: "12px", border: "none", background: "transparent", cursor: "pointer", color: "#374151", outline: "none", fontWeight: "500", fontFamily: "inherit" };
+  const btnStyle = (active: boolean) => ({ padding: "4px 8px", fontSize: "14px", fontWeight: "bold", background: active ? "#f3f4f6" : "transparent", border: "none", borderRadius: "6px", cursor: "pointer", color: active ? "#111827" : "#4b5563", outline: "none", transition: "all 0.15s ease", fontFamily: "inherit" });
 
   return (
-    <div style={{ marginTop: "16px", fontFamily: "ui-sans-serif, system-ui, sans-serif" }}>
+    <div style={{ width: "100%", fontFamily: "inherit" }}>
       
-      {/* 🚀 Sjednocený nadpis Editoru */}
-      <div style={{ fontSize: "14px", fontWeight: "600", color: "#334155", marginBottom: "8px" }}>
+      {/* 🚀 Nadpis 1:1 k originálnímu TinaCMS */}
+      <label style={{ display: "block", fontSize: "13px", fontWeight: "600", color: "#374151", marginBottom: "8px", fontFamily: "inherit" }}>
         Editor
-      </div>
+      </label>
 
-      {/* EDITOR KONTEJNER (Tvoje přesné rozložení) */}
-      <div style={{ border: "1px solid #e2e8f0", borderRadius: "8px", overflow: "hidden", background: "#ffffff", width: "100%", boxShadow: "0 1px 2px rgba(0, 0, 0, 0.02)", position: "relative", paddingTop: "50px" }}>
+      {/* EDITOR KONTEJNER (Sjednocené stíny a okraje) */}
+      <div style={{ border: "1px solid #d1d5db", borderRadius: "6px", overflow: "hidden", background: "#ffffff", width: "100%", boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.05)", position: "relative", paddingTop: "50px" }}>
         
         <style>{`
           .ProseMirror:focus { outline: none !important; }
-          .ProseMirror { word-break: break-word; overflow-wrap: break-word; padding: 24px; min-height: 250px; color: #0f172a; font-family: ui-sans-serif, system-ui, sans-serif; }
+          /* 🚀 Snížil jsem vnitřní odsazení zleva na 16px, aby text v editoru lícoval s textem v klasickém inputu nahoře! */
+          .ProseMirror { word-break: break-word; overflow-wrap: break-word; padding: 24px 16px; min-height: 250px; color: #111827; font-family: inherit; }
           .ProseMirror p { margin-top: 0; margin-bottom: 0.75rem; line-height: 1.6; }
           .ProseMirror h1 { font-size: 2.2em; margin-top: 0; margin-bottom: 1rem; line-height: 1.2; font-weight: 800; letter-spacing: -0.02em; }
           .ProseMirror h2 { font-size: 1.5em; margin-top: 0; margin-bottom: 0.875rem; font-weight: 700; letter-spacing: -0.01em; }
@@ -108,8 +109,8 @@ export const TipTapEditor = ({ input }: any) => {
           .ProseMirror > *:last-child { margin-bottom: 0 !important; }
         `}</style>
         
-        {/* 🚀 Plovoucí "Pill" Menu (Tvoje přesné rozložení) */}
-        <div style={{ position: "absolute", top: "12px", left: "50%", transform: "translateX(-50%)", zIndex: 10, display: "flex", alignItems: "center", gap: "2px", padding: "4px 8px", background: "#ffffff", border: "1px solid #e2e8f0", borderRadius: "20px", boxShadow: "0 4px 12px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.02)" }}>
+        {/* Pilulka - Tvoje přesné, nezměněné rozložení */}
+        <div style={{ position: "absolute", top: "12px", left: "50%", transform: "translateX(-50%)", zIndex: 10, display: "flex", alignItems: "center", gap: "2px", padding: "4px 8px", background: "#ffffff", border: "1px solid #e5e7eb", borderRadius: "20px", boxShadow: "0 4px 12px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.02)" }}>
           
           <select onChange={(e) => { const val = e.target.value; if (val === "p") editor.chain().focus().setParagraph().run(); else editor.chain().focus().toggleHeading({ level: parseInt(val) as any }).run(); }} value={activeHeading} style={selectStyle}>
             <option value="p">Paragraph</option>
@@ -118,7 +119,7 @@ export const TipTapEditor = ({ input }: any) => {
             <option value="3">Heading 3</option>
           </select>
 
-          <div style={{ width: "1px", height: "16px", background: "#e2e8f0", margin: "0 4px" }} />
+          <div style={{ width: "1px", height: "16px", background: "#e5e7eb", margin: "0 4px" }} />
 
           <select onChange={handleFontSizeChange} value={activeFontSize} style={selectStyle}>
             <option value="normal">Size</option>
@@ -127,33 +128,33 @@ export const TipTapEditor = ({ input }: any) => {
             <option value="32px">32px</option>
           </select>
 
-          <div style={{ width: "1px", height: "16px", background: "#e2e8f0", margin: "0 4px" }} />
+          <div style={{ width: "1px", height: "16px", background: "#e5e7eb", margin: "0 4px" }} />
 
           <button type="button" onClick={() => editor.chain().focus().toggleBold().run()} style={btnStyle(isBold)}>B</button>
           <button type="button" onClick={() => editor.chain().focus().toggleItalic().run()} style={{ ...btnStyle(isItalic), fontStyle: "italic", fontFamily: "serif" }}>I</button>
           
-          <div style={{ width: "1px", height: "16px", background: "#e2e8f0", margin: "0 4px" }} />
+          <div style={{ width: "1px", height: "16px", background: "#e5e7eb", margin: "0 4px" }} />
           
           <button type="button" onClick={() => editor.chain().focus().toggleBulletList().run()} style={{ ...btnStyle(isBulletList), fontSize: "12px", display: "flex", alignItems: "center", gap: "4px" }}>
             <span style={{ fontSize: "14px" }}>≡</span> List
           </button>
 
-          <div style={{ width: "1px", height: "16px", background: "#e2e8f0", margin: "0 4px" }} />
+          <div style={{ width: "1px", height: "16px", background: "#e5e7eb", margin: "0 4px" }} />
 
           {/* Barva textu */}
-          <div style={{ position: "relative", width: "24px", height: "24px", borderRadius: "50%", overflow: "hidden", border: "1px solid #e2e8f0", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <div style={{ position: "relative", width: "24px", height: "24px", borderRadius: "50%", overflow: "hidden", border: "1px solid #e5e7eb", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>
             <span style={{ fontSize: "12px", fontWeight: "bold", zIndex: 1, pointerEvents: "none", color: activeColor === "#000000" ? "#fff" : "#000", mixBlendMode: "difference" }}>A</span>
             <input type="color" onInput={(e: any) => editor.chain().focus().setColor(e.target.value).run()} value={activeColor} style={{ position: "absolute", top: "-5px", left: "-5px", width: "40px", height: "40px", border: "none", padding: "0", cursor: "pointer", background: "transparent" }} />
           </div>
 
           {/* Zvýrazňovač */}
-          <div style={{ position: "relative", width: "24px", height: "24px", borderRadius: "50%", overflow: "hidden", border: "1px solid #e2e8f0", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", marginLeft: "4px" }}>
+          <div style={{ position: "relative", width: "24px", height: "24px", borderRadius: "50%", overflow: "hidden", border: "1px solid #e5e7eb", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", marginLeft: "4px" }}>
             <span style={{ fontSize: "12px", zIndex: 1, pointerEvents: "none" }}>🖍</span>
             <input type="color" onInput={(e: any) => editor.chain().focus().setHighlight({ color: e.target.value }).run()} value={activeHighlight} style={{ position: "absolute", top: "-5px", left: "-5px", width: "40px", height: "40px", border: "none", padding: "0", cursor: "pointer", background: "transparent" }} />
           </div>
 
           {/* Odstranit zvýraznění */}
-          <button type="button" onClick={() => editor.chain().focus().unsetHighlight().run()} style={{ fontSize: "12px", color: "#94a3b8", border: "none", background: "none", cursor: "pointer", marginLeft: "4px", padding: "4px" }}>✕</button>
+          <button type="button" onClick={() => editor.chain().focus().unsetHighlight().run()} style={{ fontSize: "12px", color: "#9ca3af", border: "none", background: "none", cursor: "pointer", marginLeft: "4px", padding: "4px" }}>✕</button>
 
         </div>
 
