@@ -9,7 +9,9 @@ export const PositionPicker = ({ input, field }: any) => {
 
   const labelText = field?.label ? String(field.label).toLowerCase() : "";
   const isMargin = labelText.includes("margin") || labelText.includes("vnější");
-  const titleText = isMargin ? "MARGIN (Vnější okraje)" : "PADDING (Vnitřní odsazení)";
+  
+  // Už ne VELKÝM PÍSMEM, ale hezky normálně
+  const titleText = isMargin ? "Margin" : "Padding";
 
   const inputStyle = {
     width: "44px",
@@ -33,37 +35,52 @@ export const PositionPicker = ({ input, field }: any) => {
   };
 
   return (
-    <div style={{ width: "100%", maxWidth: "300px", marginTop: "12px", marginBottom: "12px" }}>
-      <div style={{ fontSize: "11px", fontWeight: "600", color: "#334155", marginBottom: "12px", textTransform: "uppercase", letterSpacing: "0.5px" }}>
+    <div style={{ marginTop: "16px", width: "100%", fontFamily: "ui-sans-serif, system-ui, sans-serif" }}>
+      
+      {/* Sjednocený nadpis lícující s "Interní název bloku" */}
+      <div style={{ fontSize: "14px", fontWeight: "600", color: "#334155", marginBottom: "8px" }}>
         {titleText}
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "6px", alignItems: "center", background: "#f8fafc", padding: "16px", borderRadius: "12px", border: "1px solid #f1f5f9" }}>
-        <div />
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "4px" }}>
-          <div style={miniLabelStyle}>Top</div>
-          <input type="number" value={values.top} onChange={(e) => handleChange("top", e.target.value)} style={inputStyle} placeholder="0" />
-        </div>
-        <div />
-
-        <div style={{ display: "flex", alignItems: "center", gap: "6px", justifyContent: "flex-end" }}>
-          <div style={miniLabelStyle}>Left</div>
-          <input type="number" value={values.left} onChange={(e) => handleChange("left", e.target.value)} style={inputStyle} placeholder="0" />
-        </div>
+      {/* Bílý box kolem obsahu, obsah vycentrovaný */}
+      <div style={{ 
+        border: "1px solid #e2e8f0", 
+        borderRadius: "8px", 
+        background: "#ffffff", 
+        padding: "20px", 
+        display: "flex", 
+        justifyContent: "center", // Tohle dá mřížku doprostřed
+        boxShadow: "0 1px 2px rgba(0, 0, 0, 0.02)" 
+      }}>
         
-        <div style={{ textAlign: "center", color: "#cbd5e1", fontSize: "16px", fontWeight: "300" }}>+</div>
-        
-        <div style={{ display: "flex", alignItems: "center", gap: "6px", justifyContent: "flex-start" }}>
-          <input type="number" value={values.right} onChange={(e) => handleChange("right", e.target.value)} style={inputStyle} placeholder="0" />
-          <div style={miniLabelStyle}>Right</div>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "6px", alignItems: "center" }}>
+          <div />
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "4px" }}>
+            <div style={miniLabelStyle}>Top</div>
+            <input type="number" value={values.top} onChange={(e) => handleChange("top", e.target.value)} style={inputStyle} placeholder="0" />
+          </div>
+          <div />
+
+          <div style={{ display: "flex", alignItems: "center", gap: "6px", justifyContent: "flex-end" }}>
+            <div style={miniLabelStyle}>Left</div>
+            <input type="number" value={values.left} onChange={(e) => handleChange("left", e.target.value)} style={inputStyle} placeholder="0" />
+          </div>
+          
+          <div style={{ textAlign: "center", color: "#cbd5e1", fontSize: "16px", fontWeight: "300" }}>+</div>
+          
+          <div style={{ display: "flex", alignItems: "center", gap: "6px", justifyContent: "flex-start" }}>
+            <input type="number" value={values.right} onChange={(e) => handleChange("right", e.target.value)} style={inputStyle} placeholder="0" />
+            <div style={miniLabelStyle}>Right</div>
+          </div>
+
+          <div />
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "4px" }}>
+            <input type="number" value={values.bottom} onChange={(e) => handleChange("bottom", e.target.value)} style={inputStyle} placeholder="0" />
+            <div style={miniLabelStyle}>Bottom</div>
+          </div>
+          <div />
         </div>
 
-        <div />
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "4px" }}>
-          <input type="number" value={values.bottom} onChange={(e) => handleChange("bottom", e.target.value)} style={inputStyle} placeholder="0" />
-          <div style={miniLabelStyle}>Bottom</div>
-        </div>
-        <div />
       </div>
     </div>
   );
