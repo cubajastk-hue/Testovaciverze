@@ -1,36 +1,17 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Framer-Style Custom Editor for TinaCMS
 
-## Getting Started
+This repo contains a couple of custom UI components for **TinaCMS** that replace the default rich text editor and margin/padding inputs. The design is heavily inspired by Framer's clean, minimalist "pill-shaped" aesthetic.
 
-First, run the development server:
+## What's inside
+
+* **Floating "Pill" Menu:** Instead of a clunky full-width toolbar, the editor menu floats elegantly above the text area.
+* **Smart Color Pickers:** We hid the ugly native OS color palettes. Now you just get a clean "A" (for text) and a "✏️" (for highlights) that dynamically change their background to match your selected color.
+* **Pixel-Perfect Alignment:** All borders, fonts, and shadows (6px radius) perfectly match the native TinaCMS UI, so it feels like a seamless part of the CMS.
+* **Cleaner Position Picker:** Replaced the massive default margin/padding grids with a sleek, compact, and centered input layout.
+
+## Dependencies
+
+You'll need TipTap and a few of its extensions for the editor to work. Just run:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+npm install @tiptap/react @tiptap/starter-kit @tiptap/extension-link @tiptap/extension-text-style @tiptap/extension-color @tiptap/extension-highlight
